@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Analysis Today 08/07: Euro Trading Hinges (Chart)',
+    'EUR/USD Analysis Summary TodayOverall Trend: Bullish.Today''s EUR/USD Support Levels: 1.1720 – 1.1670 – 1.1590.Today''s EUR/USD Resistance Levels: 1.1800 – 1.1880 – 1.2000.EUR/USD Trading Signals:Buy EUR/USD from the support level of 1.1660, with a target of 1.1820 and a stop loss of 1.1590.Sell EUR/USD from the resistance level of 1.1800, with a target of 1.1600 and a stop loss of 1.1880.EUR/USD Technical Analysis Today:At the start of this week''s trading, the EUR/USD saw a relative decline, with losses extending to the 1.1686 support level before recovering at the start of trading today, Tuesday, July 8, 2025, rebounding towards the 1.1757 resistance, around which it remains stable at the time of writing this analysis. The Euro''s losses came as investors cautiously await further clarity on upcoming US tariff measures. The European Union announced that it is making progress towards a trade agreement with the United States, aiming to prevent a significant escalation in tariffs through an initial agreement that would impose a comprehensive 10% tariff on many goods, with reduced rates for key sectors such as pharmaceuticals, alcohol, semiconductors, and commercial aircraft.However, the European Union also announced preparations for retaliatory tariffs on a range of US products in response to President Trump''s metal tariffs. Officials warned that if an agreement is not reached, additional measures could follow, such as export controls and restrictions on US access to public contracts. Meanwhile, Commerce Secretary Howard Lutnick confirmed that the broader US tariff package—initially scheduled for July 9—has been postponed to August 1.On the monetary policy front, markets now expect one more interest rate cut from the European Central Bank this year.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewTrading Advice:Be cautious about buying EUR/USD at higher levels. It is better to wait for stronger selling opportunities, but without taking exc',
+    'EUR/USD rebounds to 1.1757 as tariff delays and EU-US trade talks unfold. Trend remains bullish above 1.1670; bulls eye 1.2000 amid cautious optimism.',
+    'eurusd-analysis-today-0807-euro-trading-hinges-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:54.968762',
+    '2025-08-21T13:03:54.968772',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\eurusd-analysis-8-july-2025\230907.html',
+    'EUR/USD rebounds to 1.1757 as tariff delays and EU-US trade talks unfold. Trend remains bullish above 1.1670; bulls eye 1.2000 amid cautious optimism.');

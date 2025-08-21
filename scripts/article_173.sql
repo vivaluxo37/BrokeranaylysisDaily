@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Gold Analysis 18/08: Recovers from Recent Losses (Chart)',
+    'Today’s Gold Analysis Overview:The overall Gold Trend: Neutral with a downward bias.Gold Support Levels Today: $3330 – $3310 – $3260 per ounce.Gold Resistance Levels Today: $3370 – $3400 – $3460 per ounce.Today''s Gold Trading Signals:Buy gold from the $3320 support level, with a target of $3400 and a stop-loss at $3300.Sell gold from the $3390 resistance level, with a target of $3280 and a stop-loss at $3430.Technical Analysis of Gold Price (XAU/USD) Today:At the start of this week''s trading, spot gold prices rose to the $3353 resistance level, where they are consolidating at the time of writing. This marks a recovery from a two-week low of around $3324. Recently, the gold price index is recovering as investors anticipate the meeting between US President Donald Trump and Ukrainian President Volodymyr Zelensky to discuss a peace deal with Russia. Zelensky will be joined by prominent European leaders when he meets with Trump later today.This follows a highly anticipated summit last Friday between Trump and Russian President Vladimir Putin, which failed to produce any breakthrough on a ceasefire. However, Putin did agree to allow the US and Europe to provide strong security guarantees to Ukraine as part of a final agreement to end the war.Meanwhile, financial markets will closely monitor Federal Reserve Chairman Jerome Powell''s remarks at the Jackson Hole Symposium, as well as the minutes of the Fed''s latest meeting, amid growing expectations of an interest rate cut in September.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewTechnical indicators await further upward momentum.According to the daily chart and gold analysts, the technical indicators are awaiting stronger factors to turn bullish. Technically, the 14-day Relative Strength Index (RSI) is currently around 51, not far from the neutral line that separates bullish and bearish control. Also, the MACD indicator is neutral. The psychological resistance of $3400 per ounce remains th',
+    'Gold rebounds from $3320 support toward $3353, with key resistance at $3400. Markets await Trump–Zelensky talks and Fed guidance from Jackson Hole.',
+    'gold-analysis-1808-recovers-from-recent-losses-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:04:15.339615',
+    '2025-08-21T13:04:15.339622',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\08\gold-analysis-18-august-2025\232807.html',
+    'Gold rebounds from $3320 support toward $3353, with key resistance at $3400. Markets await Trump–Zelensky talks and Fed guidance from Jackson Hole.');

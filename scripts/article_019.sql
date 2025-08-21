@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Adam Lemon - Broker Analysis Authors.com',
+    'Published articles: 11926About Adam LemonAdam Lemon began his role at Broker Analysis in 2013 when he was brought in as an in-house Chief Analyst. Adam trades Forex, stocks and other instruments in his own account. Adam believes that it is very possible for retail traders/investors to secure a positive return over time provided they limit their risks, follow trends, and persevere through short-term losing streaks – provided only reputable brokerages are used. He has previously worked within financial markets over a 12-year period, including 6 years with Merrill Lynch. Chief Analyst for Broker Analysis since October 2013 Education: B.A. in Political Science from the University of Warwick, U.K. Diplomas in Law and Legal Practice from the College of Law, London, U.K.Financial Qualifications: Fund Management, Investment Management – U.K. Chartered Institute for Securities & InvestmentFinancial Career Highlights: AVP, Merrill Lynch International Bank,U.K.Featured In: FXStreet,Gold-Eagle , MoneyShow Favorite assets to trade: anything trending strongly or with high volatility Snapshot Latest 10 Articles Airbnb (ABNB) Stock Signal: Should You Buy the Dip? 08/18/2025 9:41The latest earnings release sent shares lower, but investors benefit from excellent return on invested capital and superb profit margins. While ABNB is expanding into two core growth markets, two developments have changed my recommendation since last time. Should you buy the dip?Intuit (INTU) Stock Signal: How Strong are Support Levels? 08/18/2025 9:25Following a more than $100 sell-off since the end of July, the balance sheet looks healthy. The implementation of AI-assisted tools shows early signs of delivering future results, but valuations remain high. Does the horizontal support zone warrant a buy order?The Best War Stocks to Buy Now 08/18/2025 7:32With rising geopolitical tensions and NATO-backed defense spending, top war stocks like Lockheed Martin and Leidos Holdings offer strong long-term value through inn',
+    'Adam Lemon began his role at Broker Analysis in 2013 when he was brought in as an in-house Chief Analyst. Adam trades Forex, stocks and other instruments in his own account. Adam believes that it is very possible for retail traders/investors to secure a positive return over time provided they limit their risks, follow trends, and persevere through short-term losing streaks – provided only reputable brokerages are used. He has previously worked within financial markets over a 12-year period, including 6 years with Merrill Lynch.',
+    'adam-lemon-broker-analysis-authorscom',
+    'General',
+    'Broker Analysis',
+    '2025-08-18T00:00:00',
+    'published',
+    '2025-08-21T13:01:00.678504',
+    '2025-08-21T13:01:00.678534',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\dailyforex-authors\adam-lemon.html',
+    'Adam Lemon began his role at Broker Analysis in 2013 when he was brought in as an in-house Chief Analyst. Adam trades Forex, stocks and other instruments in his');

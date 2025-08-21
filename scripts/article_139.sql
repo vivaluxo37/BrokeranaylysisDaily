@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Analysis 03/07: Bullish Stability Continues (Chart)',
+    'EUR/USD Analysis Summary TodayOverall Trend: Bullish.Today''s EUR/USD Support Levels: 1.1740 – 1.1680 – 1.1590.Today''s EUR/USD Resistance Levels: 1.1820 – 1.1880 – 1.2000.EUR/USD Trading Signals:Buy EUR/USD from the support level of 1.1630 with a target of 1.1820 and a stop-loss at 1.1560.Sell EUR/USD from the resistance level of 1.1840 with a target of 1.1600 and a stop-loss at 1.1900.EUR/USD Technical Analysis Today:The Euro''s continuous rise is attracting the attention of European Central Bank (ECB) officials, especially as the EUR/USD currency pair approaches the psychological resistance level of 1.2000. According to performance across reliable trading platforms, the EUR/USD jumped towards the 1.1810 resistance level, the highest for the prominent currency pair in the forex market since August 2021, before settling around 1.1795 at the start of today''s trading session. As we predicted at the beginning of this week, the EUR/USD will remain on its bullish path until markets react to the announcement of US jobs data at the end of the week, which strongly influences the future policies of the US Federal Reserve.In this regard, selling pressure on the US dollar has increased recently amid US President Trump''s demands that Fed Chairman Powell cut interest rates or face being dismissed after next May, the official end of Jerome Powell''s term as Chairman of the US Federal Reserve.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewTrading Tips:We still advise selling EUR/USD rather than risking buying at its highest levels.Will the EUR/USD rise towards the 1.2000 high soon?The answer is yes; the EUR/USD could rise towards the psychological peak of 1.2000 if its current gaining factors continue. [Get an exclusive free trading bonus - This sentence has been translated but it seems like a promotional message from the original source. I''ve kept it for accuracy but note its nature.] However, it''s crucial to consider that European Central Bank poli',
+    'EUR/USD holds near 1.18 in bullish trend; NFP data and ECB caution may limit upside near 1.2000 as RSI hits overbought and traders eye macro volatility.',
+    'eurusd-analysis-0307-bullish-stability-continues-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:54.744647',
+    '2025-08-21T13:03:54.744657',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\eurusd-analysis-3-july-2025\230683.html',
+    'EUR/USD holds near 1.18 in bullish trend; NFP data and ECB caution may limit upside near 1.2000 as RSI hits overbought and traders eye macro volatility.');

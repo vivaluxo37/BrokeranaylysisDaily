@@ -1,0 +1,60 @@
+
+UPDATE articles 
+SET author_id = (
+    SELECT author_id FROM (
+        VALUES 
+        ('030695b2-4c96-4c83-b837-bd11434fe982'),
+        ('cd73571d-8f37-404e-bfbc-d3f9523bdf0f'),
+        ('bd08ef61-e6c7-4243-af60-3ed5c9f45bb5'),
+        ('81dd6558-3345-4b6d-9b06-3f7334304129'),
+        ('2b43d904-cafd-4bd2-b260-6fefe30b4583'),
+        ('bd08ef61-e6c7-4243-af60-3ed5c9f45bb5'),
+        ('bd08ef61-e6c7-4243-af60-3ed5c9f45bb5'),
+        ('6e31aeda-af70-4160-b378-f371cb2d3691'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('6e31aeda-af70-4160-b378-f371cb2d3691'),
+        ('bc1ffac5-0a61-407e-b49e-d223eca56ca9'),
+        ('c0870ab6-d417-47b7-9fae-53a25197f573'),
+        ('030695b2-4c96-4c83-b837-bd11434fe982'),
+        ('f6309044-c235-4145-b2d5-386156dcc32a'),
+        ('6e31aeda-af70-4160-b378-f371cb2d3691'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('ef54d377-56f8-4a11-b098-5ee450fdd139'),
+        ('cd73571d-8f37-404e-bfbc-d3f9523bdf0f'),
+        ('c0870ab6-d417-47b7-9fae-53a25197f573'),
+        ('6e31aeda-af70-4160-b378-f371cb2d3691'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('1972d21a-84a8-4ad9-a9b0-1defc8732c00'),
+        ('030695b2-4c96-4c83-b837-bd11434fe982'),
+        ('bd08ef61-e6c7-4243-af60-3ed5c9f45bb5'),
+        ('c0870ab6-d417-47b7-9fae-53a25197f573'),
+        ('8e44030f-679b-4e3b-92ff-d8f8acc9b970'),
+        ('85df8fd0-47ee-4bbb-ac2e-259b43d71e48'),
+        ('3b0f0bb0-6498-4755-a03b-e1f58681725e'),
+        ('f6309044-c235-4145-b2d5-386156dcc32a'),
+        ('bd08ef61-e6c7-4243-af60-3ed5c9f45bb5'),
+        ('4a384f4a-5ec5-4535-9fbb-c4adec76007b'),
+        ('3b0f0bb0-6498-4755-a03b-e1f58681725e'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('c0870ab6-d417-47b7-9fae-53a25197f573'),
+        ('1972d21a-84a8-4ad9-a9b0-1defc8732c00'),
+        ('bd08ef61-e6c7-4243-af60-3ed5c9f45bb5'),
+        ('2b43d904-cafd-4bd2-b260-6fefe30b4583'),
+        ('7fe3a1fd-9379-4b94-a584-48467130f9a3'),
+        ('6e31aeda-af70-4160-b378-f371cb2d3691'),
+        ('2b43d904-cafd-4bd2-b260-6fefe30b4583'),
+        ('7fe3a1fd-9379-4b94-a584-48467130f9a3'),
+        ('ef54d377-56f8-4a11-b098-5ee450fdd139'),
+        ('3b0f0bb0-6498-4755-a03b-e1f58681725e'),
+        ('85df8fd0-47ee-4bbb-ac2e-259b43d71e48'),
+        ('cd73571d-8f37-404e-bfbc-d3f9523bdf0f'),
+        ('2b43d904-cafd-4bd2-b260-6fefe30b4583'),
+        ('b7cb954e-27a1-4895-9b68-6eb9bdb4e897'),
+        ('bc1ffac5-0a61-407e-b49e-d223eca56ca9')
+    ) AS random_authors(author_id)
+    ORDER BY RANDOM()
+    LIMIT 1
+)
+WHERE author_id IS NULL;

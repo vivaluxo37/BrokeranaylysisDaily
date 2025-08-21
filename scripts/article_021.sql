@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Christopher Lewis - Broker Analysis Authors.com',
+    'Published articles: 25456About Christopher LewisChristopher Lewis is a Columbus, OH-based Forex trader who enjoys trading a wide range of pairs from the traditional EUR/USD to more exotic USD/RUB, and many things in between. Unlike many Forex traders who prefer to trade in a specific market session, Christopher takes advantage of the flexibility provided by the currency markets, and he trades in all sessions, most often when he’s taking a study break from pursuing degrees in both finance and computer science.Mr. Lewis most often trades on the daily or weekly chart, rather than on a shorter time frame, making his market outlooks suitable for traders in all time zones. In addition to multiple daily analyses, he has been providing Broker Analysis.com traders with regular video analyses for several years. He also contributes weekly Forex forecasts, monthly outlooks and even yearly forecasts, all of which are all highly valued by his loyal following. Christopher has tested dozens of Forex trading platforms during his years as a trader, though he now uses GFT’s 360 DealBook when placing personal trades.In late 2014 Mr. Lewis began contributing signals to ForexSignalz.com, where he collaborates with Broker Analysis’s chief trader, Adam Lemon, to provide additional signals to serious traders directly to their mobile phones. Mr. Lewis’s signals, although not overly aggressive, are largely based upon his own personal trades and trading strategies that he has cultivated over many years, making them suitable for traders at all levels and for traders using a range of trading platforms.When he’s not studying, trading or chasing after his two young children, Christopher manages to find time to operate his own Forex website, aptly called The Trader Guy. Snapshot Latest 10 Articles USD/CAD Forecast: Buyers Return as Pair Holds Above 1.3750 Support08/18/2025 11:48The US dollar holds firm against the Canadian dollar above 1.3750, with EMAs shaping support and resistance as trade tensions fue',
+    'Christopher Lewis has been trading Forex and has over 20 years experience in financial markets. Chris has been a regular contributor to Daily Forex since the early days of the site. He writes about Forex for several online publications, including FX Empire, Investing.com, and his own site, aptly named The Trader Guy. Chris favours technical analysis methods to identify his trades and likes to trade equity indices and commodities as well as Forex. He favours a longer-term trading style, and his trades often last for days or weeks.',
+    'christopher-lewis-broker-analysis-authorscom',
+    'General',
+    'Broker Analysis',
+    '2025-08-18T00:00:00',
+    'published',
+    '2025-08-21T13:01:01.106091',
+    '2025-08-21T13:01:01.106099',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\dailyforex-authors\christopher-lewis.html',
+    'Christopher Lewis has been trading Forex and has over 20 years experience in financial markets. Chris has been a regular contributor to Daily Forex since the ea');

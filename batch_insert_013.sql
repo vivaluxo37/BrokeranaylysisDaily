@@ -1,0 +1,18 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+(
+    ''Weekly Pairs in Focus - July 13 - July 19, 2025 (Charts)'',
+    ''GoldGold markets initially fell during the course of the week but then turned around to show signs of strength. Quite frankly, we still have a lot of noise out there when it comes to tariff wars, and when you look at the longer-term charts, it’s obvious that we have seen so much in the way of upward momentum that it only can go sideways for a while, working off some of the excess froth. Currently, we are trading in the middle of the overall consolidation range between $3200 on the bottom, and the $3500 level at the top.SilverSilver has broken above a major resistance barrier in the form of $37.50, an area that has been difficult to get above the month. Ultimately, short-term pullbacks will end up being buying opportunities in this market, and if we can pull back toward the $37.50 level, then I think you have a real shot at the market finding a bit of “market memory” in this area. Based on the “measured move” of the previous consolidation, it’s likely that silver will try to get to the $40 level above.DAXThe German index DAX rally during most of the week and even managed to pierce above the €24,500 level. The market breaking above that level was a bullish sign, but we have given back some of these gains, so I think we are still very much in the way of consolidation. Looking at this chart, the €23,500 level should be thought of as a short-term floor, and I think it makes a lot of sense that we go sideways for a little bit before continuing the overall uptrend as Germany tends to lead the way for the European Union.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewEUR/USDThe euro fell during the course of the week, as we are a little bit overdone at this point, and a pullback from here probably opens up the possibility of a move down to the 1.16 level. The 1.16 level is an area that previously had been resistant, and therefore it makes a certain amount of sense that the market sees that as a potential floor. If we break down below there,'',
+    ''Latest gold, silver, forex, and DAX insights for July 14. Key levels, trends, and market sentiment in one concise forecast.'',
+    ''weekly-pairs-in-focus-july-13-july-19-2025-charts'',
+    ''General'',
+    ''Broker Analysis'',
+    NULL,
+    ''published'',
+    ''2025-08-21T13:04:03.777368'',
+    ''2025-08-21T13:04:03.777383'',
+    ''C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\pairs-in-focus-13th-to-19th-july-2025\231085.html'',
+    'Latest gold, silver, forex, and DAX insights for July 14. Key levels, trends, and market sentiment in one concise forecast.';

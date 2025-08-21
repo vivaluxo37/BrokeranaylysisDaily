@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Analysis 22/07: Traders Await Powell (Chart)',
+    'EUR/USD Analysis Summary Today Overall Trend: Moving within a counter-bearish channel. Today''s EUR/USD Support Levels: 1.1630 – 1.1580 – 1.1490. Today''s EUR/USD Resistance Levels: 1.1700 – 1.1770 – 1.1830. EUR/USD Trading Signals: Buy EUR/USD from the support level of 1.1580 with a target of 1.1780 and a stop loss of 1.1490. Sell EUR/USD from the resistance level of 1.1750 with a target of 1.1520 and a stop loss of 1.1830. EUR/USD Technical Analysis Today: Ahead of anticipated new statements from US Central Bank Governor Jerome Powell today, Tuesday, July 22, 2025, the EUR/USD currency pair attempted to move above the 1.1700 resistance, recovering from its recent losses that pushed it towards the 1.1556 support level by the end of last week''s trading. The Euro''s stability comes as investors await the European Central Bank''s (ECB) monetary policy decision and closely monitor trade developments between the EU and the United States. On the monetary policy front, the European Central Bank is expected to keep interest rates unchanged next Thursday after eight consecutive cuts, with policymakers adopting a wait-and-see approach amid uncertainty about the impact of higher-than-expected US tariffs and the strong Euro on European growth and inflation. Meanwhile, EU envoys are preparing to meet this week to discuss emergency measures in case no agreement is reached with US President Donald Trump, whose stance on tariffs appears to have hardened ahead of the August 1st deadline. The technical forecasts for EUR/USD still indicate that the currency pair is moving within a counter-bearish channel, supported by its move below the 1.1600 support level. With the gains at the start of the week, the 14-day RSI (Relative Strength Index) has returned to around a reading of 56, moving away from the midline, which gives bulls renewed momentum to push higher. As a result, the MACD (Moving Average Convergence Divergence) lines are returning to neutrality. According to the daily timefra',
+    'EUR/USD holds within a counter-bearish channel near 1.1700 ahead of Jerome Powell’s speech; eyes on ECB’s rate decision and trade tensions with the US.',
+    'eurusd-analysis-2207-traders-await-powell-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:54.183205',
+    '2025-08-21T13:03:54.183215',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\eurusd-analysis-22-july-2025\231573.html',
+    'EUR/USD holds within a counter-bearish channel near 1.1700 ahead of Jerome Powell’s speech; eyes on ECB’s rate decision and trade tensions with the US.');

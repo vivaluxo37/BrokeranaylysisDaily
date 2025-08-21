@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Analysis 30/07: Increase Selling Pressure (Chart)',
+    'EUR/USD Analysis Summary TodayOverall Trend: Bearish bias.Today''s EUR/USD Support Levels: 1.1500 – 1.1430 – 1.1300.Today''s EUR/USD Resistance Levels: 1.1630 – 1.1700 – 1.1780.EUR/USD Trading Signals:Buy EUR/USD from the support level of 1.1470 with a target of 1.1780 and a stop loss of 1.1390.Sell EUR/USD from the resistance level of 1.1800 with a target of 1.1500 and a stop loss of 1.1900.EUR/USD Technical Analysis Today:EUR/USD selling pressure continues ahead of significant and exciting events in the forex markets. Bears are stabilizing the Euro/dollar pair around the 1.1520 support level, the lowest for the currency pair in a month. At the start of the week''s trading, the currency pair saw its largest daily decline in over two months, reaching its weakest level since June 20.Overall, the recent lower Euro trading reflects growing investor concern that the newly announced trade agreement between the United States and the European Union disproportionately benefits the US, doing little to improve the Eurozone''s economic outlook. The agreement has drawn strong criticism from France, while others – including German Chancellor Merz – have emphasized the potential negative impact on European exporters and, consequently, on economic growth. Meanwhile, market participants have turned their attention to the Federal Reserve''s policy decision, scheduled for today, Wednesday, ahead of President Trump''s August 1st tariff deadline.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewIn Europe, expectations for interest rate cuts have also shifted, with markets now pushing back the probability of a 25-basis point cut to March 2026, estimating a 90% chance by then. For December, the probability of a cut has fallen below 70%.Technical levels for the EUR/USD chart:According to the daily timeframe chart, the EUR/USD price is in a phase of breaking its bullish trend. A move towards the 1.1500 support will confirm the strength of bear control and signal re',
+    'Euro drops to 1.1520 amid Fed uncertainty and trade tensions. Key support at 1.1500 may trigger further losses if broken. Eyes on GDP and Fed decision.',
+    'eurusd-analysis-3007-increase-selling-pressure-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:54.821591',
+    '2025-08-21T13:03:54.821610',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\eurusd-analysis-30-july-2025\231978.html',
+    'Euro drops to 1.1520 amid Fed uncertainty and trade tensions. Key support at 1.1500 may trigger further losses if broken. Eyes on GDP and Fed decision.');

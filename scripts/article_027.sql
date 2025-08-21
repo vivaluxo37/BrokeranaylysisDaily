@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Jordan Finneseth - Broker Analysis Authors.com',
+    'Published articles: 18About Jordan FinnesethJordan Finneseth is an experienced crypto journalist, having previously worked for notable publications, including Cointelegraph, and currently serving as the Crypto Editor for Kitco News. He holds a Master of Science in Clinical/Counseling Psychology from Cal State San Bernardino and a pair of Bachelor''s degrees in Psychology and Environmental Health Science, but began to focus his attention on the cryptocurrency space in early 2017 after noticing the rapid growth of this emerging market. Since that time, Jordan has expanded his knowledge to become familiar with all things crypto and enjoys using the lessons learned to help spread awareness about blockchain technology and cryptocurrencies to the general public in an easy-to-understand manner. Latest 10 Articles Crypto Bulls Are Back: BTC and ETH Surge on Spike in Institutional Interest08/13/2025 10:09Bitcoin and Ethereum surged on renewed institutional demand, Fed rate cut optimism, and strong ETF inflows, with BTC nearing record highs and ETH eyeing a breakout.Bitcoin Pauses While Solana Rallies 27.5% in a Week, Signaling Altseason is Underway 07/23/2025 10:05Bitcoin’s price consolidated in a range between $116,000 and $121,000 over the past week after hitting a record high above $123,000 on July 14, while altcoin Solana is really starting to heat up.Crypto Firing on all Cylinders as Bitcoin Hits New ATH Above $123K, Ether Rallies Above $3,340 07/17/2025 8:06Crypto holders across social media are celebrating as Bitcoin (BTC) rallied to a new all-time high above $123,000 on Monday despite a rocky start to the so-called “Crypto Week” in the U.S.Bitcoin Soars to New ATH of $112K, XRP Hints at Bullish Breakout 07/10/2025 9:36Bitcoin and the broader cryptocurrency market are back on the uptrend after spending weeks treading water amid multiple geopolitical flare-ups that rattled investors'' nerves, reducing their appetite for risk.Bitcoin Bulls Gather Strength for ATH Push, E',
+    'Jordan Finneseth is an experienced crypto journalist, having previously worked for notable publications, including Cointelegraph, and currently serving as the Crypto Editor for Kitco News. He holds a Master of Science in Clinical/Counseling Psychology from Cal State San Bernardino and a pair of Bachelor''s degrees in Psychology and Environmental Health Science, but began to focus his attention on the cryptocurrency space in early 2017 after noticing the rapid growth of this emerging market. Since that time, Jordan has expanded his knowledge to become familiar with all things crypto and enjoys using the lessons learned to help spread awareness about blockchain technology and cryptocurrencies to the general public in an easy-to-understand manner.',
+    'jordan-finneseth-broker-analysis-authorscom',
+    'General',
+    'Broker Analysis',
+    '2025-08-13T00:00:00',
+    'published',
+    '2025-08-21T13:01:02.078090',
+    '2025-08-21T13:01:02.078097',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\dailyforex-authors\jordan-finneseth.html',
+    'Jordan Finneseth is an experienced crypto journalist, having previously worked for notable publications, including Cointelegraph, and currently serving as the C');

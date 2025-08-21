@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Forex Today 30/06: US Equities Keep Rising',
+    'The week opens with risk sentiment continuing to be quite bullish globally, as major US equity indices continue rising to trade at fresh record highs in the futures market.Top Forex Brokers1Get Started74% of retail CFD accounts lose moneyRead ReviewStock markets are continuing to look mostly bullish. Asian markets are mixed, European markets are more bullish, but the US market is the most bullish of all. The bullishness is especially notable in the US tech sector, withthe NASDAQ 100 Indextrading above and theS&P 500trading above 6,200. Trend and momentum traders will be interested in being long of these indices, and have a choice of CFDs, futures, or ETFs such as SPY and QQQ.The US Dollar Index has continued to fall, reaching a new 3.5-year low on declining rate expectations, as President Trump has publicly fumed about getting a new Fed Chair in place, stating over the weekend that rates should be 1% or 2%, not the 4.25% which they currently stand at. This has increased expectations of rate cuts over 2025 from 2 cuts of 0.25% to 3 cuts one at each remaining Fed meeting.The Forex market is showing increased price movement and volatility, with the declining US Dollar one of the main market drivers right now. Since the Tokyo open, the strongest major currency has been the Japanese Yen, while the weakest has been the British Pound, puttingthe GBP/JPY currency crossin focus.The EUR/USD currency pairhas continued to advance, reaching a new 3.5 year high above $1.1700 Friday, so trend traders will want to be long here - this currency pair has a great record of respecting its long-term trends.Canada has abolished its recent Digital Services Tax, which effectively acted as a barrier to US trade, infuriating the Trump administration. It seems clear that Canada is working hard to try to agree a comprehensive trade deal with the USA by July 21st, some time after the generic 9thJuly deadline, although Trump looks very willing to push this deadline back by a few months where the progress of negotiations warrants it.Silverremains bullish, although it is still some way off its recent high well above $37, and the precious metalPalladiumbroke to a new 6-month high last Friday. Palladium CFDs might be a little difficult to find, while futures are expensive: however, there is a Palladium ETF (PALL) which is affordable.Chinese Manufacturing PMI data was as expected.Ready to trade ourdaily Market Forex News? Here’s a list of some ofthe best online forextrading platformsto check out.',
+    'Global risk sentiment is bullish. US indices hit records, USD sinks, and EUR/USD and Palladium show strength as rate cut bets rise.',
+    'forex-today-3006-us-equities-keep-rising',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-20T11:26:49.043656',
+    '2025-08-20T11:26:49.043667',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.brokeranalysis.com\forex-news\2025\06\forex-today-30-june-2025\230408.html',
+    'Global risk sentiment is bullish. US indices hit records, USD sinks, and EUR/USD and Palladium show strength as rate cut bets rise.');

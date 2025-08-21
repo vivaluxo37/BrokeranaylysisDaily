@@ -1,0 +1,1 @@
+-- Fixed batch file with proper array syntax

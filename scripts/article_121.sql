@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Weekly Pairs in Focus - June 22 - June 28, 2025 (Charts)',
+    'BitcoinThe Bitcoin market has shown itself to be a bit confused at the moment, as we have formed the 3rd neutral candlestick in a row on the weekly timeframe. This suggests that we are looking at this through the prism of a consolidation zone, with the $100,000 level offering support, and the $110,000 level above offering resistance. Ultimately, we are just simply sitting in the middle of the range at approximate “fair value”, so now we need another catalyst. Ultimately though, I prefer the upside.NASDAQ 100The NASDAQ 100 is slightly positive for the week, but ultimately this is a situation where we are consolidating as well, with the 22,000 level as a major resistance barrier. If we can break above there, the market could take off to the upside and really, I think we’ve got a situation where we have just simply a bit of consolidation, as we have rocketed far too quickly to the upside. I think we’ve got some time here in a bit of the range until we get some type of external catalyst.SilverSilver has been all over the place during the course of the week, as we shot toward the $37 level, only to turn around and fall toward the $35.50 level. This is a market that is in the midst of trying to consolidate and work off some of the excess froth from the previous couple of weeks, and now we have a scenario where traders are looking at dips as potential buying opportunities. However, keep in mind that silver is going to be very volatile with so many geopolitical issues going on at the same time. Ultimately, I do prefer the upside in general.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewGoldGold fell during the week, pulling back from the crucial $3500 level. The $3500 level of course is a large, round, psychologically significant figure that a lot of people would be watching, and of course an area where you would expect to see a lot of options barriers. If we can break above the $3500 level, then the market could very well go look to the $3',
+    'Weekly forecast: Bitcoin, NASDAQ, gold, silver, crude oil, and major forex pairs show signs of consolidation. Key levels to watch.',
+    'weekly-pairs-in-focus-june-22-june-28-2025-charts',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:47.889723',
+    '2025-08-21T13:03:47.889731',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\06\pairs-in-focus-june-22h-to-june-28th-2025\230012.html',
+    'Weekly forecast: Bitcoin, NASDAQ, gold, silver, crude oil, and major forex pairs show signs of consolidation. Key levels to watch.');

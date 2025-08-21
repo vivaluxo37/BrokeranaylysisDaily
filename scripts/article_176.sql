@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('USD/BRL Analysis Today 13/08: Long-Term Lows (Chart)',
+    'The USD/BRL closed within sight of the 5.4000 level yesterday as the currency pair continued to correlate well with the broad Forex market.Yesterday’s close for the USD/BRL was around the 5.4020 level and price action this morning for the currency pair upon opening will prove intriguing for those interested in behavioral sentiment. While Brazil’s ruling government remains locked in a stubborn debate with the U.S White House, financial institutions apparently aren’t all that concerned. The USD/BRL is traversing long-term lows and is trading in a healthy correlation to other major currency pairs.While the USD/BRL traded around the 5.4000 ratio in early July, yesterday’s values however dropped below those early July marks when the 5.3800 level got some attention briefly. There isn’t a great amount of trading volume in the USD/BRL. The currency pair has not demonstrated a serious reversal higher over the past month, showing that financial institutions are comfortable within the lower values for the USD/BRL, spikes higher have been infrequent even with low volumes.Sustained Lows and Speculation in the USD/BRLThe ability of the USD/BRL to sustain lower price action and its trend downwards will prove intriguing to speculators. The USD/BRL doesn’t offer a great amount of price velocity, but traders who have patience and use conservative leverage may have an opportunity to pursue the currency pair with better odds.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewYesterday’s weaker than anticipated CPI year on year number from the U.S helped create more impetus for a weaker USD. The U.S Federal Reserve is now being called upon by analysts to lower the Federal Funds Rate in September, and it is likely the Fed will cut by at least 0.25 basis points. The Fed has been cautious and this has created many critics of its interest rate policy over the past few months. Yesterday’s inflation data put more pressure on the Fed and helped create selling powe',
+    'USD/BRL trades near long-term lows around 5.4000 after U.S. CPI data boosts expectations for a September Fed rate cut, with support at 5.3990',
+    'usdbrl-analysis-today-1308-long-term-lows-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:04:17.605234',
+    '2025-08-21T13:04:17.605247',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\08\usdbrl-analysis-13-august-2025\232639.html',
+    'USD/BRL trades near long-term lows around 5.4000 after U.S. CPI data boosts expectations for a September Fed rate cut, with support at 5.3990');

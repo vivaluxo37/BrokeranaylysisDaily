@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Forex Today 15 July 2025 :US Inflation Expected to Increase',
+    'US CPI Data Expected to Show 0.3% Month-on-Month Increase; Canadian Inflation Data Expected to Slow Dramatically; Bitcoin Back Below $118,000 After Trading at Record High Above $123,000; Silver Pulls Back Sharply; US Stock Market Futures Trading at Record Highs Off-HoursSummary: US CPI (inflation) data will be closely watched today for clues as to the effects of President Trump''s new tariffs, with the annualized rate expected to show an increase to 2.6%.AdvertisementMarkets are starting to focus on the release later today of high-impact US CPI (inflation) data, which is expected to show an increase in both its annualized and month-on-month rates. Lower than expected data would likely boost the US stock market and trigger a selloff in the US Dollar.Canadian CPI (inflation) data due today is expected to show a dramatic slowdown in inflation, from a month-on-month increase last month of 0.6% to one of only 0.1% this month.The digital assetBitcoincontinued its recent dramatic rise yesterday to trade at a new all-time high above $123,000. However, recent hours have seen the cryptocurrency make a pretty deep bearish retracement, trading below $118,000. Trend traders will have been long since at least the end of last week and will see their trades sitting in a deep floating profit. For those finding it difficult to access Bitcoin, there are several affordable Bitcoin ETFs as well as Bitcoin micro futures (10% of a Bitcoin).Silverhas also made a strong bearish retracement after reaching a new 13-year high above $39 per ounce on good bullish momentum. It is performing much better than Gold, another precious metal with which Silver is usually strongly positively correlated. Trend traders will also want to be long here.Stock markets are mixed but mostly higher. NVIDIA''s announcement that it will resume selling some chips to China has helped boostNASDAQ 100 Indexfutures andS&P 500 Index futuresto new record highs in off-hours trading, which is a bullish sign.The Forex market has been quiet so far in this week''s trading.The EUR/USD currency pairremains within a valid long-term bullish trend but is trading below $1.1700. The European Union is considering slapping retaliatory tariffs on US imports of aircraft, vehicles, and some other goods.Copper is rising again. Many trend traders will be long of Copper due to last week''s huge rise to a new all-time high following Trump''s announcement that all copper imports would be subject to a tariff of 50%.Top Forex Brokers1Get Started74% of retail CFD accounts lose moneyRead Review',
+    'US CPI Data Expected to Show 0.3% Month-on-Month Increase; Canadian Inflation Data Expected to Slow Dramatically; Bitcoin Back Below $118,000 After Trading at R',
+    'forex-today-15-july-2025-us-inflation-expected-to-increase',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-20T11:27:01.405257',
+    '2025-08-20T11:27:01.405264',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.brokeranalysis.com\forex-news\2025\07\forex-today-15-july-2025-us-inflation-expected-to-increase\231203.html',
+    'US CPI Data Expected to Show 0.3% Month-on-Month Increase; Canadian Inflation Data Expected to Slow Dramatically; Bitcoin Back Below $118,000 After Trading at R');

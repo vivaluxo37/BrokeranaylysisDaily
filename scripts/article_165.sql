@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('BNB Price Today 14/08: Tests Resistance (Chart)',
+    'BNB is trading near $863 today, holding firm after reclaiming the $850 mark earlier this month.The token is testing resistance just below its yearly highs, backed by institutional demand and strong technical positioning.Price Holds Above $850 After Institutional BuyingBNB Price | Source: TradingViewBNB has gained around 3–4% in the past 24 hours, extending a weekly advance that has pushed it into the upper end of its 2025 trading range. Today’s price has moved between $839 and $865, with intraday dips quickly met by buyers.This stability follows a period of heavy accumulation by larger players. Notably, CEA Industries purchased 200,000 BNB this month, adding to bullish sentiment.That buying activity has reinforced the $830–$835 zone as a critical line of defense for bulls, which turns it into a key support area.The wider crypto market is providing a supportive backdrop. Bitcoin is consolidating above $121,000, and Ethereum is steady near $4,741. The absence of sharp pullbacks in majors is allowing BNB to maintain momentum without facing aggressive profit-taking pressure.$830 Support and $865 Resistance Define the Current RangeThe immediate support for BNB now sits in the $830–$835 band. This range has already absorbed several profit-taking events this week, proving its importance for short-term stability.If price breaks below this level, the next area of interest is $802–$805, a pivot zone marked by prior consolidation.Resistance is building at $860–$865. Sellers have repeatedly capped rallies here in recent sessions. A close above $865 on strong volume would signal a potential push to $880–$900.Breaking $900 could trigger follow-on buying from momentum traders and test historical resistance zones seen in earlier market cycles.Technical Indicators Suggest Momentum With Caution SignsMomentum remains on the side of buyers, though some indicators are showing early signs of overheating. The Relative Strength Index (RSI) is around 62, which is bullish but still shy of ov',
+    'BNB trades near $863, with strong institutional buying and key support at $830–$835 as bulls eye a breakout above $865 toward $880–$900.',
+    'bnb-price-today-1408-tests-resistance-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:04:09.998654',
+    '2025-08-21T13:04:09.998660',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\08\bnb-price-forecast-14-august-2025\232691.html',
+    'BNB trades near $863, with strong institutional buying and key support at $830–$835 as bulls eye a breakout above $865 toward $880–$900.');

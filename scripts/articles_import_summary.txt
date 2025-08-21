@@ -1,0 +1,11 @@
+Articles Import Summary
+======================
+
+Total articles processed: 193
+Successfully transformed: 191
+Articles skipped (duplicates): 2
+Generated SQL batches: 4
+Batch size: 50
+
+Categories found:
+  General: 191

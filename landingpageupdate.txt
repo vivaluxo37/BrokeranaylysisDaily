@@ -1,0 +1,307 @@
+# Clear, actionable plan to make those core features *visible and obvious* on the homepage
+
+Nice work — the dark aesthetic and AI-first hero look great. Below I’ll give you exact, prioritized UI placements, copy, CTAs, pages and API hooks so a visitor instantly understands *where they get help* and *how to find* each main feature (Recommender, Dashboard/Alerts, Trust Score, Simulator, Evidence DB, Community, B2B Widgets). Then I’ll give copy-ready tasks your AI coding assistant can implement immediately (components, endpoints, acceptance criteria, analytics).
+
+---
+
+## One-line summary
+
+Make the homepage *task-oriented*: surface the 3-step Recommender and “Ask Brokeranalysis” at the top, show proof (Trust Score + evidence snippet) on results, add clear product entry points (Compare/Simulator, Dashboard/Alerts, Evidence DB, Community, Enterprise) as prominent cards/CTAs, and add contextual micro-copy and schema for SEO.
+
+---
+
+# Where to put each major feature (exact placement + design pattern)
+
+## 1) NAVBAR (sticky) — first priority
+
+Place on top across all pages. Keep it compact and make the product entry points visible:
+
+Left: Logo | Center: nav links | Right: utility
+
+* Links: **Brokers · AI Assistant · Compare · Dashboard · Insights · Community**
+* Right: Search bar (placeholder: “Search brokers, topics…”), Sign In / CTA button “Get AI Match”
+* Small label under logo: “Formerly DailyForex” (only until rebrand recognized)
+
+Why: users scan nav for where to go; “AI Assistant” should be first-class.
+
+---
+
+## 2) HERO (first fold) — make it actionable
+
+Current hero is beautiful — convert it to immediate action.
+
+Layout:
+
+* Left: Headline + Subheadline + primary CTA row
+
+  * Primary CTA: **Get Your AI Match** (opens 3-step recommender modal/inline)
+  * Secondary: **Explore Brokers**
+* Right: small mock-chat preview (2–3 sample Q→A) showing explainability and evidence chips.
+
+Important: the recommender widget must be visible *in the hero area or one click away*. If screen size allows, embed the 3-question widget under the hero headline; otherwise open as modal.
+
+---
+
+## 3) 3-Step Recommender (centerpiece) — visible, explicit, evidence-first
+
+Make the widget larger and clearer. Add missing input fields.
+
+Fields:
+
+1. **Trading strategy** (single): Scalping / Day / Swing / Position / Algorithmic / Options / Crypto
+2. **Capital range** (single): <\$500, \$500–5k, \$5k–50k, >\$50k
+3. **Instruments** (multi-select): Forex / Crypto / Stocks / CFDs / Options / Futures
+4. **Latency need**: Low latency / Normal / Not critical
+5. **Country / Regulation** (auto-detect + override)
+
+Behavior:
+
+* On submit → show top 3 results inline (cards). Each card MUST show:
+
+  * Trust Score (numeric + small progress pill)
+  * One-line explainable reason (evidence-backed)
+  * One visible evidence snippet (first 120 characters) with link & date
+  * Quick metrics: min\_deposit, platforms, sample\_spread, allowed\_strategies
+  * CTAs: **View Profile**, **Compare**, **Watch / Alert**, small **Ask** icon (pre-fills question)
+* Evidence: show 1 snippet inline; “Evidence (3)” button opens modal with full retrieved chunks.
+
+Why: users want instant answers and visible provenance.
+
+---
+
+## 4) “Ask Brokeranalysis” Chat CTA — sticky & contextual
+
+* Floating chat bubble (bottom-right) that expands to a mini chat.
+* Pre-fill contextual `broker_slug` if user is on a broker card/profile.
+* Responses must always show numbered sources (visible snippet + link + date).
+* Provide thumbs up/down feedback.
+
+Why: keeps the assistant available for exploration and trust-building.
+
+---
+
+## 5) Trust Score & “How we score it” — visible and explorable
+
+* Show a **Trust Score pill** on every broker card and profile (e.g., 86).
+* Clicking opens a small modal: short bar chart (Regulation, Withdrawal history, Support, Sentiment, Execution), each with % weight and 1-2 source links.
+* Add “Last checked: 2025-08-XX”.
+
+Why: transparency increases conversions and reduces disputes.
+
+---
+
+## 6) Broker Comparison & Simulator — obvious entry point
+
+Place a prominent card/section under the recommender:
+
+* CTA: **Compare Top Picks** (when a user selects 2–3 brokers) or a general link **Cost & Execution Simulator**
+* Core elements: normalized metric matrix + “Cost to trade” calculator (inputs: pair, lot size, frequency, slippage assumption → outputs: estimated monthly cost per broker)
+* Show “Why recommended” highlights per column.
+
+Why: differentiator for serious traders.
+
+---
+
+## 7) Broker Intelligence Dashboard / Alerts — product modal + dedicated page
+
+Hero CTA: **Get Alerts** or **Monitor Brokers**
+
+* Small dashboard teaser on homepage: card showing sample alerts (Regulation change, Spread spike). CTA: **Open Dashboard**
+* Dedicated page: watchlist management, alert rules, timeline, export, and email/push config.
+
+Why: B2B & retention.
+
+---
+
+## 8) Searchable Evidence DB & Research API — surface it
+
+* Add a top-level nav item **Research API** / **Evidence DB**
+* Homepage: small “Search Evidence” box under hero (enter query → returns blog/article/review excerpts)
+* CTA: **Developers / API** → docs page with examples and subscription options (internal first).
+
+Why: monetization & trust.
+
+---
+
+## 9) Community + Verified Reviews — social proof
+
+* Add a **Community** section on homepage with:
+
+  * Review snippets (verified badge) + quick filter (withdrawals, withdrawals\_resolved, support)
+  * CTA: **Submit Review** (modal to add review + verification steps)
+* Add “Verified reviewer” tags for moderated reviews.
+
+Why: social proof and freshness.
+
+---
+
+## 10) B2B Widgets / Enterprise — visible but secondary
+
+* Add small CTA in header or footer **For Brokers / Partners** → Demo request form
+* Homepage: a bottom-banner “Enterprise: White-label Widgets & Data Feeds” with CTA **Contact Sales**
+
+Why: monetization channel.
+
+---
+
+# UI & microcopy suggestions (exact text)
+
+Hero headline:
+“Find the Right Broker, Backed by AI.”
+Subheadline:
+“Personalized, evidence-backed broker recommendations — tailored to your strategy, capital, instruments, and jurisdiction.”
+
+Recommender CTA:
+Primary: **Get Your AI Match**
+Secondary: **Explore Brokers**
+
+Evidence snippet label:
+`Evidence (3) • DailyForex review • Nov 2024` (short)
+
+Trust Score tooltip:
+`Trust Score 86 — Regulation: 30%, Withdrawals: 25%, Sentiment: 20%, Execution: 15%, Support: 10%`
+Link in modal: **How we calculate Trust Score**
+
+Chat header:
+`Ask Brokeranalysis — Evidence-backed answers with sources`
+
+Compare CTA:
+`Compare selected brokers → Estimate cost & slippage`
+
+---
+
+# Concrete component & API contracts to hand to your AI coding assistant
+
+### Components to build (file names)
+
+* `HeroRecommender.tsx` — implements 3-step form + inline results
+* `BrokerCard.tsx` — used in hero results, top-rated grid, profile list
+* `EvidenceModal.tsx` — shows retrieved chunks
+* `TrustScoreModal.tsx`
+* `ChatBubble.tsx` — mini RAG chat
+* `CompareModal.tsx` / `ComparePage.tsx`
+* `DashboardPage.tsx` — alerts/watchlist
+* `ProgramCard.tsx` — programmatic SEO card
+* `SearchEvidence.tsx` — evidence DB search results
+
+### API endpoints (mock-first)
+
+* `POST /api/recommend`
+
+  * Request body: `{ strategy, capitalRange, instruments[], latencyNeed, country, maxResults }`
+  * Response: `{ results: [ { broker_slug, name, trust_score, one_liner, metrics, evidence: [{chunk_id, url, excerpt, date}] } ] }`
+
+* `POST /api/ask`
+
+  * Request body: `{ question, broker_slug?, top_k }`
+  * Response: `{ answer_html, sources: [{chunk_id, url, excerpt, date}], llm_meta }`
+
+* `POST /api/watchlist` — add/remove watch
+
+* `GET /api/compare?brokers=slug1,slug2` — returns normalized metrics and cost model
+
+* `GET /api/evidence?q=...&limit=10` — quick evidence search (for the homepage search box)
+
+### Example `recommend` response (copy/paste)
+
+```json
+{
+  "results": [
+    {
+      "broker_slug": "tradepro-elite",
+      "name": "TradePro Elite",
+      "trust_score": 91,
+      "one_liner": "ECN spreads from 0.1 pips on EUR/USD, supports scalping and low-latency execution.",
+      "metrics": { "min_deposit": 100, "platforms": ["MT4","MT5"], "sample_spread": "EUR/USD 0.15 pips" },
+      "evidence": [
+        { "chunk_id": "doc_123", "url": "https://brokeranalysis/reviews/tradepro", "excerpt": "TradePro offers ECN accounts with an average EURUSD spread of 0.15...", "date": "2024-11-01" },
+        { "chunk_id": "doc_512", "url": "https://brokeranalysis/forum/txn", "excerpt": "Multiple users report fast withdrawals in 2024 Q3...", "date": "2024-10-14" }
+      ]
+    }
+  ]
+}
+```
+
+---
+
+# Analytics & events (track these to measure success)
+
+* `recommender_submit` {strategy, instruments, country, time}
+* `recommender_result_click` {broker\_slug, rank}
+* `evidence_modal_open` {broker\_slug, chunk\_id}
+* `ask_submission` {question, broker\_slug?}
+* `watchlist_add` {broker\_slug}
+* `compare_start` {broker\_slugs\[]}
+* `signup_from_home` boolean
+
+---
+
+# Accessibility & SEO notes (must-have)
+
+* Recommender & first answer must be **server-rendered** (SSR or ISR) for bots and answer engines — at least the one-line answers and FAQ/short Q\&A blocks must be present in HTML.
+* Add JSON-LD `FAQPage` on hero / programmatic sections and `WebSite`/`Organization` markup.
+* Evidence snippet should include `data-chunk-id` attribute to preserve provenance.
+* All dynamic modals must use `role="dialog"` and focus trap.
+
+---
+
+# Prioritized sprint tasks (copy-paste for AI assistant)
+
+### Sprint A (hotfix — 3 days)
+
+1. Add `Instruments` multi-select and `Latency` control to `HeroRecommender`. Wire validation.
+2. Change result card to show: Trust Score pill, 1-sentence reason, 1 evidence snippet (with link & date), CTAs: View Profile / Compare / Watch / Ask.
+3. Implement `EvidenceModal` that fetches `/api/ask?broker_slug=` when opened and shows chunks + source links.
+
+Acceptance: Hero returns 3 mock results. Evidence modal shows 2+ items.
+
+### Sprint B (2 weeks)
+
+1. Implement `TrustScoreModal` and show breakdown with links.
+2. Add `CompareModal` and a minimal cost-to-trade calculator component.
+3. Add homepage teaser for Dashboard (sample alerts) and `Watch` API mock.
+4. Add homepage “Search Evidence” box wired to `/api/evidence`.
+
+Acceptance: Compare modal calculates cost for given inputs; Dashboard teaser shows sample alerts.
+
+### Sprint C (ongoing)
+
+1. Implement server-side rendering for hero results & programmatic cards.
+2. Add initial programmatic pages, JSON-LD, sitemap generation.
+3. Implement analytics events and monitor results.
+
+---
+
+# Quick copy-paste prompt for your AI coding assistant (single short prompt)
+
+```
+Task: Update the homepage UI to make the Recommender, evidence, Trust Score, Compare, Dashboard teaser and Evidence search immediately visible and actionable.
+
+Deliver:
+1) Add Instruments multi-select + Latency field to /HeroRecommender and wire submit to POST /api/recommend (use mocked response).
+2) Update BrokerCard to include: Trust Score pill (clickable opens TrustScoreModal), one-line reason, 1 evidence snippet with link/date, CTAs (View Profile, Compare, Watch, Ask).
+3) Add EvidenceModal that calls /api/ask with broker_slug and displays returned chunks (excerpt, url, date). Modal must be aria-accessible.
+4) Add bottom-right ChatBubble that calls /api/ask; show source list under answers with thumbs up/down.
+5) Implement quick Compare modal with a simple cost-to-trade calculator and /api/compare mock.
+6) Ensure hero one-liners and programmatic cards are SSR-rendered (output visible in page HTML); add FAQ JSON-LD for hero question.
+
+Acceptance: Hero shows 3 mock results; clicking Evidence opens modal with 2+ chunks; Trust Score modal shows breakdown; Compare modal calculates and shows result. Provide test data fixtures and list of analytics events emitted.
+```
+
+---
+
+## Final advice — what will most increase conversions
+
+1. Make the recommender & one-line answers visible in HTML (SEO + trust).
+2. Always show one evidence snippet inline (users trust traceable claims).
+3. Make Trust Score transparent and explorable.
+4. Offer immediate next steps from each result (Compare / Watch / Ask) so users don’t drop off.
+
+---
+
+If you want I’ll now:
+
+* generate the exact small JSON mocks and example Next.js component file diffs for Sprint A, **or**
+* produce the `HeroRecommender.tsx` + `BrokerCard.tsx` + `EvidenceModal.tsx` code (React + TypeScript + Tailwind) ready to paste into your repo.
+
+Which do you want next?

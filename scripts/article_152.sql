@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Weekly Pairs in Focus - July 20 - July 26, 2025 (Charts)',
+    'GoldGold markets have initially fell a bit during the trading week but have turned around to show signs of life again as the market looks like it is still stuck in the middle of a major consolidation range, which is bordered by $3200 at the bottom, and the $3500 level at the top. Ultimately, I do still believe that gold goes higher over the longer term, but we still have a lot of work to do in order to break out. This time of year, is quite often very quiet, so what I am seeing now is not a huge surprise. Buying the dip continues to be the way forward.EUR/USDThe euro plunged during the beginning of the week but has found enough support just below the 1.16 level to turn things around somewhat. This is a market that’s been very bullish for a while, and therefore a bit of a pullback probably made sense. If we were to break down below the 1.15 level, then we could start to talk about a turnaround, but right now I believe we have a situation where we continue to see a lot of noisy trading, but as things stand right now, the uptrend is still very intact.NASDAQ 100The NASDAQ 100 has been bullish during the week, breaking above a neutral candlestick from the previous one. At this point in time, the market is very bullish, and we have hit a fresh, new all-time high, and therefore I think we’ve got a scenario where the just simply need to see some type of reason to continue the upward trajectory. Pullbacks at this point in time are still very possible, with the 22,250 level being a significant level on the charts that will almost certainly offer a bit of support on any dip. At this point, the NASDAQ 100 means extraordinarily bullish.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewGBP/USDThe British pound has fallen pretty significantly during the trading week, to reach down toward the 1.3350 level, an area that has been important in the past, so I do believe that this is a market that is trying to find a bit of a bottom after falling apart. Th',
+    'Explore key forex pairs for July 13–19, 2025, with expert insights and charts highlighting market trends and trading opportunities.',
+    'weekly-pairs-in-focus-july-20-july-26-2025-charts',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:04:03.870879',
+    '2025-08-21T13:04:03.870890',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\pairs-in-focus-20th-to-26th-july-2025\231420.html',
+    'Explore key forex pairs for July 13–19, 2025, with expert insights and charts highlighting market trends and trading opportunities.');

@@ -1,0 +1,26 @@
+Article Migration Summary
+========================
+
+Total batches processed: 4/4
+Project ID: gngjezgilmdnjffxwquo
+
+Batch: import_articles_batch_1
+  File: import_articles_batch_1.sql
+  Size: 150074 characters
+  Estimated records: 50
+
+Batch: import_articles_batch_2
+  File: import_articles_batch_2.sql
+  Size: 135527 characters
+  Estimated records: 50
+
+Batch: import_articles_batch_3
+  File: import_articles_batch_3.sql
+  Size: 136087 characters
+  Estimated records: 50
+
+Batch: import_articles_batch_4
+  File: import_articles_batch_4.sql
+  Size: 88446 characters
+  Estimated records: 41
+

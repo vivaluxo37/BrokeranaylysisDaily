@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Analysis 13/08: Euro Attempts a Recovery (Chart)',
+    'EUR/USD Analysis Summary TodayOverall Trend: Neutral with an upward bias.Support Levels Today: 1.1630 – 1.1550 – 1.1480.Resistance Levels Today: 1.1720 – 1.1790 – 1.1870.EUR/USD Trading Signals:Buy EUR/USD from the 1.1580 support level, with a target of 1.1800 and a stop-loss at 1.1500.Sell EUR/USD from the 1.1770 resistance level, with a target of 1.1500 and a stop-loss at 1.1810.EUR/USD Technical Analysis Today:The recent weak US inflation data has once again weakened the US dollar against other major currencies, allowing the EUR/USD pair to recover from its losses at the beginning of the week. After falling to the 1.1589 support level, the pair has rebounded and is now hovering around 1.1689. The euro is attempting to break through the 1.1700 resistance level, which could encourage further gains.Today''s EUR/USD trading is awaiting the announcement of the German inflation reading at 9:00 AM Cairo time, along with statements from several US Federal Reserve officials throughout the day.From a technical perspective, the EUR/USD is in a neutral position on the daily chart. An upward bias would be confirmed if it breaks past the 1.1700 resistance. The recent rebound has moved the 14-day Relative Strength Index (RSI) to 55, moving away from the neutral line and awaiting stronger gains to confirm bullish control. The MACD indicator is also showing a slight upward turn.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewTrading Advice:Traders are advised to wait for new selling opportunities for the EUR/USD pair, with the 1.1770 resistance level or higher being the most suitable, but without taking on excessive risk.A bearish scenario for the EUR/USD over this period requires bears to head towards the support levels of 1.1630, 1.1540, and 1.1480, respectively. We expect limited movement today for the EUR/USD, awaiting strengthening factors from the course of trade tensions between the United States, the European Union, and China.Keep in mind t',
+    'EUR/USD rebounds to 1.1689 after soft US inflation data pressures the dollar; key levels are support at 1.1630 and resistance at 1.1720',
+    'eurusd-analysis-1308-euro-attempts-a-recovery-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:04:12.073889',
+    '2025-08-21T13:04:12.073897',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\08\eurusd-analysis-13-august-2025\232640.html',
+    'EUR/USD rebounds to 1.1689 after soft US inflation data pressures the dollar; key levels are support at 1.1630 and resistance at 1.1720');

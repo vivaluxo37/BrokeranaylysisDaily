@@ -1,0 +1,3 @@
+INSERT INTO news_articles (title, content, author, published_date, category, tags, slug, meta_description, status, created_at, updated_at) VALUES
+('Test Article 1', 'This is a simple test article content without complex quotes or special characters.', 'Broker Analysis', '2024-01-15', 'General', ARRAY['test', 'simple'], 'test-article-1', 'Simple test article for database insertion.', 'published', NOW(), NOW()),
+('Test Article 2', 'Another simple test article with basic content for verification.', 'Broker Analysis', '2024-01-16', 'General', ARRAY['test', 'verification'], 'test-article-2', 'Second test article for database verification.', 'published', NOW(), NOW());

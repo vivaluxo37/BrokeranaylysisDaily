@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Weekly Pairs in Focus - June 15 - June 21, 2025 (Charts)',
+    'EUR/USDThe euro rallied a bit during the trading week, breaking above the 1.16 level, but we have given back some of the gains after the Israeli airstrikes on the Iranian regime. This of course has people running toward safety currency such as the US dollar, so it does make sense that we have seen hesitation. However, earlier in the week we had seen quite a bit of bullish pressure, so one would have to assume that there is at least some demand out there for the euro. I suspect the next couple of weeks will be very violent but may have a bit of a bid for them.USD/MXNThe US dollar spent most of the week falling against the Mexican peso, but turned around after the airstrikes, and because of this we are sitting right at the 200 Week EMA. We are also at the crucial 19 MXN level, so if we were to bounce from here it would make a certain amount of sense, but I see a lot of resistance near the 19.40 MXN level, so whether or not it is going to truly rally remains to be seen, I think that could be an area where we could see some issue. A break above the 50 Week EMA could send this pair to the 20 MXN level.GBP/USDThe British pound has been all over the place during the week, as we continue to see a lot of questions asked of the US dollar. That being said, after the airstrikes on Friday, we have seen a little bit of a pushback against risk-taking, so it’ll be interesting to see how this plays out. Ultimately, I think we have a scenario where traders will be looking at this through the prism of risk appetite, and right now we are currently trading in a range between the 1.34 level on the bottom and the 1.3650 level on the top.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewAUD/USDThe Australian dollar traders have seen the market go back and forth during the course of the week as we continue to watch the 0.6550 level as a massive barrier. If we were to break above there, then the market could go much higher, perhaps reaching to the 200 Week EMA',
+    'Market insights for EUR/USD, USD/JPY, GBP/USD, gold, Bitcoin & more amid global tensions and shifting risk sentiment.',
+    'weekly-pairs-in-focus-june-15-june-21-2025-charts',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:47.837746',
+    '2025-08-21T13:03:47.837754',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\06\pairs-in-focus-june-15h-to-june-21th-2025\229684.html',
+    'Market insights for EUR/USD, USD/JPY, GBP/USD, gold, Bitcoin & more amid global tensions and shifting risk sentiment.');

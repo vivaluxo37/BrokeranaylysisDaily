@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Analysis Today 01/7: Strong Until Key Events (Chart)',
+    'EUR/USD Analysis Summary TodayOverall Trend: Bullish.Today''s EUR/USD Support Levels: 1.1720 – 1.1650 – 1.1580.Today''s EUR/USD Resistance Levels: 1.1800 – 1.1880 – 1.2000.EUR/USD Trading Signals:Buy EUR/USD from the support level of 1.1590 with a target of 1.1820 and a stop-loss at 1.1460.Sell EUR/USD from the resistance level of 1.1820 with a target of 1.1500 and a stop-loss at 1.1900.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewEUR/USD Technical Analysis Today:As expected, the EUR/USD pair remained bullish, holding near its highest level in more than three years, with gains extending to the 1.1788 resistance level, where it is currently trading. As previously mentioned, the EUR/USD pair will remain bullish due to selling pressure on the US dollar due to the US Federal Reserve''s policy interventions, along with growing US financial concerns.In Europe, investors have been assessing a wave of inflation data from the region''s largest economies and their implications for the European Central Bank''s (ECB) policy path. According to economic calendar data, consumer price inflation in Germany unexpectedly fell to 2.0% in June from 2.1% in May, returning to the ECB''s target for the first time since October 2024 and defying expectations for a rise to 2.2%. In contrast, inflation in France, Italy, and Spain rose slightly, although it remained relatively subdued. Adding to the cautious sentiment, German retail sales recorded a sharp decline. Despite these mixed signals, money markets continue to price in an ECB terminal rate of approximately 1.75% – 1.80%. ECB Vice-President Luis de Guindos reiterated on Monday that the current policy stance is appropriate but emphasized the importance of maintaining flexibility amidst ongoing uncertainty.Trading Tips:Be aware that the recent gains in EUR/USD have been significant and consecutive, which could support renewed selling for profit-taking at any time.Will the EUR/USD rise to the psychological high',
+    'EUR/USD holds near 3-year highs at 1.1788 as USD weakens; traders eye 1.1800–1.2000 while awaiting Eurozone CPI, Powell, and Lagarde''s statements.',
+    'eurusd-analysis-today-017-strong-until-key-events-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:53.482578',
+    '2025-08-21T13:03:53.482588',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\eurusd-analysis-1-july-2025\230548.html',
+    'EUR/USD holds near 3-year highs at 1.1788 as USD weakens; traders eye 1.1800–1.2000 while awaiting Eurozone CPI, Powell, and Lagarde''s statements.');

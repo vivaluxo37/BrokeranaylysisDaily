@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Weekly Forex Forecast - July 20th - July 26th (Charts)',
+    'Fundamental Analysis & Market SentimentI wrote on 13th July that the best trades for the week would be:Long of the EUR/USD currency pair following a daily close above $1.1806. This did not set up.Long of the NASDAQ 100 Index following a daily close above 22,945. This set up on Thursday but ended the week lower by 0.15%.Long of the S&P 500 Index following a daily close above 6,283.6. This set up on Thursday but ended the week lower by 0.10%.Long of HG Copper futures following a daily close above $5.6855. This did not set up.Long of Silver in USD terms. Unfortunately, Silver ended the week lower by 0.62%.Long of Palladium in USD terms. This rose over the week by 1.16%.Short of the AUD/JPY currency cross. This fell over the week by 0.01%.The small overall win of 0.30% equals a gain of 0.04% per asset.The news last week was dominated by a combination of Trump’s new tariffs, the question of whether President Trump will be able to execute the early removal of Jerome Powell as Chair of the Federal Reserve, and US inflation and PPI (purchasing power index) data.As the week began, there were reports that Trump was telling Republican members of Congress of an advanced plan to remove Powell. However, once the story leaked, Trump issued a statement saying it was “highly unlikely” Powell would be removed without a cause of misconduct. Trump is angry that Powell and the Fed are being very slow to cut the relatively high interest rate of 4.25% / 4.50%, which Trump sees as holding back economic growth and probably the stock market too, which in any case is already advancing to record highs.The Powell story initially hit the US Dollar, but once it was denied the Dollar turned around and enjoyed yet another week of advances.Other market drivers last week related to certain high-impact data releases, and helped send major US stock market indices to new record highs:US CPI (inflation) – the data was conflicted, as the annualized rate rose a little more than expected, to 2.7%, but Core',
+    'Forecast for NASDAQ, S&P 500, Bitcoin, USD/JPY, and metals. Key levels, trade ideas, and market drivers for July 21–25, 2025.',
+    'weekly-forex-forecast-july-20th-july-26th-charts',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:04:07.749651',
+    '2025-08-21T13:04:07.749661',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\weekly-forex-forecast-20th-to-26th-july-2025\231431.html',
+    'Forecast for NASDAQ, S&P 500, Bitcoin, USD/JPY, and metals. Key levels, trade ideas, and market drivers for July 21–25, 2025.');

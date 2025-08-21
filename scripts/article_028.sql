@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Kenny Fisher - Broker Analysis Authors.com',
+    'Published articles: 104About Kenny FisherKenny started his career in forex working in the sales and marketing department at a major forex broker and has worked as a market analyst for 12 years. With a legal editing background, Kenny has combined his writing skills and finance expertise to produce top-quality articles. Kenny covers a wide range of topics, including global stock markets, commodities and currencies, with focus on fundamental and macro-economic analysis. Kenny’s articles have been carried by OANDA, Investing.com, Seeking Alpha and FXStreet. Kenny holds a Bachelor of Law from Ogoode Hall Law School in Toronto, Canada.Latest 10 Articles US Inflation Unchanged but Core CPI Accelerates 08/13/2025 9:43US CPI stays at 2.7% in July, core CPI rises to 3.1%, boosting market odds of a September Fed rate cut to 94%.Bank of England Lowers Interest Rates in Knife-Edge Decision08/08/2025 9:14The Bank of England (BOE) lowered the cash rate at today’s meeting by a quarter-point. This marks the second rate cut this year and brings the cash rate to 4.0%, its lowest level since March 2023. The British pound rose 0.50% after the rate decision.United States Federal Reserve Maintains Rates, No Decision on September 07/31/2025 9:36The US Federal Reserve maintained the funds rate at 4.25%-4.50% at Wednesday’s meeting.ECB Maintains Interest Rates, Euro Shows Muted Reaction07/24/2025 14:52The European Central Bank (ECB) maintained interest rates at 2.15% today’s policy meeting, a move that was widely expected. The Euro has posted minor gains following the decision.US and Canadian Inflation Accelerates, as Expected07/15/2025 14:21The markets were braced for a rebound in June inflation in Canada and the US and that’s exactly what happened today in both countries, as CPI and core CPI climbed higher.New Zealand Central Bank Leaves Rates Unchanged, but Expects Further Rate Cuts07/09/2025 10:38The Reserve Bank of New Zealand (RBNZ) maintained the benchmark interest rate at 3.25% on',
+    'Kenny started his career in forex working in the sales and marketing department at a major forex broker and has worked as a market analyst for 12 years. With a legal editing background, Kenny has combined his writing skills and finance expertise to produce top-quality articles. Kenny covers a wide range of topics, including global stock markets, commodities and currencies, with focus on fundamental and macro-economic analysis. Kenny’s articles have been carried by OANDA, Investing.com, Seeking Alpha and FXStreet. Kenny holds a Bachelor of Law from Ogoode Hall Law School in Toronto, Canada.',
+    'kenny-fisher-broker-analysis-authorscom',
+    'General',
+    'Broker Analysis',
+    '2025-08-13T00:00:00',
+    'published',
+    '2025-08-21T13:01:02.199157',
+    '2025-08-21T13:01:02.199166',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\dailyforex-authors\kenny-fisher.html',
+    'Kenny started his career in forex working in the sales and marketing department at a major forex broker and has worked as a market analyst for 12 years. With a ');

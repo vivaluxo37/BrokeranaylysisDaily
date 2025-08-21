@@ -1,0 +1,11 @@
+Article Processing Summary
+========================
+
+Total articles processed: 191
+Files created: article_001.sql to article_191.sql
+
+Batch file breakdown:
+- import_articles_batch_1.sql: 50 articles (article_001.sql to article_050.sql)
+- import_articles_batch_2.sql: 50 articles (article_051.sql to article_100.sql)
+- import_articles_batch_3.sql: 50 articles (article_101.sql to article_150.sql)
+- import_articles_batch_4.sql: 41 articles (article_151.sql to article_191.sql)

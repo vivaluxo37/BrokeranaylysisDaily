@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Mahmoud Abdallah - Broker Analysis Authors.com',
+    'Published articles: 4589About Mahmoud AbdallahMahmoud has been working fulltime in the Foreign Exchange markets for 12 years. Offers his analysis, articles and recommendations at the most renewed Arabic websites specialized in the global financial markets, and his experience gained a lot of interest among Arab traders. Works on providing technical analysis, market news, free signals and more with follow up for at least 12 hours a day, and aims to simplify forex trading and the concept of trading for his audience.Snapshot Latest 10 Articles EUR/USD Analysis: Resolving the Ukraine Crisis Will Support the Euro08/18/2025 12:00The euro steadies near 1.1715, with traders eyeing Ukraine peace talks as a catalyst, while technicals show support at 1.1650 and resistance near 1.1800.Gold Analysis: Gold Recovers from Recent Losses08/18/2025 11:55Gold prices recover from recent lows, consolidating near $3353 as traders watch $3400 resistance, geopolitical talks, and Fed policy signals.Gold Analysis: Gold Trading Continues to Attract Buyers08/14/2025 12:27XAU/USD remains in a bullish trend above $3,335, supported by Fed rate cut expectations and dollar weakness, with buyers targeting a break toward $3,400.EUR/USD Analysis: Holds Near 1.17 as Fed Cut Bets Grow08/14/2025 12:19EUR/USD is consolidating near 1.1700 as rate-cut expectations for the Federal Reserve boost bullish momentum, though key resistance at 1.1800 remains a critical breakout point.EUR/USD Analysis: The Euro Attempts a Recovery08/13/2025 12:35EUR/USD gains on weaker US CPI, testing the 1.1700 resistance as traders watch German inflation data and Fed commentary for the next directional cue.EUR/USD Analysis: U.S. Inflation Figures Are the Main Event08/12/2025 11:28EUR/USD trades near 1.1600 as markets await U.S. CPI and the Putin-Trump meeting, with key levels at 1.1580 support and 1.1770 resistance shaping short-term direction.Gold Analysis: Gold Market Heading for New Buying Zones08/12/2025 11:16Gold prices hover',
+    'Mahmoud has been working fulltime in the Foreign Exchange markets for 12 years. Offers his analysis, articles and recommendations at the most renewed Arabic websites specialized in the global financial markets, and his experience gained a lot of interest among Arab traders. Works on providing technical analysis, market news, free signals and more with follow up for at least 12 hours a day, and aims to simplify forex trading and the concept of trading for his audience.',
+    'mahmoud-abdallah-broker-analysis-authorscom',
+    'General',
+    'Broker Analysis',
+    '2025-08-18T00:00:00',
+    'published',
+    '2025-08-21T13:01:02.280282',
+    '2025-08-21T13:01:02.280290',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\dailyforex-authors\mahmoud-abdallah.html',
+    'Mahmoud has been working fulltime in the Foreign Exchange markets for 12 years. Offers his analysis, articles and recommendations at the most renewed Arabic web');

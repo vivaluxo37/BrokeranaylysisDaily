@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('EUR/USD Monthly Forecast: August 2025 (Chart)',
+    'The EUR/USD has turned lower in a powerful manner the past handful of days. The currency pair is showing downside pressure and is below the 1.14400 mark as of this writing. Last Thursday the EUR/USD was near the 1.17900 vicinity as selling started to develop. Traders who have been anticipating reversals higher the past couple of day as the EUR/USD fell through key support levels have been disappointed and have likely taken a hit to their trading accounts.The U.S Fed last night surprised few by remaining overly cautious. The EUR/USD was near the 1.15500 juncture at one time yesterday, but continued to sell off instead of producing a fight upwards. As Jerome Powell, the Federal Reserve Chairman, spoke yesterday the EUR/USD fell through the 1.15000 ratio. The currency pair has sustained value beneath the 1.14500 this morning. Those looking for a reversal higher because they believe the EUR/USD is oversold need to be careful.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewRisk Events and Reactions that Appear ComplexThe EUR/USD started the month of July near the 1.18350 level putting in its apex height to start the month, but as August approaches the currency pair is traversing waters within depths not seen since the second week of June. Looking for a tide that lifts the EUR/USD at this moment may feel logical, but complex shifts of sentiment have made financial institutions nervous. Yesterday’s caution from the Federal Reserve was anticipated, but perhaps the stern cautiousness from the Fed Chairman caused more anxiety.Powell doesn’t appear ready to cut interest rates anytime soon. Powell continues to press upon the uncertainty button regarding the potential effects from tariffs. However, in the meantime the U.S GDP numbers came in better than expected yesterday and so did the GDP Price Index. U.S growth was stronger and inflation was weaker. Yet the Fed continues to worry about tariffs. The EUR/USD has sold off massively in the past we',
+    'EUR/USD tumbles to 1.14300 as Fed hawkishness and strong US GDP weigh on euro; August outlook hinges on sentiment, support tests, and tariff risks.',
+    'eurusd-monthly-forecast-august-2025-chart',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:57.163199',
+    '2025-08-21T13:03:57.163209',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\07\eurusd-monthly-forecast-august-2025\232057.html',
+    'EUR/USD tumbles to 1.14300 as Fed hawkishness and strong US GDP weigh on euro; August outlook hinges on sentiment, support tests, and tariff risks.');

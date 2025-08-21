@@ -1,0 +1,17 @@
+INSERT INTO news_articles (
+    title, content, summary, slug, category, author, 
+    published_date, status, created_at, updated_at, 
+    source_file, meta_description
+) VALUES
+('Weekly Forex Forecast - June 01th - June 06th (Charts)',
+    'Fundamental Analysis & Market SentimentI wrote on 25th May that the best trades for the week would be:Long of Bitcoin following a daily (New York) close above $111,743. This did not set up.Long of the GBP/USD currency pair. This gave a loss of 0.54%.Short of the USD/ZAR currency pair. This gave a loss of 1.01%.The overall loss of 1.55% equals a loss of 0.52% per asset.Last week was broadly very quiet, with stock markets inching higher, especially in Germany, where the DAX reached a new all-time high before turning more bearish towards the end of the week. There were no dramatic news releases or unexpected economic data to change the mood from mildly risk-on.Last week’s most important data releases were:US Core PCE Price Index – as expected.US FOMC Meeting Minutes – no surprises.US Preliminary GDP – just a tick lower than expected.German Preliminary CPI (inflation) – as expected.Australian CPI (inflation) – just a tick higher than expected.RBNZ Official Cash Rate, Rate Statement, and Policy Statement – a 0.25% cut as expected, although a slightly dovish tilt was made on the path of future rate cuts, although this had little effect on the Kiwi.US Unemployment Claims – slightly worse than expected.After markets closed for the week, President Trump announced the tariff on steel and aluminium will be doubled this Wednesday from 25% to 50%. This will likely produce a more risk-off market as the week gets underway, but there is always a chance that a deal will be announced before Wednesday.Top Forex Brokers1 Get Started 74% of retail CFD accounts lose money Read ReviewThe Week Ahead: 2nd – 6th JuneThe coming week has what will probably turn out to be a more decisive schedule of high-impact data releases.This week’s important data points, in order of likely importance, are:US Non-Farm Payrolls and Average Hourly EarningsEuropean Central Bank Policy MeetingUS ISM Services PMIUS JOLTS Job OpeningsBank of Canada Policy MeetingSwiss CPI (inflation)Australia GDPThe most impactf',
+    'Top trade setups for June 2–6: Watch EUR/USD, GBP/USD, Bitcoin, and S&P 500. Key levels, sentiment shifts, and data like NFP and ECB ahead.',
+    'weekly-forex-forecast-june-01th-june-06th-charts',
+    'General',
+    'Broker Analysis',
+    NULL,
+    'published',
+    '2025-08-21T13:03:49.224534',
+    '2025-08-21T13:03:49.224546',
+    'C:\Users\LENOVO\Desktop\BrokeranalysisDaily\daily forex\www.dailyforex.com\forex-technical-analysis\2025\06\weekly-forex-forecast-01th-to-06th-june-2025\229003.html',
+    'Top trade setups for June 2–6: Watch EUR/USD, GBP/USD, Bitcoin, and S&P 500. Key levels, sentiment shifts, and data like NFP and ECB ahead.');
