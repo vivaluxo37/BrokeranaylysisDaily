@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageSquare, Send, ThumbsUp, ThumbsDown, X, ExternalLink } from 'lucide-react';
-import { fetchWithMock } from '@/lib/fetchWithMock';
+import { DataService } from '@/lib/services/DataService';
 
 interface ChatSource {
   title: string;
@@ -42,18 +42,56 @@ export const ChatBubble: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetchWithMock('/api/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: input })
-      });
+      // Sample AI response for Brokeranalysis platform
+      const mockResponses = [
+        {
+          answer_html: "Based on your trading requirements, I recommend <strong>Interactive Brokers</strong> and <strong>OANDA</strong> for their excellent regulation, competitive spreads, and comprehensive trading platforms.",
+          sources: [
+            {
+              title: "Interactive Brokers Review 2024",
+              excerpt: "Highly regulated broker with competitive pricing and advanced trading tools for professional traders.",
+              url: "/brokers/interactive-brokers",
+              date: "2024-12-15"
+            },
+            {
+              title: "OANDA Broker Analysis",
+              excerpt: "Well-established forex broker with tight spreads and excellent customer service.",
+              url: "/brokers/oanda",
+              date: "2024-12-14"
+            }
+          ]
+        },
+        {
+          answer_html: "For <strong>scalping strategies</strong>, consider brokers with ultra-low spreads like <strong>IC Markets</strong> or <strong>Pepperstone</strong>. Both offer ECN accounts with spreads starting from 0.0 pips.",
+          sources: [
+            {
+              title: "Best Brokers for Scalping",
+              excerpt: "IC Markets and Pepperstone lead in execution speed and spread competitiveness for scalping strategies.",
+              url: "/guides/scalping-brokers",
+              date: "2024-12-13"
+            }
+          ]
+        },
+        {
+          answer_html: "For <strong>beginner traders</strong>, I recommend <strong>eToro</strong> or <strong>Plus500</strong> for their user-friendly platforms, educational resources, and social trading features.",
+          sources: [
+            {
+              title: "Best Brokers for Beginners",
+              excerpt: "eToro and Plus500 offer intuitive platforms with comprehensive educational materials for new traders.",
+              url: "/guides/beginner-brokers",
+              date: "2024-12-12"
+            }
+          ]
+        }
+      ];
 
-      const data = await response.json();
+      // Select a random response or use AI logic based on input
+      const selectedResponse = mockResponses[Math.floor(Math.random() * mockResponses.length)];
 
       const assistantMessage: ChatMessage = {
         type: 'assistant',
-        content: data.answer_html,
-        sources: data.sources,
+        content: selectedResponse.answer_html,
+        sources: selectedResponse.sources,
         timestamp: new Date()
       };
 

@@ -179,9 +179,6 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-3">
-            <div className="h-8 w-8 rounded-lg saas-gradient flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-sm">B</span>
-            </div>
             <span className="text-xl font-bold text-slate-900">Brokeranalysis</span>
           </div>
         </div>
@@ -936,9 +933,6 @@ const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-3 mb-6">
-              <div className="h-8 w-8 rounded-lg saas-gradient flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-sm">B</span>
-              </div>
               <span className="text-xl font-bold">Brokeranalysis</span>
             </div>
             <p className="text-slate-300 text-sm leading-relaxed">

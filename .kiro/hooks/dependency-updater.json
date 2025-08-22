@@ -1,0 +1,28 @@
+{
+  "name": "Dependency Updater",
+  "description": "Check for outdated dependencies and security vulnerabilities",
+  "trigger": {
+    "type": "file_save",
+    "patterns": [
+      "package.json",
+      "package-lock.json"
+    ]
+  },
+  "actions": [
+    {
+      "type": "shell_command",
+      "command": "npm audit",
+      "description": "Check for security vulnerabilities"
+    },
+    {
+      "type": "agent_execution",
+      "prompt": "Analyze the package.json changes and provide recommendations:\n\n1. Check for any security vulnerabilities in dependencies\n2. Identify outdated packages that should be updated\n3. Ensure compatibility between React 19, Next.js 15, and other dependencies\n4. Verify TypeScript compatibility with all packages\n5. Check for any breaking changes in updated packages\n6. Suggest performance optimizations for the dependency tree\n7. Ensure all Radix UI components are compatible versions\n\nProvide specific update commands and highlight any potential issues.",
+      "context": "current_file"
+    }
+  ],
+  "settings": {
+    "debounce": 1000,
+    "runInBackground": true,
+    "showNotifications": true
+  }
+}

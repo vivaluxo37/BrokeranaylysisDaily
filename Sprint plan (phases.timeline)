@@ -1,0 +1,379 @@
+Nice — this is exactly the kind of hand-off/roadmap I love to write. I’ll assume:
+
+* Product = **Brokeranalysis** (you said this).
+* You want **only free / open-source tools** where possible.
+* **Supabase already holds the 2GB+ content** (great — we’ll use that).
+* The app already auto-detects user location — we’ll use that to filter/regulate results.
+
+Below is a phase-by-phase, sprint-style plan with explicit, copy/paste-ready tasks, file names, SQL snippets, CLI commands, AI prompts for your coding assistant, acceptance tests, and implementation notes. This is intentionally prescriptive so your “vibe-coding” AI assistant can be fed each block as a task.
+
+# Quick overview (one line)
+
+Ship a lean, SEO-friendly RAG recommender and programmatic content site on **Next.js (Vercel free)** + **Supabase (pgvector)** + **open-source embeddings where possible**, with phased delivery: Data → Indexing → Recommender + RAG → Programmatic SEO → Monitoring & Analytics.
+
+---
+
+# Sprint plan (phases / timeline)
+
+Estimated order (you decide pace): **Sprint 0 → 1 → 2 → 3 → 4 → Ops**. Each sprint lists step-by-step tasks and acceptance tests.
+
+---
+
+## SPRINT 0 — DATA & INFRA SETUP (1 week)
+
+Goal: confirm data quality, canonicalize broker records, prepare Supabase schema for RAG.
+
+### Tasks (copy/paste to AI assistant)
+
+1. Confirm Supabase credentials and backup current DB snapshot.
+
+   * Command: `supabase db dump --file=backup_YYYYMMDD.sql` (or export via Supabase console).
+2. Run canonicalization (rapidfuzz). Produce `canonical_brokers.csv`.
+
+   * Script path: `/scripts/canonicalize_brokers.py`.
+   * Input: `supabase://<url>/raw_html_bucket` + `brokers` table.
+   * Output: `canonical_brokers.csv` with columns: `canonical_name,aliases_json,canonical_slug, example_page_url`.
+3. Add RAG-ready DB schema (documents table, pgvector).
+
+   * Run migration `infra/001_create_rag_tables.sql` (example below).
+4. Sample ingest: take 1000 content chunks and insert into `documents`. Verify retrieving chunks by broker.
+
+### SQL migration (copy/paste)
+
+```sql
+-- infra/001_create_rag_tables.sql
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE IF NOT EXISTS brokers (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  canonical_name text UNIQUE,
+  aliases jsonb,
+  primary_regulator text,
+  country_restrictions jsonb,
+  canonical_slug text UNIQUE,
+  trust_score numeric,
+  meta jsonb,
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS documents (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  broker_id uuid REFERENCES brokers(id),
+  title text,
+  source_url text,
+  author text,
+  pub_date timestamptz,
+  content_chunk text,
+  chunk_index int,
+  metadata jsonb,
+  embedding vector(1536), -- length depends on embedding model
+  ingestion_ts timestamptz DEFAULT now()
+);
+```
+
+### Chunking script (high level)
+
+* `/scripts/chunk_and_upload.py`:
+
+  * Reads raw HTML, extracts main article/review text (readability or boilerpipe).
+  * Splits into \~300 token chunks (approx 2000 chars).
+  * Adds metadata: `{broker_name, broker_slug, source_url, topic_tags}`.
+  * `INSERT` into `documents` (without embedding yet).
+* Acceptance: `documents` table has >=1000 rows with non-null `content_chunk`.
+
+---
+
+## SPRINT 1 — EMBEDDINGS & VECTOR INDEX (1 week)
+
+Goal: embed content and build vector index in Supabase.
+
+### Considerations & free options
+
+* **Open-source embeddings** recommended to avoid API costs: use `sentence-transformers` (all local CPU OK initially). Model example: `all-MiniLM-L6-v2` (1536-dim or 384 depending on model). If you later want higher quality, swap to better models.
+* If you prefer managed, OpenAI works but is not "free".
+
+### Steps (copy/paste)
+
+1. Create script `scripts/generate_embeddings.py`.
+2. Install locally (dev machine / CI):
+   `python -m venv .venv && source .venv/bin/activate && pip install supabase-py sentence-transformers tqdm`
+3. Script behavior:
+
+   * Query `documents` rows where `embedding IS NULL`.
+   * Batch 256 chunks, compute embeddings with `sentence-transformers`.
+   * Write back to `documents.embedding` (pgvector field).
+   * Log progress and errors to `logs/embedding_run_YYYYMMDD.json`.
+4. Create HNSW index:
+
+```sql
+-- after embeddings populated
+CREATE INDEX IF NOT EXISTS idx_documents_embedding ON documents USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+-- Or for pgvector's ivfflat/hnsw depending on Supabase support:
+CREATE INDEX IF NOT EXISTS idx_documents_embedding_hnsw ON documents USING hnsw (embedding);
+```
+
+### Example embedding code snippet (Python)
+
+```python
+from sentence_transformers import SentenceTransformer
+from supabase import create_client
+model = SentenceTransformer('all-MiniLM-L6-v2')
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+docs = supabase.table('documents').select('id,content_chunk').eq('embedding', None).limit(256).execute().data
+texts = [d['content_chunk'] for d in docs]
+embs = model.encode(texts, show_progress_bar=True).tolist()
+# then update each row using update where id=...
+```
+
+### Acceptance
+
+* `documents` embedding column populated for first 10k rows.
+* Index exists and nearest-neighbor query returns relevant chunks for test queries (manual check 8/10).
+
+---
+
+## SPRINT 2 — RAG API + RECOMMENDER UI (2 weeks)
+
+Goal: implement `/api/ask` (RAG) and the 3-question recommender flow.
+
+### API design
+
+* `POST /api/ask` → input `{user_prompt, top_k, context:{strategy, country, capital}}` → returns `{answer_html, sources, tokens_used, raw_llm_response}`.
+* `POST /api/recommend` → input `{strategy, country, capital}` → returns top N brokers with evidence.
+
+### Implementation steps (copy/paste prompts for AI assistant)
+
+**A. RAG retrieval function**
+
+* File: `apps/next-app/lib/rag.js`
+* Behavior:
+
+  1. Accept `user_prompt`, `context`.
+  2. Create query embedding (same encoder).
+  3. Run `SELECT id, content_chunk, source_url, metadata, embedding <-> query_embedding as score FROM documents ORDER BY embedding <-> query_embedding LIMIT top_k;`
+  4. Return numbered evidence chunks.
+
+**B. /api/ask** skeleton (Next.js API)
+
+```js
+// apps/next-app/pages/api/ask.js
+import { getRetrievalChunks, callLLM } from '../../lib/rag';
+
+export default async function handler(req, res) {
+  const { user_prompt, context, top_k=6 } = req.body;
+  const chunks = await getRetrievalChunks(user_prompt, top_k);
+  const prompt = buildRagPrompt(user_prompt, context, chunks);
+  const llmResp = await callLLM(prompt); // LLM could be local or OpenAI
+  return res.json({ answer_html: llmResp.html, sources: chunks.map((c,i)=>({...c, num:i+1})), raw: llmResp });
+}
+```
+
+**C. /api/recommend** scoring logic (pseudocode)
+
+* `score = regulation_score*0.25 + strategy_fit*0.35 + cost_score*0.15 + sentiment*0.15 + support*0.10`
+* Provide `scoreBrokerForUser(user_params)` and SQL snippet to filter by `country`:
+
+```sql
+SELECT b.*, ...,
+  -- pseudo scoring components from precomputed fields
+FROM brokers b
+WHERE NOT (b.country_restrictions @> to_jsonb('["<country>"]'::text[]))
+ORDER BY computed_score DESC
+LIMIT 10;
+```
+
+**D. Frontend**
+
+* Implement 3-question widget (Strategy, Capital Range, Country). On submit call `/api/recommend`. Show top 3 with "Show evidence" modal.
+
+### LLM prompt template (for `callLLM`)
+
+```
+System: You are Brokeranalysis assistant. Be concise, show sources and their IDs.
+Context: {strategy:..., country:..., capital:...}
+Evidence: [1] <para text> (url)
+[2] ...
+Instruction:
+- Output 3 parts:
+  1) TL;DR (1-2 sentences)
+  2) 3 bullets explaining why
+  3) Evidence list: [1] url, date, excerpt
+If you are uncertain, say "I don't have enough evidence."
+```
+
+### Location integration
+
+* Use user’s `country` detected client-side (already present): pass to `/api/recommend`.
+* Filter brokers with `country_restrictions` and prefer brokers regulated in that country. Also use `primary_regulator` mapping.
+
+### Acceptance
+
+* `/api/recommend` returns top 5 in <500ms (cached).
+* Evidence modal shows original paragraphs with links.
+
+---
+
+## SPRINT 3 — PROGRAMMATIC SEO (2 weeks)
+
+Goal: generate programmatic pages (strategy × country) with unique intros and FAQ (100–500 pages initially).
+
+### Steps (copy/paste)
+
+1. Create `scripts/generate_program_pages.py`.
+2. Input CSV: `infra/program_params.csv` with columns `strategy,country`.
+3. For each row:
+
+   * Run `scoreBrokerForUser` → get top 5 brokers.
+   * Retrieve evidence chunks.
+   * Use LLM to create unique intro (150–300 words) and 3-Q/A FAQ.
+   * Save HTML to `program_pages` table: `slug = best-brokers-for-{strategy}-in-{country}`.
+4. Insert sitemap entries and mark `status=draft`.
+5. Manually spot-check 20 pages for quality; only publish after review.
+
+### Programmatic page SEO rules
+
+* First visible text: unique human/RAG verified intro (no thin template).
+* Include JSON-LD: `FAQPage`, `Article`, `BreadcrumbList`.
+* Show visible evidence citation lines: `Source: Brokeranalysis review (date)`.
+
+### Acceptance
+
+* 200 programmatic pages generated, 0/20 flagged as thin on spot-check.
+
+---
+
+## SPRINT 4 — MONITORING, TRUST SCORE & DASHBOARD (2–3 weeks)
+
+Goal: add watchlist crawler, trust score calculations, basic dashboard.
+
+### Tasks (copy/paste)
+
+1. Create `scripts/monitor_brokers.py` that:
+
+   * For each broker, fetch T\&C/disclaimer/support page (or stored raw\_html) daily.
+   * Compute fuzzy diff vs last version (difflib or fuzzywuzzy).
+   * If change > threshold, insert into `watchlist_changes`.
+   * If rights/regulator removed or big negative sentiment spike, send webhook to admin (use Supabase functions or IFTTT webhook).
+2. Trust Score:
+
+   * Implement `trust_score` as weighted function (regulation, complaint\_count, age, sentiment).
+   * Store daily snapshots to allow time series visualization.
+3. Dashboard:
+
+   * Page: `/dashboard` (admin only) with charts (trust score over time, alerts list).
+   * Use PostHog (free) or Vercel Analytics for site metrics.
+
+### Acceptance
+
+* Monitor detects sample change and creates `watchlist_changes` entry.
+* Dashboard shows trust score trend for a broker.
+
+---
+
+## OPS & SEO LAUNCH (ongoing)
+
+* Deploy on Vercel free: link GitHub repo, add env vars: `SUPABASE_URL`, `SUPABASE_KEY`, `EMBED_MODEL`, `LLM_API_KEY` (if using provider).
+* Add `sitemap.xml` generator endpoint: `/api/sitemap.xml` that reads `program_pages` and `brokers`.
+* Register site in Google Search Console, submit sitemap.
+* Configure Cloudflare (optional free tier) in front of Vercel for DNS + WAF.
+
+---
+
+# Important files to add to repo (copy/paste)
+
+```
+/infra/001_create_rag_tables.sql
+/scripts/chunk_and_upload.py
+/scripts/generate_embeddings.py
+/scripts/generate_program_pages.py
+/apps/next-app/pages/api/ask.js
+/apps/next-app/pages/api/recommend.js
+/apps/next-app/components/RecommenderWidget.jsx
+/apps/next-app/lib/rag.js
+/docs/prompts.md  <-- store the exact LLM prompts
+/docs/acceptance_criteria.md
+```
+
+---
+
+# Practical prompts to feed your AI coding assistant (ready-to-run)
+
+Use these exact strings (shortened) when asking the coding assistant. I’ll give three highest priority prompts now — paste into your assistant:
+
+### 1) ETL + canonicalize
+
+```
+Repo path: /scripts
+Task: canonicalize broker names and create canonical_brokers.csv
+Input: Supabase 'brokers' table + raw_html bucket
+Output: canonical_brokers.csv and SQL to update brokers table with canonical_slug
+Requirements: use rapidfuzz, output JSON report with counts+errors, commit script and report.
+```
+
+### 2) Embeddings generation
+
+```
+Repo path: /scripts
+Task: generate embeddings for documents.content_chunk using sentence-transformers (all-MiniLM-L6-v2).
+Add CLI: `python generate_embeddings.py --batch 256`
+Behavior: update supabase table 'documents.embedding' and log failed rows.
+Output: node/python script + small test run on 100 rows.
+```
+
+### 3) RAG API + Recommender
+
+```
+Repo: apps/next-app
+Task: implement /api/ask and /api/recommend.
+- /api/ask does: embed query, nearest neighbor retrieval from Supabase, builds prompt with numbered evidence, calls LLM, returns JSON.
+- /api/recommend does: score brokers using defined weights and returns top 5 with evidence chunks.
+Deliverable: code + Postman collection + unit tests mocking DB.
+```
+
+---
+
+# Example scoring function (copy/paste pseudocode)
+
+```js
+function scoreBrokerForUser(broker, user) {
+  const regulation_score = broker.primary_regulator === user.country ? 1.0 : (isTopRegulator(broker.primary_regulator) ? 0.8 : 0.4);
+  const strategy_fit = computeStrategyFit(broker.tags, user.strategy); // 0..1
+  const cost = normalizeCost(broker.average_spread, user.strategy); // 0..1 inverse
+  const sentiment = clamp(broker.recent_sentiment, 0, 1);
+  const support = clamp(broker.support_rating || 0.5, 0, 1);
+
+  return regulation_score*0.25 + strategy_fit*0.35 + cost*0.15 + sentiment*0.15 + support*0.10;
+}
+```
+
+---
+
+# SEO & content guardrails (must do)
+
+* Pre-render programmatic pages via Next.js ISR, not pure CSR.
+* Add schema JSON-LD for all review/profile pages.
+* Always include **visible evidence** under AI outputs.
+* Mark low-quality program pages `noindex` until manually reviewed.
+* Use canonical tags.
+
+---
+
+# Testing & acceptance checklist (copy/paste)
+
+1. Data: `documents` contains >1k chunks; embeddings set for those rows.
+2. RAG: given 5 sample questions, `/api/ask` returns relevant evidence and sources for 4/5.
+3. Recommender: run 10 test personas; human judge marks top-3 reasonable in 7/10.
+4. Programmatic pages: 200 pages generated, spot-check 20 pages for uniqueness.
+5. SEO: sitemap reachable at `/sitemap.xml`; sample programmatic page is pre-rendered HTML with JSON-LD.
+6. Monitoring: sample broker change creates alert entry.
+
+---
+
+# How to prioritize next 48 hours (quick wins)
+
+1. Run SPRINT 0 canonicalization & commit `canonical_brokers.csv`.
+2. Create and run `generate_embeddings.py` for 1000 rows to validate pipeline.
+3. Implement `/api/recommend` returning static sample results (wireframe) so frontend widget can be wired.
+
+If you want, I’ll produce — right now in this reply — **(A)** the full ETL script + the exact SQL migration, **(B)** a ready-to-run `generate_embeddings.py` (Python) that uses `sentence-transformers`, **or** **(C)** the /api/ask and /api/recommend Next.js route skeleton + unit-test stubs. Pick **A**, **B**, or **C** and I’ll paste the code and exact command lines you can run immediately. (No need to confirm — just pick the letter).

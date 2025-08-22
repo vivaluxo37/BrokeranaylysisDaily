@@ -1,0 +1,36 @@
+{
+  "name": "Test Runner",
+  "description": "Automatically run tests and type checking when code files are saved",
+  "trigger": {
+    "type": "file_save",
+    "patterns": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.js",
+      "**/*.jsx"
+    ],
+    "exclude": [
+      "**/*.test.*",
+      "**/*.spec.*",
+      "**/node_modules/**",
+      "**/.next/**"
+    ]
+  },
+  "actions": [
+    {
+      "type": "shell_command",
+      "command": "npm run lint",
+      "description": "Run ESLint to check for code quality issues"
+    },
+    {
+      "type": "shell_command", 
+      "command": "npx tsc --noEmit",
+      "description": "Run TypeScript compiler to check for type errors"
+    }
+  ],
+  "settings": {
+    "debounce": 2000,
+    "runInBackground": true,
+    "showNotifications": true
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "Component Generator",
+  "description": "Generate new React components with proper TypeScript interfaces and Tailwind styling",
+  "trigger": {
+    "type": "manual",
+    "label": "Generate Component",
+    "icon": "component"
+  },
+  "actions": [
+    {
+      "type": "agent_execution",
+      "prompt": "Create a new React component with the following requirements:\n\n1. Use TypeScript with proper interfaces\n2. Follow the project's component structure patterns\n3. Use 'use client' directive if interactive\n4. Implement proper Tailwind CSS styling\n5. Use Radix UI primitives if applicable\n6. Include proper imports using @/ path alias\n7. Follow the cn() utility pattern for conditional styling\n8. Add proper TypeScript types and interfaces\n\nComponent details:\n- Name: {componentName}\n- Type: {componentType}\n- Features: {features}\n- Location: components/{folder}/\n\nGenerate the component file and any necessary type definitions.",
+      "inputs": [
+        {
+          "name": "componentName",
+          "type": "text",
+          "label": "Component Name (PascalCase)",
+          "required": true,
+          "placeholder": "MyComponent"
+        },
+        {
+          "name": "componentType",
+          "type": "select",
+          "label": "Component Type",
+          "options": [
+            "UI Component",
+            "Feature Component", 
+            "Layout Component",
+            "Page Component"
+          ],
+          "required": true
+        },
+        {
+          "name": "features",
+          "type": "textarea",
+          "label": "Component Features/Props",
+          "placeholder": "Describe the component's functionality, props, and behavior"
+        },
+        {
+          "name": "folder",
+          "type": "text",
+          "label": "Folder (optional)",
+          "placeholder": "ui, navigation, etc."
+        }
+      ]
+    }
+  ]
+}

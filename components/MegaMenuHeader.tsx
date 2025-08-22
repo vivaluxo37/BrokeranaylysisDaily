@@ -2,16 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, AlignLeft, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavigationSection } from '@/lib/enums';
-import { mockQuery } from '@/lib/megaMenuMockData';
+import { DataService } from '@/lib/services/DataService';
 import MegaMenuDropdown from './navigation/MegaMenuDropdown';
 import MobileNavigation from './navigation/MobileNavigation';
 import HeaderSearch from './navigation/HeaderSearch';
+
+interface NavigationData {
+  countries: Array<{ name: string; code: string; brokerCount: number }>;
+  platforms: Array<{ name: string; brokerCount: number }>;
+  accountTypes: Array<{ name: string; brokerCount: number }>;
+  topBrokers: Array<{ name: string; rating: number; trustScore: number }>;
+  recentAnalysis: Array<{ title: string; timestamp: string; category: string }>;
+  educationResources: Array<{ title: string; type: string; readTime?: string; pages?: number }>;
+  propFirms: Array<{ name: string; rating: number; fundingAmount: string }>;
+  popularComparisons: Array<{ broker1: string; broker2: string; views: number }>;
+}
 
 export const MegaMenuHeader: React.FC = () => {
   const [activeSection, setActiveSection] = useState<NavigationSection | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [navigationData, setNavigationData] = useState<NavigationData>({
+    countries: [],
+    platforms: [],
+    accountTypes: [],
+    topBrokers: [],
+    recentAnalysis: [],
+    educationResources: [],
+    propFirms: [],
+    popularComparisons: []
+  });
+  const [loading, setLoading] = useState(true);
 
   const navigationItems = [
     { name: 'Brokers', section: NavigationSection.BROKERS },
@@ -20,6 +43,73 @@ export const MegaMenuHeader: React.FC = () => {
     { name: 'Education', section: NavigationSection.EDUCATION },
     { name: 'About', section: NavigationSection.ABOUT }
   ];
+
+  // Fetch navigation data
+  useEffect(() => {
+    const fetchNavigationData = async () => {
+      try {
+        // Sample navigation data for Brokeranalysis platform
+        const data: NavigationData = {
+          countries: [
+            { name: 'United States', code: 'US', brokerCount: 45 },
+            { name: 'United Kingdom', code: 'GB', brokerCount: 38 },
+            { name: 'Australia', code: 'AU', brokerCount: 22 },
+            { name: 'Philippines', code: 'PH', brokerCount: 18 },
+            { name: 'Canada', code: 'CA', brokerCount: 15 },
+            { name: 'Germany', code: 'DE', brokerCount: 28 }
+          ],
+          platforms: [
+            { name: 'MT4', brokerCount: 156 },
+            { name: 'MT5', brokerCount: 142 },
+            { name: 'Crypto Trading', brokerCount: 89 },
+            { name: 'Demo Accounts', brokerCount: 203 },
+            { name: 'Copy Trading', brokerCount: 67 },
+            { name: 'Gold Trading', brokerCount: 178 }
+          ],
+          accountTypes: [
+            { name: 'ECN', brokerCount: 78 },
+            { name: 'Islamic/Halal', brokerCount: 45 },
+            { name: 'Scalping', brokerCount: 92 },
+            { name: 'High Leverage', brokerCount: 134 },
+            { name: 'Low Commission', brokerCount: 87 }
+          ],
+          topBrokers: [
+            { name: 'XM', rating: 4.8, trustScore: 92 },
+            { name: 'Exness', rating: 4.7, trustScore: 89 },
+            { name: 'FP Markets', rating: 4.6, trustScore: 88 },
+            { name: 'eToro', rating: 4.5, trustScore: 85 }
+          ],
+          recentAnalysis: [
+            { title: 'EUR/USD Weekly Outlook', timestamp: '2024-01-15T10:00:00Z', category: 'Technical Analysis' },
+            { title: 'Gold Price Forecast', timestamp: '2024-01-15T08:30:00Z', category: 'Commodity Analysis' },
+            { title: 'Bitcoin Technical Update', timestamp: '2024-01-14T16:45:00Z', category: 'Crypto Analysis' }
+          ],
+          educationResources: [
+            { title: 'Beginner Trading Guide', type: 'Article', readTime: '15 min' },
+            { title: 'Risk Management Strategies', type: 'Guide', readTime: '25 min' },
+            { title: 'Market Psychology', type: 'eBook', pages: 45 }
+          ],
+          propFirms: [
+            { name: 'FTMO', rating: 4.6, fundingAmount: '$200K' },
+            { name: 'MyForexFunds', rating: 4.4, fundingAmount: '$300K' },
+            { name: 'The5%ers', rating: 4.3, fundingAmount: '$100K' }
+          ],
+          popularComparisons: [
+            { broker1: 'XM', broker2: 'Exness', views: 15420 },
+            { broker1: 'eToro', broker2: 'Interactive Brokers', views: 12350 },
+            { broker1: 'FP Markets', broker2: 'IC Markets', views: 9870 }
+          ]
+        };
+        setNavigationData(data);
+      } catch (error) {
+        console.error('Error fetching navigation data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNavigationData();
+  }, []);
 
   // Close mega menu when clicking outside or pressing escape
   useEffect(() => {
@@ -31,19 +121,36 @@ export const MegaMenuHeader: React.FC = () => {
     };
 
     document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
   }, []);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
 
   const handleSectionHover = (section: NavigationSection) => {
     if (!isMobileMenuOpen) {
+      // Clear any existing timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        setTimeoutId(null);
+      }
       setActiveSection(section);
     }
   };
 
   const handleSectionLeave = () => {
     if (!isMobileMenuOpen) {
-      // Add a small delay to prevent flickering when moving between nav and dropdown
-      setTimeout(() => setActiveSection(null), 100);
+      // Add a longer delay to keep submenu visible when hovering
+      const id = setTimeout(() => setActiveSection(null), 300);
+      setTimeoutId(id);
     }
   };
 
@@ -74,12 +181,8 @@ export const MegaMenuHeader: React.FC = () => {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-                <span className="text-white font-bold text-sm">B</span>
-              </div>
               <div>
                 <span className="text-xl font-bold text-white">Brokeranalysis</span>
-                <div className="text-xs text-white/60">Formerly DailyForex</div>
               </div>
             </div>
 
@@ -145,7 +248,16 @@ export const MegaMenuHeader: React.FC = () => {
 
       {/* Mega Menu Dropdown */}
       <div
-        onMouseEnter={() => activeSection && setActiveSection(activeSection)}
+        onMouseEnter={() => {
+          if (activeSection) {
+            // Clear any existing timeout when hovering over dropdown
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+              setTimeoutId(null);
+            }
+            setActiveSection(activeSection);
+          }
+        }}
         onMouseLeave={handleSectionLeave}
       >
         {activeSection && (
@@ -153,14 +265,14 @@ export const MegaMenuHeader: React.FC = () => {
             section={activeSection}
             isOpen={!!activeSection}
             onClose={() => setActiveSection(null)}
-            countries={mockQuery.countries}
-            platforms={mockQuery.platforms}
-            accountTypes={mockQuery.accountTypes}
-            topBrokers={mockQuery.topBrokers}
-            recentAnalysis={mockQuery.recentAnalysis}
-            educationResources={mockQuery.educationResources}
-            propFirms={mockQuery.propFirms}
-            popularComparisons={mockQuery.popularComparisons}
+            countries={navigationData.countries}
+            platforms={navigationData.platforms}
+            accountTypes={navigationData.accountTypes}
+            topBrokers={navigationData.topBrokers}
+            recentAnalysis={navigationData.recentAnalysis}
+            educationResources={navigationData.educationResources}
+            propFirms={navigationData.propFirms}
+            popularComparisons={navigationData.popularComparisons}
           />
         )}
       </div>
@@ -171,14 +283,14 @@ export const MegaMenuHeader: React.FC = () => {
         onClose={() => setIsMobileMenuOpen(false)}
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
-        countries={mockQuery.countries}
-        platforms={mockQuery.platforms}
-        accountTypes={mockQuery.accountTypes}
-        topBrokers={mockQuery.topBrokers}
-        recentAnalysis={mockQuery.recentAnalysis}
-        educationResources={mockQuery.educationResources}
-        propFirms={mockQuery.propFirms}
-        popularComparisons={mockQuery.popularComparisons}
+        countries={navigationData.countries}
+        platforms={navigationData.platforms}
+        accountTypes={navigationData.accountTypes}
+        topBrokers={navigationData.topBrokers}
+        recentAnalysis={navigationData.recentAnalysis}
+        educationResources={navigationData.educationResources}
+        propFirms={navigationData.propFirms}
+        popularComparisons={navigationData.popularComparisons}
         onSignIn={handleSignIn}
         onGetAIMatch={handleGetAIMatch}
       />

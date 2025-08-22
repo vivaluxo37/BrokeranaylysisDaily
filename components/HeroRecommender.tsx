@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Bot, ExternalLink, ShieldCheck } from 'lucide-react';
+import { useLocationContext } from '@/lib/contexts/LocationContext';
 import { 
   TradingStrategy, 
   CapitalRange, 
@@ -24,6 +25,8 @@ interface HeroRecommenderProps {
 }
 
 export const HeroRecommender: React.FC<HeroRecommenderProps> = ({ onResultsGenerated }) => {
+  const { location } = useLocationContext();
+  
   const [formData, setFormData] = useState({
     strategy: null as TradingStrategy | null,
     capitalRange: null as CapitalRange | null,
@@ -31,6 +34,13 @@ export const HeroRecommender: React.FC<HeroRecommenderProps> = ({ onResultsGener
     latencyNeed: null as LatencyNeed | null,
     country: 'US'
   });
+
+  // Update country when location is detected
+  useEffect(() => {
+    if (location?.country) {
+      setFormData(prev => ({ ...prev, country: location.country }));
+    }
+  }, [location]);
 
   const [results, setResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -131,12 +141,19 @@ export const HeroRecommender: React.FC<HeroRecommenderProps> = ({ onResultsGener
 
               {/* Country */}
               <div className="form-field-group">
-                <Label className="form-label">Country</Label>
+                <Label className="form-label">
+                  Country
+                  {location?.country && (
+                    <span className="text-xs text-green-400 ml-2">
+                      ✓ Auto-detected
+                    </span>
+                  )}
+                </Label>
                 <Input 
                   value={formData.country}
                   onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value }))}
                   className="form-input"
-                  placeholder="Auto-detected: US"
+                  placeholder={location?.country ? `Auto-detected: ${location.country}` : "Enter your country"}
                 />
               </div>
             </div>

@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { LayoutGrid, AlertTriangle, TrendingUp, Clock } from 'lucide-react';
-import { mockQuery } from '@/app/homepageMockData';
+import { DataService } from '@/lib/services/dataService';
+
+interface Alert {
+  id: string;
+  type: string;
+  title: string;
+  timestamp: Date;
+  severity: 'low' | 'medium' | 'high';
+}
 
 interface AlertTileProps {
   id: string;
@@ -60,6 +68,63 @@ const AlertTile: React.FC<AlertTileProps> = ({ title, timestamp, severity }) => 
 };
 
 export const DashboardTeaser: React.FC = () => {
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAlerts = async () => {
+      try {
+        // Sample dashboard alerts for Brokeranalysis
+        const sampleAlerts: Alert[] = [
+          {
+            id: '1',
+            type: 'regulatory',
+            title: 'CFTC issues new guidance on cryptocurrency derivatives trading for retail clients',
+            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+            severity: 'high'
+          },
+          {
+            id: '2',
+            type: 'spread',
+            title: 'EUR/USD spreads increased by 40% across major brokers during London session',
+            timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+            severity: 'medium'
+          },
+          {
+            id: '3',
+            type: 'platform',
+            title: 'MetaTrader 5 experiencing intermittent connection issues - multiple brokers affected',
+            timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+            severity: 'medium'
+          },
+          {
+            id: '4',
+            type: 'broker',
+            title: 'XM Global updates terms of service - changes to leverage requirements',
+            timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+            severity: 'low'
+          },
+          {
+            id: '5',
+            type: 'market',
+            title: 'High volatility detected in GBP pairs following Bank of England announcement',
+            timestamp: new Date(Date.now() - 18 * 60 * 60 * 1000), // 18 hours ago
+            severity: 'medium'
+          }
+        ];
+        
+        setAlerts(sampleAlerts);
+      } catch (error) {
+        console.error('Error fetching alerts:', error);
+        setAlerts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAlerts();
+  }, []);
+
   return (
     <section className="section-spacing">
       <div className="max-w-7xl mx-auto px-6">
@@ -79,9 +144,29 @@ export const DashboardTeaser: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4 mb-6">
-              {mockQuery.dashboardAlerts.map((alert) => (
-                <AlertTile key={alert.id} {...alert} />
-              ))}
+              {loading ? (
+                // Loading skeleton
+                Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className="alert-tile animate-pulse">
+                    <div className="flex items-start space-x-3">
+                      <div className="flex-shrink-0 mt-0.5">
+                        <div className="w-4 h-4 bg-white/20 rounded"></div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="w-3/4 h-4 bg-white/20 rounded mb-2"></div>
+                        <div className="flex items-center justify-between">
+                          <div className="w-16 h-5 bg-white/20 rounded"></div>
+                          <div className="w-12 h-3 bg-white/20 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                alerts.map((alert) => (
+                  <AlertTile key={alert.id} {...alert} />
+                ))
+              )}
             </div>
 
             <div className="bg-white/5 rounded-lg p-4 mb-6">

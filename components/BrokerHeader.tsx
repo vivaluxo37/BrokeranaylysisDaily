@@ -21,12 +21,8 @@ export const BrokerHeader: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-              <span className="text-white font-bold text-sm">B</span>
-            </div>
             <div>
               <span className="text-xl font-bold text-white">Brokeranalysis</span>
-              <div className="text-xs text-white/60">Formerly DailyForex</div>
             </div>
           </div>
 

@@ -1,12 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Check } from 'lucide-react';
-import { mockPricingPlans } from '@/app/modernLandingMockData';
+import { DataService } from '@/lib/services/DataService';
+
+interface PricingPlan {
+  id: string;
+  name: string;
+  price: number;
+  period: string;
+  icon: string;
+  features: string[];
+}
 
 export const PricingSection: React.FC = () => {
   const [isYearly, setIsYearly] = useState(true);
+  const [pricingPlans, setPricingPlans] = useState<PricingPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPricingPlans = async () => {
+      try {
+        // Sample pricing plans for Brokeranalysis platform
+        const plans: PricingPlan[] = [
+          {
+            id: "free",
+            name: "Free Trader",
+            price: 0,
+            period: "Forever",
+            icon: "📊",
+            features: [
+              "Basic broker comparisons",
+              "Trust score access",
+              "Educational content",
+              "Community forum access",
+              "Email support"
+            ]
+          },
+          {
+            id: "pro",
+            name: "Pro Trader",
+            price: isYearly ? 99 : 12,
+            period: isYearly ? "Per Year" : "Per Month",
+            icon: "🚀",
+            features: [
+              "Advanced broker analytics",
+              "Real-time market data",
+              "Custom alerts & notifications",
+              "Portfolio tracking",
+              "Priority support",
+              "API access",
+              "Advanced filtering"
+            ]
+          },
+          {
+            id: "enterprise",
+            name: "Enterprise",
+            price: isYearly ? 499 : 59,
+            period: isYearly ? "Per Year" : "Per Month",
+            icon: "⭐",
+            features: [
+              "White-label solutions",
+              "Custom integrations",
+              "Dedicated account manager",
+              "Advanced reporting",
+              "Multi-user management",
+              "SLA guarantee",
+              "Custom development"
+            ]
+          }
+        ];
+        setPricingPlans(plans);
+      } catch (error) {
+        console.error('Error fetching pricing plans:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPricingPlans();
+  }, [isYearly]);
 
   return (
     <section className="section-spacing" id="pricing">
@@ -17,10 +91,10 @@ export const PricingSection: React.FC = () => {
             <span className="text-sm text-white/80">Pricing for you</span>
           </div>
           <h2 className="text-heading-lg text-white mb-4">
-            Simple and transparent Pricing
+            Choose Your Trading Plan
           </h2>
           <p className="text-body text-white/70 mb-8">
-            Choose a plan that fits your business needs and budget.
+            Get the tools and insights you need to make informed trading decisions.
           </p>
 
           {/* Pricing Toggle */}
@@ -41,7 +115,28 @@ export const PricingSection: React.FC = () => {
 
         {/* Pricing Cards */}
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {mockPricingPlans.map((plan, index) => (
+          {loading ? (
+            // Loading skeleton
+            Array.from({ length: 3 }).map((_, index) => (
+              <Card key={index} className="modern-card-hover animate-pulse">
+                <CardHeader className="text-center">
+                  <div className="w-16 h-16 bg-white/10 rounded-full mx-auto mb-4"></div>
+                  <div className="h-6 bg-white/10 rounded mb-4"></div>
+                  <div className="h-8 bg-white/10 rounded mb-2"></div>
+                  <div className="h-4 bg-white/10 rounded"></div>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-10 bg-white/10 rounded mb-6"></div>
+                  <div className="space-y-3">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <div key={i} className="h-4 bg-white/10 rounded"></div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          ) : (
+            pricingPlans.map((plan, index) => (
             <Card 
               key={plan.id} 
               className={`modern-card-hover relative ${
@@ -90,7 +185,8 @@ export const PricingSection: React.FC = () => {
                 </div>
               </CardContent>
             </Card>
-          ))}
+          ))
+          )}
         </div>
       </div>
     </section>

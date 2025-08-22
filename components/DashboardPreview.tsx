@@ -1,12 +1,90 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Bell, TrendingUp, AlertTriangle, Info, ExternalLink } from 'lucide-react';
-import { mockQuery } from '@/app/brokerAnalysisHomepageMockData';
+import { DataService } from '@/lib/services/dataService';
+
+interface Alert {
+  id: string;
+  broker: string;
+  message: string;
+  severity: 'info' | 'warning' | 'error';
+  date: string;
+}
+
+interface WatchlistItem {
+  id: string;
+  broker_name: string;
+  trust_score: number;
+  status: string;
+}
 
 export const DashboardPreview: React.FC = () => {
-  const alerts = mockQuery.sampleAlerts;
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [watchlist, setWatchlist] = useState<WatchlistItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        const data = await DataService.getDashboardData();
+        
+        // Sample alerts data until we have a real alerts system
+        const sampleAlerts: Alert[] = [
+          {
+            id: '1',
+            broker: 'TradePro Elite',
+            message: 'Spread reduced on EUR/USD to 0.8 pips',
+            severity: 'info',
+            date: '2 hours ago'
+          },
+          {
+            id: '2',
+            broker: 'CryptoEdge Pro',
+            message: 'New regulation compliance update',
+            severity: 'warning',
+            date: '1 day ago'
+          },
+          {
+            id: '3',
+            broker: 'ForexMaster',
+            message: 'Platform maintenance scheduled',
+            severity: 'info',
+            date: '3 days ago'
+          }
+        ];
+        
+        // Sample watchlist data
+        const sampleWatchlist: WatchlistItem[] = [
+          {
+            id: '1',
+            broker_name: 'TradePro Elite',
+            trust_score: 91,
+            status: 'No changes'
+          },
+          {
+            id: '2',
+            broker_name: 'CryptoEdge Pro',
+            trust_score: 88,
+            status: 'Spread alert'
+          }
+        ];
+        
+        setAlerts(sampleAlerts);
+        setWatchlist(sampleWatchlist);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        // Set fallback data
+        setAlerts([]);
+        setWatchlist([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   const getAlertIcon = (severity: string) => {
     switch (severity) {
@@ -53,20 +131,38 @@ export const DashboardPreview: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {alerts.map((alert) => (
-                    <div key={alert.id} className={`p-3 rounded-lg ${getAlertColor(alert.severity)}`}>
-                      <div className="flex items-start space-x-3">
-                        {getAlertIcon(alert.severity)}
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="font-medium text-sm">{alert.broker}</span>
-                            <span className="text-xs opacity-80">{alert.date}</span>
+                  {loading ? (
+                    // Loading skeleton
+                    Array.from({ length: 3 }).map((_, index) => (
+                      <div key={index} className="p-3 rounded-lg bg-white/5 border border-white/10 animate-pulse">
+                        <div className="flex items-start space-x-3">
+                          <div className="w-4 h-4 bg-white/20 rounded"></div>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="w-20 h-4 bg-white/20 rounded"></div>
+                              <div className="w-16 h-3 bg-white/20 rounded"></div>
+                            </div>
+                            <div className="w-full h-3 bg-white/20 rounded"></div>
                           </div>
-                          <p className="text-sm opacity-90">{alert.message}</p>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    alerts.map((alert) => (
+                      <div key={alert.id} className={`p-3 rounded-lg ${getAlertColor(alert.severity)}`}>
+                        <div className="flex items-start space-x-3">
+                          {getAlertIcon(alert.severity)}
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="font-medium text-sm">{alert.broker}</span>
+                              <span className="text-xs opacity-80">{alert.date}</span>
+                            </div>
+                            <p className="text-sm opacity-90">{alert.message}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
                 
                 <Button className="w-full mt-4 cta-secondary">
@@ -86,21 +182,37 @@ export const DashboardPreview: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
-                    <div>
-                      <div className="text-white font-medium">TradePro Elite</div>
-                      <div className="text-white/60 text-sm">Trust Score: 91 • No changes</div>
-                    </div>
-                    <Badge className="trust-score-excellent">91</Badge>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
-                    <div>
-                      <div className="text-white font-medium">CryptoEdge Pro</div>
-                      <div className="text-white/60 text-sm">Trust Score: 88 • Spread alert</div>
-                    </div>
-                    <Badge className="trust-score-good">88</Badge>
-                  </div>
+                  {loading ? (
+                    // Loading skeleton
+                    Array.from({ length: 2 }).map((_, index) => (
+                      <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10 animate-pulse">
+                        <div>
+                          <div className="w-24 h-4 bg-white/20 rounded mb-2"></div>
+                          <div className="w-32 h-3 bg-white/20 rounded"></div>
+                        </div>
+                        <div className="w-8 h-6 bg-white/20 rounded"></div>
+                      </div>
+                    ))
+                  ) : (
+                    watchlist.map((item) => {
+                      const getTrustScoreClass = (score: number) => {
+                        if (score >= 90) return 'trust-score-excellent';
+                        if (score >= 80) return 'trust-score-good';
+                        if (score >= 70) return 'trust-score-fair';
+                        return 'trust-score-poor';
+                      };
+                      
+                      return (
+                        <div key={item.id} className="flex items-center justify-between p-3 rounded-lg bg-white/5 border border-white/10">
+                          <div>
+                            <div className="text-white font-medium">{item.broker_name}</div>
+                            <div className="text-white/60 text-sm">Trust Score: {item.trust_score} • {item.status}</div>
+                          </div>
+                          <Badge className={getTrustScoreClass(item.trust_score)}>{item.trust_score}</Badge>
+                        </div>
+                      );
+                    })
+                  )}
                   
                   <div className="text-center py-4">
                     <Button variant="outline" className="text-white border-white/20 hover:bg-white/10">

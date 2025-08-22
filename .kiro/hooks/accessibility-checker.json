@@ -1,0 +1,27 @@
+{
+  "name": "Accessibility Checker",
+  "description": "Ensure components meet WCAG guidelines and accessibility standards",
+  "trigger": {
+    "type": "file_save",
+    "patterns": [
+      "components/**/*.tsx",
+      "app/**/*.tsx"
+    ],
+    "exclude": [
+      "**/*.test.*",
+      "**/*.spec.*"
+    ]
+  },
+  "actions": [
+    {
+      "type": "agent_execution",
+      "prompt": "Review the component for accessibility compliance:\n\n1. **WCAG 2.1 AA Compliance**:\n   - Check color contrast ratios for text and backgrounds\n   - Verify proper heading hierarchy (h1, h2, h3, etc.)\n   - Ensure interactive elements have sufficient size (44px minimum)\n\n2. **Keyboard Navigation**:\n   - Verify all interactive elements are keyboard accessible\n   - Check tab order and focus management\n   - Ensure custom components support keyboard events\n\n3. **Screen Reader Support**:\n   - Validate ARIA labels and descriptions\n   - Check for proper semantic HTML usage\n   - Ensure form elements have associated labels\n\n4. **Radix UI Integration**:\n   - Verify Radix components maintain accessibility features\n   - Check for proper ARIA attributes on custom wrappers\n\n5. **Broker Platform Specific**:\n   - Ensure financial data tables are screen reader friendly\n   - Verify trust score indicators are accessible\n   - Check broker comparison tools for keyboard navigation\n\n6. **Visual Indicators**:\n   - Ensure focus states are visible\n   - Check for sufficient visual feedback on interactions\n\nProvide specific fixes and improvements with code examples.",
+      "context": "current_file"
+    }
+  ],
+  "settings": {
+    "debounce": 2000,
+    "runInBackground": true,
+    "showNotifications": false
+  }
+}

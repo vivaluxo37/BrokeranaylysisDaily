@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Search, X } from 'lucide-react';
-import { Collapsible } from '@radix-ui/react-collapsible';
+import * as Collapsible from '@radix-ui/react-collapsible';
 import { NavigationSection } from '@/lib/enums';
 import { CountryData, PlatformData, AccountTypeData, BrokerData, AnalysisData, EducationResourceData, PropFirmData, ComparisonData } from '@/lib/types';
 import { Input } from '@/components/ui/input';

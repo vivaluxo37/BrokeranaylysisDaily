@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Mail, ExternalLink } from 'lucide-react';
-import { fetchWithMock } from '@/lib/fetchWithMock';
+import { DataService } from '@/lib/services/DataService';
 
 const footerSections = [
   {
@@ -74,18 +74,14 @@ export const Footer: React.FC = () => {
     setIsSubscribing(true);
 
     try {
-      const response = await fetchWithMock('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSubscribed(true);
-        setEmail('');
-      }
+      // Simulate newsletter subscription for Brokeranalysis platform
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // In a real implementation, this would call DataService.subscribeToNewsletter(email)
+      console.log('Newsletter subscription for:', email);
+      
+      setSubscribed(true);
+      setEmail('');
     } catch (error) {
       console.error('Subscription error:', error);
       setEmailError('Failed to subscribe. Please try again.');

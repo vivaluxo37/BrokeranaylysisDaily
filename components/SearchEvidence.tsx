@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, ExternalLink, Database } from 'lucide-react';
-import { mockEvidenceResults } from '@/app/brokerAnalysisHomepageMockData';
+import { DataService } from '@/lib/services/dataService';
 
 interface EvidenceResult {
   id: string;
@@ -25,12 +25,80 @@ export const SearchEvidence: React.FC = () => {
     
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setResults(mockEvidenceResults);
+    try {
+      // Sample evidence results for Brokeranalysis
+      const sampleResults: EvidenceResult[] = [
+        {
+          id: '1',
+          title: 'CFTC Regulatory Filing - XM Global Limited',
+          excerpt: 'Comprehensive regulatory analysis of XM Global Limited showing compliance with CFTC regulations and customer fund segregation practices.',
+          source: 'CFTC Official Records',
+          url: 'https://cftc.gov/filings/xm-global-2024',
+          date: '2024-01-15',
+          type: 'report'
+        },
+        {
+          id: '2',
+          title: 'Independent Review: IG Markets Trading Conditions',
+          excerpt: 'Detailed analysis of IG Markets spread competitiveness, execution quality, and customer service based on 6-month trading data.',
+          source: 'Brokeranalysis Research Team',
+          url: '/reviews/ig-markets-detailed-analysis',
+          date: '2024-01-10',
+          type: 'review'
+        },
+        {
+          id: '3',
+          title: 'FCA Warning Notice - Unauthorized Broker Operations',
+          excerpt: 'Financial Conduct Authority issues warning about unauthorized forex broker operations targeting UK residents.',
+          source: 'FCA Official Notices',
+          url: 'https://fca.org.uk/warnings/unauthorized-brokers-2024',
+          date: '2024-01-08',
+          type: 'report'
+        },
+        {
+          id: '4',
+          title: 'Market Analysis: EUR/USD Spread Comparison Across 15 Brokers',
+          excerpt: 'Comprehensive spread analysis showing real-time EUR/USD spreads across major forex brokers during London and New York sessions.',
+          source: 'Brokeranalysis Market Data',
+          url: '/research/eurusd-spread-analysis-2024',
+          date: '2024-01-05',
+          type: 'article'
+        },
+        {
+          id: '5',
+          title: 'Customer Complaint Analysis - OANDA Corporation',
+          excerpt: 'Analysis of customer complaints filed with NFA regarding OANDA Corporation, including resolution rates and common issues.',
+          source: 'NFA Customer Complaints Database',
+          url: 'https://nfa.futures.org/complaints/oanda-2024',
+          date: '2024-01-03',
+          type: 'report'
+        },
+        {
+          id: '6',
+          title: 'Trading Platform Performance Review: MetaTrader 5 vs cTrader',
+          excerpt: 'Performance comparison of MT5 and cTrader platforms including execution speed, slippage analysis, and feature comparison.',
+          source: 'Brokeranalysis Technical Team',
+          url: '/reviews/mt5-vs-ctrader-performance',
+          date: '2023-12-28',
+          type: 'review'
+        }
+      ];
+      
+      // Filter results based on query (simple text matching)
+      const filteredResults = sampleResults.filter(result => 
+        result.title.toLowerCase().includes(query.toLowerCase()) ||
+        result.excerpt.toLowerCase().includes(query.toLowerCase()) ||
+        result.source.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      setResults(filteredResults);
+    } catch (error) {
+      console.error('Error searching evidence:', error);
+      setResults([]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  };
+    }
+  };}]}}}
 
   const getTypeColor = (type: string) => {
     switch (type) {

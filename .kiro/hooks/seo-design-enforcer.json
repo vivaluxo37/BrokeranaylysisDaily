@@ -1,0 +1,31 @@
+{
+  "name": "SEO & Design Standards Enforcer",
+  "description": "Automatically enforce SEO optimization, design consistency, and AI crawler optimization for all new pages and features",
+  "trigger": {
+    "type": "file_save",
+    "patterns": [
+      "app/**/page.tsx",
+      "app/**/layout.tsx",
+      "components/**/*.tsx",
+      "app/**/*.tsx"
+    ],
+    "exclude": [
+      "**/*.test.*",
+      "**/*.spec.*",
+      "**/node_modules/**",
+      "**/.next/**"
+    ]
+  },
+  "actions": [
+    {
+      "type": "agent_execution",
+      "prompt": "Enforce comprehensive SEO and design standards for this Brokeranalysis platform file:\n\n## SEO COMPLIANCE AUDIT\n\n### 1. Metadata Requirements\n- ✅ Check if page has complete metadata with title, description, keywords\n- ✅ Verify Open Graph tags for social sharing\n- ✅ Ensure Twitter Card implementation\n- ✅ Validate canonical URL structure\n- ✅ Check meta description length (150-160 characters)\n- ✅ Ensure title includes '— Brokeranalysis' suffix\n\n### 2. Structured Data Validation\n- ✅ Implement appropriate JSON-LD schema (FinancialService, FAQPage, Article)\n- ✅ Include broker-specific structured data where relevant\n- ✅ Validate schema markup syntax\n- ✅ Ensure all required schema properties are present\n\n### 3. Content SEO Optimization\n- ✅ Verify proper H1-H6 heading hierarchy\n- ✅ Check keyword placement and density (1-2%)\n- ✅ Ensure minimum 800 words for informational pages\n- ✅ Validate internal linking to broker pages and comparisons\n- ✅ Check for external links to authoritative financial sources\n\n### 4. Technical SEO\n- ✅ Verify URL structure follows kebab-case convention\n- ✅ Check URL length (<60 characters when possible)\n- ✅ Ensure proper canonical URL implementation\n- ✅ Validate image alt text and optimization\n\n## DESIGN SYSTEM COMPLIANCE\n\n### 5. Typography Standards\n- ✅ Use predefined typography classes (.text-heading-*, .text-body-*)\n- ✅ Ensure proper text hierarchy and readability\n- ✅ Check for consistent font usage (Inter/Space Grotesk)\n- ✅ Validate text contrast ratios (minimum 4.5:1)\n\n### 6. Color System Adherence\n- ✅ Use defined CSS variables and gradient classes\n- ✅ Implement proper trust score color coding\n- ✅ Ensure dark theme compatibility\n- ✅ Validate brand color consistency\n\n### 7. Component Standards\n- ✅ Use glass morphism card classes (.glass-card, .modern-card)\n- ✅ Implement proper button variants (.cta-primary, .btn-glass)\n- ✅ Include trust score components where relevant\n- ✅ Apply consistent animation classes (.floating-card, .pulse-glow)\n\n### 8. Technical Implementation\n- ✅ Verify proper TypeScript interfaces\n- ✅ Check 'use client' directive usage (only when needed)\n- ✅ Ensure proper import structure with @/ aliases\n- ✅ Validate cn() utility usage for conditional styling\n\n## PERFORMANCE & ACCESSIBILITY\n\n### 9. Performance Optimization\n- ✅ Check Core Web Vitals compliance (LCP <2.5s, FID <100ms, CLS <0.1)\n- ✅ Verify Next.js Image component usage with WebP\n- ✅ Ensure proper code splitting and dynamic imports\n- ✅ Check for bundle size optimization opportunities\n\n### 10. Accessibility Standards\n- ✅ Validate WCAG 2.1 AA compliance\n- ✅ Check keyboard navigation support\n- ✅ Ensure proper ARIA labels and semantic HTML\n- ✅ Verify focus management and indicators\n\n## AI & SEARCH ENGINE OPTIMIZATION\n\n### 11. AI Crawler Optimization\n- ✅ Use semantic HTML5 elements\n- ✅ Implement clear information hierarchy\n- ✅ Include rich snippets and schema markup\n- ✅ Ensure high-quality, informative content\n- ✅ Validate strong internal linking structure\n\n### 12. Search Engine Features\n- ✅ Structure content for featured snippets\n- ✅ Include location-specific content where relevant\n- ✅ Optimize for voice search and conversational queries\n- ✅ Ensure mobile-first design approach\n\n## BROKER-SPECIFIC REQUIREMENTS\n\n### 13. Financial Content Standards\n- ✅ Include trust scores with methodology explanation\n- ✅ Support all claims with credible sources\n- ✅ Implement structured data for broker comparisons\n- ✅ Include regulatory information and disclaimers\n- ✅ Ensure content accuracy and regular updates\n\n### 14. Compliance & Legal\n- ✅ Include appropriate risk disclaimers\n- ✅ Follow financial advertising regulations\n- ✅ Ensure transparency in methodologies\n- ✅ Validate compliance with financial content standards\n\n## QUALITY ASSURANCE\n\n### 15. Pre-Launch Checklist Validation\n- ✅ Complete metadata optimization\n- ✅ Structured data implementation\n- ✅ Internal linking strategy\n- ✅ Image optimization with alt text\n- ✅ Mobile responsiveness\n- ✅ Accessibility compliance\n- ✅ Performance metrics\n\n## ACTIONABLE RECOMMENDATIONS\n\nProvide specific, actionable fixes and improvements:\n1. **Critical Issues**: Must be fixed before deployment\n2. **Important Improvements**: Should be addressed for optimal performance\n3. **Enhancement Suggestions**: Nice-to-have optimizations\n4. **Code Examples**: Provide corrected code snippets\n5. **Resource Links**: Include relevant documentation links\n\nFocus on maintaining the professional, clean, modern aesthetic while ensuring maximum SEO effectiveness and AI crawler optimization. All recommendations should align with Brokeranalysis brand standards and financial services best practices.",
+      "context": "current_file"
+    }
+  ],
+  "settings": {
+    "debounce": 2500,
+    "runInBackground": true,
+    "showNotifications": true
+  }
+}

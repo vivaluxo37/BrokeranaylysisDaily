@@ -1,0 +1,28 @@
+{
+  "name": "Type Safety Enforcer",
+  "description": "Ensure strict TypeScript compliance and suggest type improvements",
+  "trigger": {
+    "type": "file_save",
+    "patterns": [
+      "**/*.ts",
+      "**/*.tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/node_modules/**",
+      "**/.next/**"
+    ]
+  },
+  "actions": [
+    {
+      "type": "agent_execution",
+      "prompt": "Review TypeScript implementation and enforce type safety:\n\n1. **Type Definitions**:\n   - Check for proper interface definitions\n   - Ensure all props have explicit types\n   - Verify return types on functions\n\n2. **Strict Mode Compliance**:\n   - Eliminate any 'any' types\n   - Add proper null/undefined handling\n   - Ensure strict function signatures\n\n3. **Component Types**:\n   - Verify React component prop interfaces\n   - Check for proper event handler types\n   - Ensure ref forwarding types are correct\n\n4. **Broker Platform Types**:\n   - Define proper types for broker data structures\n   - Ensure trust score types are well-defined\n   - Add types for location and user preference data\n\n5. **API Integration Types**:\n   - Check for proper request/response types\n   - Ensure error handling has typed exceptions\n   - Verify async function return types\n\n6. **Utility Function Types**:\n   - Review cn() function usage with proper types\n   - Check custom hook return types\n   - Ensure context provider types are complete\n\nProvide specific type improvements and fix any type errors.",
+      "context": "current_file"
+    }
+  ],
+  "settings": {
+    "debounce": 1500,
+    "runInBackground": true,
+    "showNotifications": false
+  }
+}

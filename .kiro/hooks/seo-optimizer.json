@@ -1,0 +1,24 @@
+{
+  "name": "SEO Optimizer",
+  "description": "Automatically optimize SEO metadata and structured data when layout or page files are modified",
+  "trigger": {
+    "type": "file_save",
+    "patterns": [
+      "**/layout.tsx",
+      "**/page.tsx",
+      "app/**/page.tsx"
+    ]
+  },
+  "actions": [
+    {
+      "type": "agent_execution",
+      "prompt": "Review and optimize the SEO implementation for this Brokeranalysis platform file:\n\n1. Check metadata completeness (title, description, keywords)\n2. Validate Open Graph tags for social sharing\n3. Ensure Twitter Card implementation\n4. Review structured data (JSON-LD) for broker/financial services\n5. Verify canonical URLs and sitemap references\n6. Check for broker-specific SEO opportunities\n7. Ensure mobile-friendly meta tags\n8. Validate accessibility attributes\n\nFocus on broker comparison and financial services SEO best practices. Make suggestions for improvements without breaking existing functionality.",
+      "context": "current_file"
+    }
+  ],
+  "settings": {
+    "debounce": 3000,
+    "runInBackground": false,
+    "showNotifications": true
+  }
+}

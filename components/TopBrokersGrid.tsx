@@ -1,30 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Star, ShieldCheck } from 'lucide-react';
-import { mockQuery } from '@/app/homepageMockData';
+import { BrokerService, formatBrokerForDisplay } from '@/lib/services/dataService';
+import type { Broker } from '@/lib/supabase';
 
 interface TopBrokerCardProps {
-  broker_slug: string;
-  name: string;
-  trust_score: number;
-  rating: number;
-  min_deposit: number;
-  platforms: string[];
-  sample_spread: string;
-  logo_url: string;
+  broker: Broker;
 }
 
-const TopBrokerCard: React.FC<TopBrokerCardProps> = ({
-  name,
-  trust_score,
-  rating,
-  min_deposit,
-  platforms,
-  sample_spread,
-  logo_url
-}) => {
+const TopBrokerCard: React.FC<TopBrokerCardProps> = ({ broker }) => {
+  const formattedBroker = formatBrokerForDisplay(broker);
   const getTrustScoreColor = (score: number) => {
     if (score >= 90) return 'trust-score-excellent';
     if (score >= 80) return 'trust-score-good';
@@ -38,28 +25,28 @@ const TopBrokerCard: React.FC<TopBrokerCardProps> = ({
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center space-x-3">
             <img 
-              src={logo_url} 
-              alt={`${name} logo`}
+              src={formattedBroker.logo} 
+              alt={`${formattedBroker.name} logo`}
               className="w-12 h-12 rounded-lg object-cover"
             />
             <div>
-              <h3 className="text-white font-semibold">{name}</h3>
+              <h3 className="text-white font-semibold">{formattedBroker.name}</h3>
               <div className="flex items-center space-x-1 mt-1">
                 <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span className="text-white/80 text-sm">{rating}</span>
+                <span className="text-white/80 text-sm">{formattedBroker.rating}</span>
               </div>
             </div>
           </div>
-          <Badge className={`trust-score-pill ${getTrustScoreColor(trust_score)}`}>
+          <Badge className={`trust-score-pill ${getTrustScoreColor(formattedBroker.trustScore)}`}>
             <ShieldCheck className="w-3 h-3 mr-1" />
-            {trust_score}
+            {formattedBroker.trustScore}
           </Badge>
         </div>
 
         <div className="space-y-2 mb-4 text-sm text-white/70">
-          <div>Min Deposit: <span className="text-white">${min_deposit}</span></div>
-          <div>Platforms: <span className="text-white">{platforms.join(', ')}</span></div>
-          <div>Sample Spread: <span className="text-white">{sample_spread}</span></div>
+          <div>Min Deposit: <span className="text-white">${formattedBroker.minDeposit}</span></div>
+          <div>Platforms: <span className="text-white">{formattedBroker.platforms.join(', ')}</span></div>
+          <div>Sample Spread: <span className="text-white">{formattedBroker.sampleSpread}</span></div>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
@@ -76,6 +63,48 @@ const TopBrokerCard: React.FC<TopBrokerCardProps> = ({
 };
 
 export const TopBrokersGrid: React.FC = () => {
+  const [brokers, setBrokers] = useState<Broker[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTopBrokers = async () => {
+      try {
+        const topBrokers = await BrokerService.getTopBrokers(8);
+        setBrokers(topBrokers);
+      } catch (error) {
+        console.error('Error fetching top brokers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTopBrokers();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="section-spacing">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-heading-lg text-gradient mb-4">Top Rated Brokers</h2>
+            <p className="text-body-lg text-white/70 max-w-2xl mx-auto">
+              Discover the highest-rated brokers based on trust scores, user reviews, and regulatory compliance.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <Card key={i} className="modern-card-hover h-full animate-pulse">
+                <CardContent className="p-6">
+                  <div className="h-32 bg-white/10 rounded"></div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="section-spacing">
       <div className="max-w-7xl mx-auto px-6">
@@ -87,8 +116,8 @@ export const TopBrokersGrid: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {mockQuery.topBrokers.map((broker) => (
-            <TopBrokerCard key={broker.broker_slug} {...broker} />
+          {brokers.map((broker) => (
+            <TopBrokerCard key={broker.id} broker={broker} />
           ))}
         </div>
 

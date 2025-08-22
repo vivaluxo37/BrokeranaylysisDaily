@@ -1,0 +1,21 @@
+{
+  "name": "Build Optimizer",
+  "description": "Run build checks and optimizations before deployment",
+  "trigger": {
+    "type": "manual",
+    "label": "Optimize Build",
+    "icon": "package"
+  },
+  "actions": [
+    {
+      "type": "shell_command",
+      "command": "npm run build",
+      "description": "Build the application for production"
+    },
+    {
+      "type": "agent_execution",
+      "prompt": "Analyze the build output and provide optimization recommendations:\n\n1. **Bundle Analysis**:\n   - Review bundle sizes and identify large chunks\n   - Suggest code splitting opportunities\n   - Check for duplicate dependencies\n\n2. **Next.js Optimizations**:\n   - Verify proper static generation usage\n   - Check for unused pages or components\n   - Review image optimization settings\n\n3. **Performance Metrics**:\n   - Analyze Core Web Vitals potential\n   - Check for render-blocking resources\n   - Review JavaScript execution time\n\n4. **SEO & Metadata**:\n   - Verify all pages have proper metadata\n   - Check sitemap generation\n   - Review structured data implementation\n\n5. **Broker Platform Specific**:\n   - Optimize broker data loading strategies\n   - Check trust score calculation performance\n   - Review location-based content delivery\n\n6. **Production Readiness**:\n   - Verify environment variable usage\n   - Check error handling and fallbacks\n   - Review security headers and CSP\n\nProvide actionable recommendations for deployment optimization.",
+      "context": "workspace"
+    }
+  ]
+}

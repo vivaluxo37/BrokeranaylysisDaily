@@ -1,5 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { LocationProvider } from '@/lib/contexts/LocationContext'
+import { AuthProvider } from '@/lib/contexts/AuthContext'
+import { PerformanceProvider, PerformanceDebugger } from '@/components/providers/performance-provider'
+import { ServiceWorkerRegistration } from '../components/service-worker-registration'
 
 export const metadata: Metadata = {
   title: 'Brokeranalysis — Find the best broker for your strategy',
@@ -83,7 +87,15 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        {children}
+        <PerformanceProvider>
+          <AuthProvider>
+            <LocationProvider autoDetect={true}>
+              {children}
+              <PerformanceDebugger />
+              <ServiceWorkerRegistration />
+            </LocationProvider>
+          </AuthProvider>
+        </PerformanceProvider>
       </body>
     </html>
   )

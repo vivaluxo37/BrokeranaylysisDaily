@@ -1,7 +1,7 @@
-import React from 'react';
-import { mockFooterLinks } from '@/app/brokerAnalysisMockData';
+import React, { useState, useEffect } from 'react';
 import { Linkedin, Twitter, Youtube, Send } from 'lucide-react';
 import OrbitalElement from './OrbitalElement';
+import { DataService } from '@/lib/services/DataService';
 
 const socialIconMap = {
   linkedin: Linkedin,
@@ -10,7 +10,88 @@ const socialIconMap = {
   telegram: Send
 };
 
+interface FooterLink {
+  name: string;
+  href: string;
+}
+
+interface SocialLink {
+  name: string;
+  href: string;
+  icon: string;
+}
+
+interface FooterData {
+  usefulLinks: FooterLink[];
+  company: FooterLink[];
+  social: SocialLink[];
+}
+
 export const BrokerFooter: React.FC = () => {
+  const [footerData, setFooterData] = useState<FooterData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadFooterData = async () => {
+      try {
+        // Sample footer data for Brokeranalysis platform
+        const data: FooterData = {
+          usefulLinks: [
+            { name: "Brokers", href: "/brokers" },
+            { name: "Reviews", href: "/reviews" },
+            { name: "Tools", href: "/tools" },
+            { name: "AI Assistant", href: "/ai-assistant" },
+            { name: "Blog", href: "/blog" },
+            { name: "Market Analysis", href: "/market-analysis" }
+          ],
+          company: [
+            { name: "About", href: "/about" },
+            { name: "Contact", href: "/contact" },
+            { name: "Careers", href: "/careers" },
+            { name: "Press", href: "/press" },
+            { name: "Sitemap", href: "/sitemap" }
+          ],
+          social: [
+            { name: "LinkedIn", href: "https://linkedin.com/company/brokeranalysis", icon: "linkedin" },
+            { name: "X/Twitter", href: "https://twitter.com/brokeranalysis", icon: "twitter" },
+            { name: "YouTube", href: "https://youtube.com/@brokeranalysis", icon: "youtube" },
+            { name: "Telegram", href: "https://t.me/brokeranalysis", icon: "telegram" }
+          ]
+        };
+        
+        setFooterData(data);
+      } catch (error) {
+        console.error('Error loading footer data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFooterData();
+  }, []);
+
+  if (loading) {
+    return (
+      <footer className="relative border-t border-white/10 py-16">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-8">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="space-y-4">
+                <div className="h-6 bg-white/10 rounded animate-pulse"></div>
+                <div className="space-y-2">
+                  {[...Array(4)].map((_, j) => (
+                    <div key={j} className="h-4 bg-white/5 rounded animate-pulse"></div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  if (!footerData) return null;
   return (
     <footer className="relative border-t border-white/10 py-16">
       <div className="container mx-auto px-6">
@@ -25,16 +106,13 @@ export const BrokerFooter: React.FC = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-                <span className="text-white font-bold text-sm">B</span>
-              </div>
               <span className="text-xl font-bold text-white">Brokeranalysis</span>
             </div>
             <p className="text-white/60 text-sm leading-relaxed">
               Find the right broker, backed by AI. Personalized recommendations with explainable insights.
             </p>
             <div className="flex space-x-4">
-              {mockFooterLinks.social.map((social) => {
+              {footerData.social.map((social) => {
                 const IconComponent = socialIconMap[social.icon as keyof typeof socialIconMap];
                 return (
                   <a
@@ -53,7 +131,7 @@ export const BrokerFooter: React.FC = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Navigation</h4>
             <ul className="space-y-3">
-              {mockFooterLinks.usefulLinks.map((link) => (
+              {footerData.usefulLinks.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}
@@ -70,7 +148,7 @@ export const BrokerFooter: React.FC = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-3">
-              {mockFooterLinks.company.map((link) => (
+              {footerData.company.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}

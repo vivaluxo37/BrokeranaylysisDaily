@@ -1,0 +1,16 @@
+{
+  "name": "Performance Analyzer",
+  "description": "Analyze component performance and suggest optimizations",
+  "trigger": {
+    "type": "manual",
+    "label": "Analyze Performance",
+    "icon": "zap"
+  },
+  "actions": [
+    {
+      "type": "agent_execution",
+      "prompt": "Perform a comprehensive performance analysis of the current component or page:\n\n1. **Bundle Size Analysis**:\n   - Check for unnecessary imports and dependencies\n   - Identify opportunities for code splitting\n   - Suggest dynamic imports for heavy components\n\n2. **React Performance**:\n   - Review component re-rendering patterns\n   - Suggest React.memo, useMemo, useCallback optimizations\n   - Check for expensive operations in render cycles\n\n3. **Next.js Optimizations**:\n   - Verify proper use of Server/Client components\n   - Check image optimization opportunities\n   - Review metadata and SEO performance\n\n4. **Tailwind CSS**:\n   - Identify unused CSS classes\n   - Suggest utility class optimizations\n   - Check for redundant styling\n\n5. **Accessibility Performance**:\n   - Verify ARIA attributes don't impact performance\n   - Check for proper semantic HTML usage\n\n6. **Broker Platform Specific**:\n   - Optimize data fetching for broker comparisons\n   - Suggest caching strategies for trust scores\n   - Review location-based performance\n\nProvide specific, actionable recommendations with code examples.",
+      "context": "current_file"
+    }
+  ]
+}
