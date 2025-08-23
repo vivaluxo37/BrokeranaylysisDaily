@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { LocationProvider } from '@/lib/contexts/LocationContext'
-import { AuthProvider } from '@/lib/contexts/AuthContext'
-import { PerformanceProvider, PerformanceDebugger } from '@/components/providers/performance-provider'
+import ClientProviders from '@/components/providers/ClientProviders'
 import { ServiceWorkerRegistration } from '../components/service-worker-registration'
 
 export const metadata: Metadata = {
@@ -87,15 +85,10 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <PerformanceProvider>
-          <AuthProvider>
-            <LocationProvider autoDetect={true}>
-              {children}
-              <PerformanceDebugger />
-              <ServiceWorkerRegistration />
-            </LocationProvider>
-          </AuthProvider>
-        </PerformanceProvider>
+        <ClientProviders>
+          {children}
+          <ServiceWorkerRegistration />
+        </ClientProviders>
       </body>
     </html>
   )

@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import PrivacyPolicyPageClient from './PrivacyPolicyPageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import ChatBubble from '@/components/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Brokeranalysis - Your Data Protection Rights',
@@ -59,12 +62,17 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicyPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    }>
-      <PrivacyPolicyPageClient />
-    </Suspense>
+    <div className="min-h-screen bg-gray-50">
+      <MegaMenuHeader />
+      <Suspense fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        </div>
+      }>
+        <PrivacyPolicyPageClient />
+      </Suspense>
+      <Footer />
+      <ChatBubble />
+    </div>
   );
 }

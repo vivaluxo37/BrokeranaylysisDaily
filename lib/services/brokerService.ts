@@ -1,5 +1,6 @@
 import { supabase } from '../supabase';
 import type { Broker } from '../supabase';
+import { cleanBrokerData } from '../utils/brokerDataCleaner';
 
 // Service for handling broker-related data operations
 export class BrokerService {
@@ -20,7 +21,9 @@ export class BrokerService {
         return [];
       }
 
-      return data || [];
+      // Clean and format the broker data
+      const cleanedData = (data || []).map(broker => cleanBrokerData(broker));
+      return cleanedData;
     } catch (error) {
       console.error('Error in getTopBrokers:', error);
       return [];
@@ -44,7 +47,9 @@ export class BrokerService {
         return [];
       }
 
-      return data || [];
+      // Clean and format the broker data
+      const cleanedData = (data || []).map(broker => cleanBrokerData(broker));
+      return cleanedData;
     } catch (error) {
       console.error('Error in getFeaturedBrokers:', error);
       return [];
@@ -235,6 +240,33 @@ export class BrokerService {
       };
     }
   }
+
+  /**
+   * Get brokers optimized for scalping strategies
+   */
+  static async getScalpingBrokers(limit: number = 10): Promise<Broker[]> {
+    try {
+      const { data, error } = await supabase
+        .from('brokers')
+        .select('*')
+        .not('overall_rating', 'is', null)
+        .gte('overall_rating', 4.0)
+        .order('overall_rating', { ascending: false })
+        .limit(limit);
+
+      if (error) {
+        console.error('Error fetching scalping brokers:', error);
+        return [];
+      }
+
+      // Clean and format the broker data
+      const cleanedData = (data || []).map(broker => cleanBrokerData(broker));
+      return cleanedData;
+    } catch (error) {
+      console.error('Error in getScalpingBrokers:', error);
+      return [];
+    }
+  }
 }
 
 // Helper function to format broker data for frontend components
@@ -248,27 +280,33 @@ export function formatBrokerForDisplay(broker: Broker) {
     trustScore: broker.trust_score || 0,
     minDeposit: broker.minimum_deposit || 0,
     platforms: broker.trading_platforms || [],
-    instruments: broker.instruments || [],
     pros: broker.pros || [],
     cons: broker.cons || [],
-    specialties: broker.specialties || [],
     featured: broker.is_featured || false,
     description: broker.description || '',
-    regulatedBy: broker.regulated_by || [],
-    supportedCountries: broker.supported_countries || [],
-    spreads: broker.typical_spreads || {},
-    commissions: broker.commission_structure || {},
-    leverage: broker.max_leverage || 1
+    spreads: broker.spreads_info || {},
+    leverage: broker.maximum_leverage || 1,
+    website: broker.website_url || '',
+    regulation: broker.regulation_info || {},
+    accountTypes: broker.account_types || {},
+    depositMethods: broker.deposit_methods || [],
+    withdrawalMethods: broker.withdrawal_methods || [],
+    customerSupport: broker.customer_support || {},
+    foundedYear: broker.founded_year || null,
+    headquarters: broker.headquarters || ''
   };
 }
 
 // Helper function to calculate trust score breakdown
 export function calculateTrustScoreBreakdown(broker: Broker) {
-  const regulation = broker.regulation_score || 0;
-  const financial = broker.financial_stability_score || 0;
-  const support = broker.customer_support_score || 0;
-  const execution = broker.execution_score || 0;
-  const transparency = broker.transparency_score || 0;
+  // Extract trust score components from JSONB field if available
+  const components = broker.trust_score_components || {};
+  
+  const regulation = components.regulation || 0;
+  const financial = components.financial_stability || 0;
+  const support = components.customer_support || 0;
+  const execution = components.execution || 0;
+  const transparency = components.transparency || 0;
 
   return {
     regulation: { score: regulation, weight: 30 },

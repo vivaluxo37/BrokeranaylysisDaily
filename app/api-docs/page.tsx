@@ -1,6 +1,9 @@
 import React, { Suspense } from 'react';
 import { Metadata } from 'next';
 import ApiDocsPageClient from './ApiDocsPageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import ChatBubble from '@/components/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'API Documentation - Brokeranalysis Developer Resources',
@@ -59,6 +62,7 @@ export const metadata: Metadata = {
 export default function ApiDocsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <MegaMenuHeader />
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -66,6 +70,8 @@ export default function ApiDocsPage() {
       }>
         <ApiDocsPageClient />
       </Suspense>
+      <Footer />
+      <ChatBubble />
     </div>
   );
 }

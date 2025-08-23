@@ -1463,4 +1463,8 @@ const ERROR_CODES = {
 - Monitoring and analytics tools
 
 **Estimated Timeline:** 24 weeks (6 months) for full implementation
-**Budget Considerations:** AI API costs, data provider fees, hosting and infrastructure costs
+**Budget Considerations:** AI API costs, data provider fees, hosting and infrastructure costs[byterover-mcp]
+
+# important 
+always use byterover-retrieve-knowledge tool to get the related context before any tasks 
+always use byterover-store-knowledge to store all the critical informations after sucessful tasks

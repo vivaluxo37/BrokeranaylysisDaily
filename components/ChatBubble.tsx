@@ -250,3 +250,5 @@ export const ChatBubble: React.FC = () => {
     </>
   );
 };
+
+export default ChatBubble;

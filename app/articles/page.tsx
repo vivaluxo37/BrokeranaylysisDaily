@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { Search, Filter, Calendar, Clock, User, Tag, ArrowRight, BookOpen, TrendingUp } from 'lucide-react'
 import { Suspense } from 'react'
+import MegaMenuHeader from '@/components/MegaMenuHeader'
+import Footer from '@/components/Footer'
+import ChatBubble from '@/components/ChatBubble'
 
 // Mock article data - replace with actual data fetching
 interface Article {
@@ -439,9 +442,12 @@ function FeaturedArticle({ article }: { article: Article }) {
             alt={article.title}
             className="w-full h-64 lg:h-full object-cover rounded-lg shadow-lg"
           />
-        </div>
+        </div>)}}
       </div>
     </div>
+    <Footer />
+    <ChatBubble />
+    </>
   )
 }
 
@@ -501,7 +507,9 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
   const regularArticles = articles.filter(article => !article.featured || article.id !== featuredArticle.id)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <MegaMenuHeader />
+      <div className="min-h-screen bg-gray-50 pt-20">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

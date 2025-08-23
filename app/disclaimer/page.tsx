@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import DisclaimerPageClient from './DisclaimerPageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import ChatBubble from '@/components/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'Disclaimer | Brokeranalysis - Important Legal Information',
@@ -61,15 +64,20 @@ export const metadata: Metadata = {
 
 export default function DisclaimerPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading disclaimer...</p>
+    <div className="min-h-screen bg-gray-50">
+      <MegaMenuHeader />
+      <Suspense fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading disclaimer...</p>
+          </div>
         </div>
-      </div>
-    }>
-      <DisclaimerPageClient />
-    </Suspense>
+      }>
+        <DisclaimerPageClient />
+      </Suspense>
+      <Footer />
+      <ChatBubble />
+    </div>
   );
 }

@@ -1,17 +1,68 @@
 import OpenAI from 'openai';
+import Groq from 'groq-sdk';
+import { 
+  aiService, 
+  initializeAIService,
+  generateChatResponse,
+  generateBrokerRecommendation,
+  generateSummary,
+  generateRAGResponse as generateNewRAGResponse,
+  generateBrokerAnalysis,
+  generateMarketAnalysis,
+  generateEducationalContent,
+  generateSEOContent,
+  generateEmbeddings,
+  createConversation,
+  getServiceMetrics,
+  runAIServiceHealthCheck,
+  AIResponse
+} from './aiServiceIntegration';
+import { AIProvider } from '../types';
 
-// Initialize OpenAI client for embeddings
+// API Keys
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+
+// Initialize clients (legacy support)
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
+});
+
+const groq = new Groq({
+  apiKey: GROQ_API_KEY,
+});
+
+// OpenRouter client (using OpenAI SDK with custom base URL)
+const openrouter = new OpenAI({
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: OPENROUTER_API_KEY,
+  defaultHeaders: {
+    "HTTP-Referer": "https://brokeranalysis.com",
+    "X-Title": "Brokeranalysis AI Service",
+  },
 });
 
 // Groq client for fast inference
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1';
 
 // OpenRouter for model diversity
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1';
+
+// Initialize the new AI service integration
+let isNewServiceInitialized = false;
+
+async function ensureNewServiceInitialized() {
+  if (!isNewServiceInitialized) {
+    try {
+      await initializeAIService();
+      isNewServiceInitialized = true;
+      console.log('✅ New AI Service Integration initialized');
+    } catch (error) {
+      console.warn('⚠️ New AI Service Integration failed to initialize, falling back to legacy service:', error.message);
+    }
+  }
+}
 
 interface AIResponse {
   content: string;
@@ -34,10 +85,23 @@ interface RecommendationRequest {
 }
 
 /**
- * Generate embeddings using OpenAI's text-embedding-3-small model
+ * Generate embeddings using new AI service integration with legacy fallback
  * This provides 1536-dimensional embeddings optimized for semantic search
  */
 export async function generateEmbedding(text: string): Promise<number[]> {
+  try {
+    // Try new AI service integration first
+    await ensureNewServiceInitialized();
+    
+    if (isNewServiceInitialized) {
+      const embeddings = await generateEmbeddings([text], AIProvider.OPENAI);
+      return embeddings[0];
+    }
+  } catch (error) {
+    console.warn('New AI service embedding failed, falling back to legacy:', error.message);
+  }
+
+  // Legacy fallback implementation
   try {
     const response = await openai.embeddings.create({
       model: 'text-embedding-3-small',
@@ -53,9 +117,21 @@ export async function generateEmbedding(text: string): Promise<number[]> {
 }
 
 /**
- * Generate embeddings in batch for multiple texts
+ * Generate embeddings in batch for multiple texts using new AI service integration with legacy fallback
  */
 export async function generateEmbeddingsBatch(texts: string[]): Promise<number[][]> {
+  try {
+    // Try new AI service integration first
+    await ensureNewServiceInitialized();
+    
+    if (isNewServiceInitialized) {
+      return await generateEmbeddings(texts, AIProvider.OPENAI);
+    }
+  } catch (error) {
+    console.warn('New AI service embeddings batch failed, falling back to legacy:', error.message);
+  }
+
+  // Legacy fallback implementation
   try {
     const response = await openai.embeddings.create({
       model: 'text-embedding-3-small',
@@ -71,11 +147,35 @@ export async function generateEmbeddingsBatch(texts: string[]): Promise<number[]
 }
 
 /**
- * Generate RAG response using Groq for fast inference
+ * Generate RAG response using new AI service integration with legacy fallback
  */
 export async function generateRAGResponse(request: RAGRequest): Promise<AIResponse> {
   const startTime = Date.now();
   
+  try {
+    // Try new AI service integration first
+    await ensureNewServiceInitialized();
+    
+    if (isNewServiceInitialized) {
+      const response = await generateNewRAGResponse(
+        request.question,
+        request.context,
+        { conversationId: request.conversationId }
+      );
+      
+      // Convert to legacy format
+      return {
+        content: response.content,
+        model: response.model,
+        responseTime: Date.now() - startTime,
+        conversationId: request.conversationId || generateConversationId()
+      };
+    }
+  } catch (error) {
+    console.warn('New AI service RAG failed, falling back to legacy:', error.message);
+  }
+
+  // Legacy fallback implementation
   try {
     const systemPrompt = `You are an expert financial advisor and broker analyst for Brokeranalysis.com. 
 You help traders and investors find the best brokers and trading platforms based on their needs.
@@ -183,11 +283,34 @@ Context: ${request.context}`;
 }
 
 /**
- * Generate broker recommendation response
+ * Generate broker recommendation response using new AI service integration with legacy fallback
  */
 export async function generateRecommendationResponse(request: RecommendationRequest): Promise<AIResponse> {
   const startTime = Date.now();
   
+  try {
+    // Try new AI service integration first
+    await ensureNewServiceInitialized();
+    
+    if (isNewServiceInitialized) {
+      const response = await generateBrokerRecommendation(
+        request.question,
+        request.recommendedBrokers,
+        request.userPreferences
+      );
+      
+      // Convert to legacy format
+      return {
+        content: response.content,
+        model: response.model,
+        responseTime: Date.now() - startTime
+      };
+    }
+  } catch (error) {
+    console.warn('New AI service recommendation failed, falling back to legacy:', error.message);
+  }
+
+  // Legacy fallback implementation
   try {
     const systemPrompt = `You are an expert broker analyst for Brokeranalysis.com.
 Analyze user preferences and explain why the recommended brokers are suitable.
@@ -255,19 +378,44 @@ function generateConversationId(): string {
 }
 
 /**
- * Test AI service connectivity
+ * Test AI service connectivity using new AI service integration with legacy fallback
  */
 export async function testAIServices(): Promise<{
   groq: boolean;
   openrouter: boolean;
   openai: boolean;
+  newService?: any;
 }> {
   const results = {
     groq: false,
     openrouter: false,
-    openai: false
+    openai: false,
+    newService: undefined as any,
   };
 
+  // Test new AI service integration first
+  try {
+    await ensureNewServiceInitialized();
+    
+    if (isNewServiceInitialized) {
+      const healthCheck = await runAIServiceHealthCheck();
+      results.newService = healthCheck;
+      
+      // If new service is healthy, return its results
+      if (healthCheck.status === 'healthy' || healthCheck.status === 'degraded') {
+        return {
+          groq: healthCheck.details.providers?.groq || false,
+          openrouter: healthCheck.details.providers?.openrouter || false,
+          openai: healthCheck.details.providers?.openai || false,
+          newService: healthCheck,
+        };
+      }
+    }
+  } catch (error) {
+    console.warn('New AI service test failed, falling back to legacy tests:', error.message);
+  }
+
+  // Legacy fallback tests
   // Test Groq
   try {
     const response = await fetch(`${GROQ_BASE_URL}/models`, {

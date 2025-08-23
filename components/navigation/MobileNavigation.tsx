@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { ChevronDown, Search, X } from 'lucide-react';
 import * as Collapsible from '@radix-ui/react-collapsible';

@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Clock, User, Calendar, Tag, Share2, BookOpen } from 'lucide-react'
 import Link from 'next/link'
+import MegaMenuHeader from '@/components/MegaMenuHeader'
+import Footer from '@/components/Footer'
+import ChatBubble from '@/components/ChatBubble'
 
 // Mock blog data - replace with actual data fetching
 interface BlogPost {
@@ -198,12 +201,13 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
 
   return (
     <>
+      <MegaMenuHeader />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       
-      <article className="min-h-screen bg-white">
+      <article className="min-h-screen bg-white pt-20">
         {/* Hero Section */}
         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 py-12">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -348,6 +352,8 @@ export default async function BlogPostPage({ params }: BlogPageProps) {
           </div>
         </div>
       </article>
+      <Footer />
+      <ChatBubble />
     </>
   )
 }

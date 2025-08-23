@@ -9,7 +9,7 @@ import DashboardPreview from '@/components/DashboardPreview';
 import CommunitySection from '@/components/CommunitySection';
 import EnterpriseCTA from '@/components/EnterpriseCTA';
 import ChatBubble from '@/components/ChatBubble';
-import BrokerFooter from '@/components/BrokerFooter';
+import Footer from '@/components/Footer';
 
 const MegaMenuPreview: React.FC = () => {
   return (
@@ -23,7 +23,7 @@ const MegaMenuPreview: React.FC = () => {
           <CommunitySection />
           <EnterpriseCTA />
         </main>
-        <BrokerFooter />
+        <Footer />
         
         {/* Floating Chat Assistant */}
         <ChatBubble />

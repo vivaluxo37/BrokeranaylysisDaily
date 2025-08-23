@@ -187,7 +187,7 @@ function isStaticAsset(request) {
 function isAPIRequest(request) {
   const url = new URL(request.url)
   return url.pathname.startsWith('/api/') ||
-         API_ENDPOINTS.some(endpoint => url.pathname.startsWith(endpoint))
+         (Array.isArray(API_ENDPOINTS) && API_ENDPOINTS.some(endpoint => url.pathname.startsWith(endpoint)))
 }
 
 function isImageRequest(request) {

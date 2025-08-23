@@ -99,6 +99,11 @@ export default function BrokerComparisonTable({ brokers }: BrokerComparisonTable
       return '-'
     }
 
+    // Handle null/undefined values
+    if (value === null || value === undefined) {
+      return <span className="text-gray-400">-</span>
+    }
+
     if (item.format) {
       return item.format(value)
     }

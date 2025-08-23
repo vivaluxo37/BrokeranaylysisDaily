@@ -2,6 +2,9 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { Search, Filter, Calendar, Clock, User, Tag, ArrowRight } from 'lucide-react'
 import { Suspense } from 'react'
+import MegaMenuHeader from '@/components/MegaMenuHeader'
+import Footer from '@/components/Footer'
+import ChatBubble from '@/components/ChatBubble'
 
 // Mock blog data - replace with actual data fetching
 interface BlogPost {
@@ -430,7 +433,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
   const regularPosts = posts.filter(post => !post.featured || post.id !== featuredPost.id)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <MegaMenuHeader />
+      <div className="min-h-screen bg-gray-50 pt-20">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -554,5 +559,8 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
         )}
       </div>
     </div>
+    <Footer />
+    <ChatBubble />
+    </>
   )
 }

@@ -1,6 +1,9 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import SearchPageClient from './SearchPageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import ChatBubble from '@/components/ChatBubble';
 
 // Server component for metadata generation
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,8 +30,13 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <SearchPageClient />
-    </Suspense>
+    <div className="min-h-screen bg-gray-50">
+      <MegaMenuHeader />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchPageClient />
+      </Suspense>
+      <Footer />
+      <ChatBubble />
+    </div>
   );
 }

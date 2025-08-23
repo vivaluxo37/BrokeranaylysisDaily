@@ -1,6 +1,9 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { getBrokerBySlug } from '@/lib/supabase'
+import MegaMenuHeader from '@/components/MegaMenuHeader'
+import Footer from '@/components/Footer'
+import { ChatBubble } from '@/components/ChatBubble'
 import BrokerProfileHeader from '@/components/broker/BrokerProfileHeader'
 import BrokerTrustScore from '@/components/broker/BrokerTrustScore'
 import BrokerTradingConditions from '@/components/broker/BrokerTradingConditions'
@@ -16,7 +19,8 @@ interface BrokerPageProps {
 }
 
 export async function generateMetadata({ params }: BrokerPageProps): Promise<Metadata> {
-  const broker = await getBrokerBySlug(params.slug)
+  const { slug } = await params
+  const broker = await getBrokerBySlug(slug)
   
   if (!broker) {
     return {
@@ -65,7 +69,8 @@ export async function generateMetadata({ params }: BrokerPageProps): Promise<Met
 }
 
 export default async function BrokerPage({ params }: BrokerPageProps) {
-  const broker = await getBrokerBySlug(params.slug)
+  const { slug } = await params
+  const broker = await getBrokerBySlug(slug)
   
   if (!broker) {
     notFound()
@@ -127,6 +132,8 @@ export default async function BrokerPage({ params }: BrokerPageProps) {
       />
       
       <div className="min-h-screen bg-gray-50">
+        {/* Header with Mega Menu */}
+        <MegaMenuHeader />
         {/* Broker Profile Header */}
         <BrokerProfileHeader broker={broker} />
         
@@ -144,7 +151,7 @@ export default async function BrokerPage({ params }: BrokerPageProps) {
               <BrokerRegulationInfo broker={broker} />
               
               {/* User Reviews */}
-              <BrokerReviews brokerId={broker.id} />
+              <BrokerReviews broker={broker} />
               
               {/* FAQ Section */}
               <BrokerFAQ broker={broker} />
@@ -153,7 +160,7 @@ export default async function BrokerPage({ params }: BrokerPageProps) {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Quick Comparison */}
-              <BrokerComparison currentBroker={broker} />
+              <BrokerComparison broker={broker} />
               
               {/* Key Information Card */}
               <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -205,6 +212,12 @@ export default async function BrokerPage({ params }: BrokerPageProps) {
             </div>
           </div>
         </div>
+        
+        {/* Footer */}
+        <Footer />
+        
+        {/* Floating Chat Bubble */}
+        <ChatBubble />
       </div>
     </>
   )

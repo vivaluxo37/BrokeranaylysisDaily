@@ -12,7 +12,7 @@ import { CompareTeaser } from '@/components/CompareTeaser';
 import { BlogInsights } from '@/components/BlogInsights';
 import { DashboardTeaser } from '@/components/DashboardTeaser';
 import { ChatBubble } from '@/components/ChatBubble';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { LocationPermission } from '@/components/LocationPermission';
 import { mockRootProps } from './homepageMockData';
 

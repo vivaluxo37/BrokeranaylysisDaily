@@ -1,0 +1,15 @@
+{
+  "database_url": "postgresql://postgres:[password]@[host]:[port]/postgres",
+  "chunk_size": 300,
+  "batch_size": 50,
+  "max_workers": 4,
+  "output_dir": "./output",
+  "checkpoint_dir": "./checkpoints",
+  "process_articles": true,
+  "process_brokers": true,
+  "generate_embeddings": true,
+  "update_canonical_mapping": true,
+  "embedding_model": "all-MiniLM-L6-v2",
+  "log_level": "INFO",
+  "log_file": "batch_processing.log"
+}

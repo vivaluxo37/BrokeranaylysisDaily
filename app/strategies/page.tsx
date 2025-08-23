@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import StrategiesPageClient from './StrategiesPageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import { ChatBubble } from '@/components/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'Trading Strategies & Country-Specific Broker Guides | Brokeranalysis',
@@ -25,6 +28,9 @@ export const metadata: Metadata = {
 export default function StrategiesPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      {/* Header with Mega Menu */}
+      <MegaMenuHeader />
+      
       <Suspense fallback={
         <div className="flex items-center justify-center min-h-screen">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
@@ -32,6 +38,12 @@ export default function StrategiesPage() {
       }>
         <StrategiesPageClient />
       </Suspense>
+      
+      {/* Footer */}
+      <Footer />
+      
+      {/* Floating Chat Bubble */}
+      <ChatBubble />
     </div>
   );
 }

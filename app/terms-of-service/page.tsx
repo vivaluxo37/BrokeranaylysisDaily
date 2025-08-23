@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import TermsOfServicePageClient from './TermsOfServicePageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import ChatBubble from '@/components/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | Brokeranalysis - Legal Terms and Conditions',
@@ -70,15 +73,20 @@ export const metadata: Metadata = {
 
 export default function TermsOfServicePage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Terms of Service...</p>
+    <div className="min-h-screen bg-gray-50">
+      <MegaMenuHeader />
+      <Suspense fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading Terms of Service...</p>
+          </div>
         </div>
-      </div>
-    }>
-      <TermsOfServicePageClient />
-    </Suspense>
+      }>
+        <TermsOfServicePageClient />
+      </Suspense>
+      <Footer />
+      <ChatBubble />
+    </div>
   );
 }

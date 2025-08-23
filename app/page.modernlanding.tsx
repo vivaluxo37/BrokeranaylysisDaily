@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import ModernHeader from '@/components/ModernHeader';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
 import HeroSection from '@/components/HeroSection';
 import DashboardPreview from '@/components/DashboardPreview';
 import PartnersSection from '@/components/PartnersSection';
@@ -13,13 +13,13 @@ import TeamManagement from '@/components/TeamManagement';
 import CTASection from '@/components/CTASection';
 import PricingSection from '@/components/PricingSection';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import ModernFooter from '@/components/ModernFooter';
+import Footer from '@/components/Footer';
 
 const ModernLandingPage: React.FC = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen dark-theme">
-        <ModernHeader />
+        <MegaMenuHeader />
         <main>
           <HeroSection />
           <DashboardPreview />
@@ -32,7 +32,7 @@ const ModernLandingPage: React.FC = () => {
           <PricingSection />
           <TestimonialsSection />
         </main>
-        <ModernFooter />
+        <Footer />
       </div>
     </ErrorBoundary>
   );

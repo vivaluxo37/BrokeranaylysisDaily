@@ -2,20 +2,20 @@
 
 import React from 'react';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import BrokerHeader from '@/components/BrokerHeader';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
 import BrokerHeroSection from '@/components/BrokerHeroSection';
 import SearchEvidence from '@/components/SearchEvidence';
 import DashboardPreview from '@/components/DashboardPreview';
 import CommunitySection from '@/components/CommunitySection';
 import EnterpriseCTA from '@/components/EnterpriseCTA';
 import ChatBubble from '@/components/ChatBubble';
-import BrokerFooter from '@/components/BrokerFooter';
+import Footer from '@/components/Footer';
 
 const BrokerAnalysisHomepage: React.FC = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen dark-theme">
-        <BrokerHeader />
+        <MegaMenuHeader />
         <main>
           <BrokerHeroSection />
           <SearchEvidence />
@@ -23,7 +23,7 @@ const BrokerAnalysisHomepage: React.FC = () => {
           <CommunitySection />
           <EnterpriseCTA />
         </main>
-        <BrokerFooter />
+        <Footer />
         
         {/* Floating Chat Assistant */}
         <ChatBubble />

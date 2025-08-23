@@ -147,6 +147,17 @@ class PerformanceMonitor {
 
     return Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length)
   }
+
+  public start(): void {
+    this.initializeMetrics()
+  }
+
+  public stop(): void {
+    // Clear callbacks to stop receiving metrics
+    this.callbacks = []
+    // Note: web-vitals doesn't provide a way to stop monitoring,
+    // but clearing callbacks prevents further processing
+  }
 }
 
 // Singleton instance

@@ -1,6 +1,9 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getBrokerBySlug } from '@/lib/supabase'
+import MegaMenuHeader from '@/components/MegaMenuHeader'
+import Footer from '@/components/Footer'
+import ChatBubble from '@/components/ChatBubble'
 import BrokerComparisonTable from '@/components/comparison/BrokerComparisonTable'
 import BrokerComparisonHeader from '@/components/comparison/BrokerComparisonHeader'
 import BrokerComparisonSummary from '@/components/comparison/BrokerComparisonSummary'
@@ -130,12 +133,13 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
 
     return (
       <>
+        <MegaMenuHeader />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 pt-20">
           {/* Comparison Header */}
           <BrokerComparisonHeader brokers={validBrokers as any[]} />
           
@@ -184,6 +188,8 @@ export default async function ComparisonPage({ params }: ComparisonPageProps) {
             </div>
           </div>
         </div>
+        <Footer />
+        <ChatBubble />
       </>
     )
   } catch (error) {

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { MegaMenuHeader } from '@/components/MegaMenuHeader';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
 import { HeroRecommender } from '@/components/HeroRecommender';
 import { AIAssistantPreview } from '@/components/AIAssistantPreview';
 import { TopBrokersGrid } from '@/components/TopBrokersGrid';
@@ -12,7 +12,7 @@ import { CompareTeaser } from '@/components/CompareTeaser';
 import { BlogInsights } from '@/components/BlogInsights';
 import { DashboardTeaser } from '@/components/DashboardTeaser';
 import { ChatBubble } from '@/components/ChatBubble';
-import { Footer } from '@/components/Footer';
+import Footer from '@/components/Footer';
 import { mockRootProps } from './homepageMockData';
 
 export default function HomepagePage() {

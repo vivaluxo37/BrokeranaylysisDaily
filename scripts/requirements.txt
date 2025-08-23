@@ -1,0 +1,41 @@
+# Core dependencies for Brokeranalysis batch processing system
+
+# Database connectivity
+asyncpg>=0.29.0
+psycopg2-binary>=2.9.7
+
+# Machine Learning and Embeddings
+sentence-transformers>=2.2.2
+torch>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+
+# Text processing and tokenization
+tiktoken>=0.5.1
+rapidFuzz>=3.5.2
+
+# Data processing
+pandas>=2.0.0
+
+# Progress bars and CLI
+tqdm>=4.66.0
+click>=8.1.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.4.0
+
+# Development and testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# Optional: For enhanced text processing
+# spacy>=3.7.0
+# nltk>=3.8.0
+
+# Optional: For monitoring and logging
+# structlog>=23.1.0
+# prometheus-client>=0.17.0

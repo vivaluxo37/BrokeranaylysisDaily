@@ -1,6 +1,9 @@
 import React from 'react';
 import { Metadata } from 'next';
 import MarketDataPageClient from './MarketDataPageClient';
+import MegaMenuHeader from '@/components/MegaMenuHeader';
+import Footer from '@/components/Footer';
+import ChatBubble from '@/components/ChatBubble';
 
 export const metadata: Metadata = {
   title: 'Real-Time Market Data | Brokeranalysis',
@@ -19,5 +22,12 @@ export const metadata: Metadata = {
 };
 
 export default function MarketDataPage() {
-  return <MarketDataPageClient />;
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <MegaMenuHeader />
+      <MarketDataPageClient />
+      <Footer />
+      <ChatBubble />
+    </div>
+  );
 }
