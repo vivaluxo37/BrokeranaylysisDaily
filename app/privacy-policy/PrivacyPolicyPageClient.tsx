@@ -17,7 +17,8 @@ import {
   ExternalLink,
   FileText,
   Users,
-  Globe
+  Globe,
+  XCircle
 } from 'lucide-react';
 
 export default function PrivacyPolicyPageClient() {

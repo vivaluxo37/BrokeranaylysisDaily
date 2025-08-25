@@ -98,7 +98,7 @@ export const SearchEvidence: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };}]}}}
+  };
 
   const getTypeColor = (type: string) => {
     switch (type) {

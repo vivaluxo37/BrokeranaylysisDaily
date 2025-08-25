@@ -9,23 +9,66 @@ export class CategoryService {
    */
   static async getCategories(): Promise<(Category & { articleCount: number })[]> {
     try {
-      const { data, error } = await supabase
+      // First, try to get categories with the foreign key relationship
+      const { data: categoriesData, error: categoriesError } = await supabase
         .from('categories')
-        .select(`
-          *,
-          articles!category_id(count)
-        `)
+        .select('*')
         .order('name');
 
-      if (error) {
-        console.error('Error fetching categories:', error);
+      if (categoriesError) {
+        console.error('Error fetching categories:', categoriesError);
         return [];
       }
 
-      return (data || []).map(category => ({
-        ...category,
-        articleCount: category.articles?.[0]?.count || 0
-      }));
+      if (!categoriesData || categoriesData.length === 0) {
+        // Return empty array if no categories exist
+        return [];
+      }
+
+      // Get article counts for each category
+      const categoriesWithCounts = await Promise.all(
+        categoriesData.map(async (category) => {
+          try {
+            // Try to count articles by category_id first, then fallback to category field
+            let articleCount = 0;
+
+            // Try category_id field first
+            const { count: countByCategoryId, error: countError1 } = await supabase
+              .from('articles')
+              .select('*', { count: 'exact', head: true })
+              .eq('category_id', category.id)
+              .eq('status', 'published');
+
+            if (!countError1 && countByCategoryId !== null) {
+              articleCount = countByCategoryId;
+            } else {
+              // Fallback to category field (string-based)
+              const { count: countByCategory, error: countError2 } = await supabase
+                .from('articles')
+                .select('*', { count: 'exact', head: true })
+                .eq('category', category.slug)
+                .eq('status', 'published');
+
+              if (!countError2 && countByCategory !== null) {
+                articleCount = countByCategory;
+              }
+            }
+
+            return {
+              ...category,
+              articleCount
+            };
+          } catch (error) {
+            console.error(`Error counting articles for category ${category.name}:`, error);
+            return {
+              ...category,
+              articleCount: 0
+            };
+          }
+        })
+      );
+
+      return categoriesWithCounts;
     } catch (error) {
       console.error('Error in getCategories:', error);
       return [];
@@ -60,23 +103,8 @@ export class CategoryService {
    */
   static async getPopularCategories(limit: number = 5): Promise<(Category & { articleCount: number })[]> {
     try {
-      const { data, error } = await supabase
-        .from('categories')
-        .select(`
-          *,
-          articles!category_id(count)
-        `)
-        .order('name');
-
-      if (error) {
-        console.error('Error fetching popular categories:', error);
-        return [];
-      }
-
-      const categoriesWithCount = (data || []).map(category => ({
-        ...category,
-        articleCount: category.articles?.[0]?.count || 0
-      }));
+      // Get all categories with counts first
+      const categoriesWithCount = await this.getCategories();
 
       // Sort by article count and return top categories
       return categoriesWithCount
@@ -99,28 +127,15 @@ export class CategoryService {
     articleCount: number;
   }[]> {
     try {
-      const { data, error } = await supabase
-        .from('categories')
-        .select(`
-          id,
-          name,
-          slug,
-          description,
-          articles!category_id(count)
-        `)
-        .order('name');
+      // Get all categories with counts
+      const categoriesWithCount = await this.getCategories();
 
-      if (error) {
-        console.error('Error fetching category navigation:', error);
-        return [];
-      }
-
-      return (data || []).map(category => ({
+      return categoriesWithCount.map(category => ({
         id: category.id,
         name: category.name,
         slug: category.slug,
         description: category.description,
-        articleCount: category.articles?.[0]?.count || 0
+        articleCount: category.articleCount
       }));
     } catch (error) {
       console.error('Error in getCategoryNavigation:', error);
@@ -139,36 +154,15 @@ export class CategoryService {
   }> {
     try {
       // Get all categories with article counts
-      const { data, error } = await supabase
-        .from('categories')
-        .select(`
-          name,
-          articles!category_id(count)
-        `);
+      const categoriesWithCount = await this.getCategories();
 
-      if (error) {
-        console.error('Error fetching category stats:', error);
-        return {
-          totalCategories: 0,
-          mostPopularCategory: 'N/A',
-          averageArticlesPerCategory: 0,
-          categoriesWithoutArticles: 0
-        };
-      }
-
-      const categories = data || [];
-      const categoriesWithCount = categories.map(category => ({
-        name: category.name,
-        articleCount: category.articles?.[0]?.count || 0
-      }));
-
-      const totalCategories = categories.length;
+      const totalCategories = categoriesWithCount.length;
       const categoriesWithoutArticles = categoriesWithCount.filter(c => c.articleCount === 0).length;
       const totalArticles = categoriesWithCount.reduce((sum, c) => sum + c.articleCount, 0);
       const averageArticlesPerCategory = totalCategories > 0 ? totalArticles / totalCategories : 0;
-      
+
       // Find most popular category
-      const mostPopular = categoriesWithCount.reduce((prev, current) => 
+      const mostPopular = categoriesWithCount.reduce((prev, current) =>
         (prev.articleCount > current.articleCount) ? prev : current,
         { name: 'N/A', articleCount: 0 }
       );

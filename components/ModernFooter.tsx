@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { DataService } from '@/lib/services/DataService';
+import { DataService } from '@/lib/services/dataService';
 import OrbitalElement from './OrbitalElement';
 
 interface FooterLink {

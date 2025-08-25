@@ -4,17 +4,25 @@ import React from 'react';
 import RealTimeMarketDashboard from '@/components/market/RealTimeMarketDashboard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  TrendingUp, 
-  Activity, 
-  Zap, 
-  Globe, 
-  Shield, 
+import {
+  TrendingUp,
+  Activity,
+  Zap,
+  Globe,
+  Shield,
   Clock,
   BarChart3,
   Signal,
   Calendar
 } from 'lucide-react';
+import {
+  EconomicCalendarWidget,
+  ForexHeatmapWidget,
+  AdvancedChartWidget,
+  TickerTapeWidget,
+  TechnicalAnalysisWidget,
+  ScreenerWidget
+} from '@/components/widgets';
 
 const features = [
   {
@@ -92,6 +100,16 @@ const dataSources = [
 export default function MarketDataPageClient() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+      {/* Live Market Ticker */}
+      <div className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-slate-900/60 border-b border-white/10">
+        <TickerTapeWidget
+          height={46}
+          theme="dark"
+          displayMode="adaptive"
+          className="w-full"
+        />
+      </div>
+
       {/* Hero Section */}
       <section className="relative py-20 px-6">
         <div className="container mx-auto max-w-6xl">
@@ -166,6 +184,65 @@ export default function MarketDataPageClient() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TradingView Widgets Section */}
+      <section className="py-16 px-6">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">Professional Market Analysis</h2>
+            <p className="text-white/70 max-w-2xl mx-auto">
+              Advanced charting tools and market data powered by TradingView for comprehensive analysis
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+            {/* Economic Calendar */}
+            <EconomicCalendarWidget
+              height={500}
+              theme="dark"
+              className="bg-white/5 border-white/10"
+            />
+
+            {/* Forex Heatmap */}
+            <ForexHeatmapWidget
+              height={500}
+              theme="dark"
+              className="bg-white/5 border-white/10"
+            />
+          </div>
+
+          {/* Advanced Chart */}
+          <div className="mb-12">
+            <AdvancedChartWidget
+              symbol="FX_IDC:EURUSD"
+              height={600}
+              theme="dark"
+              title="EUR/USD Professional Chart"
+              className="bg-white/5 border-white/10"
+            />
+          </div>
+
+          {/* Technical Analysis and Screener */}
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Technical Analysis */}
+            <TechnicalAnalysisWidget
+              symbol="FX_IDC:EURUSD"
+              height={450}
+              theme="dark"
+              className="bg-white/5 border-white/10"
+            />
+
+            {/* Market Screener */}
+            <ScreenerWidget
+              market="forex"
+              screener_type="forex_mkt"
+              height={450}
+              theme="dark"
+              className="bg-white/5 border-white/10"
+            />
           </div>
         </div>
       </section>

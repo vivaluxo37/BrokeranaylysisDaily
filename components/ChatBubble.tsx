@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageSquare, Send, ThumbsUp, ThumbsDown, X, ExternalLink } from 'lucide-react';
-import { DataService } from '@/lib/services/DataService';
+import { DataService } from '@/lib/services/dataService';
 
 interface ChatSource {
   title: string;

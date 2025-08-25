@@ -380,6 +380,14 @@ body {
     --button-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.3);
   }
 
+  /* Header visibility fix for white backgrounds */
+  .header-glassmorphism {
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
   /* Mega Menu Styles */
   .mega-menu {
     @apply fixed top-16 left-0 right-0 z-40;

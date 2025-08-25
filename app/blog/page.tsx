@@ -5,8 +5,11 @@ import { Suspense } from 'react'
 import MegaMenuHeader from '@/components/MegaMenuHeader'
 import Footer from '@/components/Footer'
 import ChatBubble from '@/components/ChatBubble'
+import { ArticleService } from '@/lib/services/articleService'
+import { CategoryService } from '@/lib/services/categoryService'
+import type { Article, Category } from '@/lib/supabase'
 
-// Mock blog data - replace with actual data fetching
+// Blog post interface matching Supabase Article type
 interface BlogPost {
   id: string
   slug: string
@@ -14,189 +17,135 @@ interface BlogPost {
   excerpt: string
   author: {
     name: string
-    avatar: string
+    avatar?: string
   }
   publishedAt: string
-  readingTime: number
+  readingTime?: number
   category: string
-  tags: string[]
-  featuredImage: string
+  tags?: string[]
+  featuredImage?: string
   featured?: boolean
 }
 
 interface BlogPageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string
     tag?: string
     search?: string
     page?: string
-  }
+  }>
 }
 
-// Mock function to get blog posts
+// Optimized function to get blog posts with caching
 async function getBlogPosts(filters?: {
   category?: string
   tag?: string
   search?: string
   page?: number
 }): Promise<{ posts: BlogPost[], totalPages: number, totalPosts: number }> {
-  // Mock data - replace with actual database query
-  const mockPosts: BlogPost[] = [
-    {
-      id: '1',
-      slug: 'best-forex-brokers-2024',
-      title: 'Best Forex Brokers for 2024: Complete Guide',
-      excerpt: 'Discover the top-rated forex brokers for 2024 with our comprehensive analysis of trading conditions, regulation, and user experience.',
+  try {
+    const page = filters?.page || 1
+    const limit = 12
+    const offset = (page - 1) * limit
+
+    // Get articles and total count from Supabase with optimized queries
+    const [articles, totalCount] = await Promise.all([
+      ArticleService.getArticles(limit, offset),
+      ArticleService.getArticleCount()
+    ])
+
+    // Transform Supabase articles to BlogPost format
+    const posts: BlogPost[] = articles.map(article => ({
+      id: article.id,
+      slug: article.slug,
+      title: article.title,
+      excerpt: article.excerpt || article.meta_description || '',
       author: {
-        name: 'Sarah Johnson',
-        avatar: '/images/authors/sarah-johnson.jpg'
+        name: typeof article.authors === 'object' && article.authors
+          ? (article.authors as any).name
+          : 'Unknown Author',
+        avatar: typeof article.authors === 'object' && article.authors
+          ? (article.authors as any).avatar_url
+          : undefined
       },
-      publishedAt: '2024-01-15T10:00:00Z',
-      readingTime: 8,
-      category: 'Broker Reviews',
-      tags: ['forex', 'brokers', 'trading', '2024', 'guide'],
-      featuredImage: '/images/blog/forex-brokers-2024.jpg',
-      featured: true
-    },
-    {
-      id: '2',
-      slug: 'forex-trading-strategies-beginners',
-      title: 'Top 5 Forex Trading Strategies for Beginners',
-      excerpt: 'Learn proven forex trading strategies that work for beginners. From trend following to breakout strategies, master the basics.',
-      author: {
-        name: 'Michael Chen',
-        avatar: '/images/authors/michael-chen.jpg'
-      },
-      publishedAt: '2024-01-12T14:30:00Z',
-      readingTime: 6,
-      category: 'Trading Strategies',
-      tags: ['forex', 'strategies', 'beginners', 'trading'],
-      featuredImage: '/images/blog/forex-strategies.jpg'
-    },
-    {
-      id: '3',
-      slug: 'broker-regulation-explained',
-      title: 'Understanding Broker Regulation: What Traders Need to Know',
-      excerpt: 'A comprehensive guide to broker regulation, licensing, and what it means for trader protection and fund safety.',
-      author: {
-        name: 'Emma Rodriguez',
-        avatar: '/images/authors/emma-rodriguez.jpg'
-      },
-      publishedAt: '2024-01-10T09:15:00Z',
-      readingTime: 10,
-      category: 'Education',
-      tags: ['regulation', 'brokers', 'safety', 'licensing'],
-      featuredImage: '/images/blog/broker-regulation.jpg'
-    },
-    {
-      id: '4',
-      slug: 'crypto-trading-vs-forex',
-      title: 'Crypto Trading vs Forex: Which is Right for You?',
-      excerpt: 'Compare cryptocurrency trading with forex trading. Understand the differences in volatility, regulation, and market hours.',
-      author: {
-        name: 'David Kim',
-        avatar: '/images/authors/david-kim.jpg'
-      },
-      publishedAt: '2024-01-08T16:45:00Z',
-      readingTime: 7,
-      category: 'Market Analysis',
-      tags: ['crypto', 'forex', 'comparison', 'trading'],
-      featuredImage: '/images/blog/crypto-vs-forex.jpg'
-    },
-    {
-      id: '5',
-      slug: 'risk-management-trading',
-      title: 'Essential Risk Management Techniques for Traders',
-      excerpt: 'Master the art of risk management in trading. Learn position sizing, stop losses, and portfolio management strategies.',
-      author: {
-        name: 'Sarah Johnson',
-        avatar: '/images/authors/sarah-johnson.jpg'
-      },
-      publishedAt: '2024-01-05T11:20:00Z',
-      readingTime: 9,
-      category: 'Risk Management',
-      tags: ['risk-management', 'trading', 'strategy', 'portfolio'],
-      featuredImage: '/images/blog/risk-management.jpg'
-    },
-    {
-      id: '6',
-      slug: 'mobile-trading-apps-review',
-      title: 'Best Mobile Trading Apps: 2024 Review',
-      excerpt: 'Review of the top mobile trading applications for forex, stocks, and crypto. Features, usability, and performance compared.',
-      author: {
-        name: 'Michael Chen',
-        avatar: '/images/authors/michael-chen.jpg'
-      },
-      publishedAt: '2024-01-03T13:10:00Z',
-      readingTime: 5,
-      category: 'Technology',
-      tags: ['mobile', 'apps', 'trading', 'review'],
-      featuredImage: '/images/blog/mobile-trading.jpg'
+      publishedAt: article.published_at || new Date().toISOString(),
+      readingTime: article.reading_time || 5,
+      category: article.category || 'General',
+      tags: article.tags || [],
+      featuredImage: article.featured_image_url || '/images/article-placeholder.jpg',
+      featured: false // We'll determine this separately
+    }))
+
+    // Calculate pagination with real count
+    const totalPosts = totalCount
+    const totalPages = Math.ceil(totalPosts / limit)
+
+    return {
+      posts,
+      totalPages: Math.max(1, totalPages),
+      totalPosts
     }
-  ]
-  
-  // Apply filters
-  let filteredPosts = mockPosts
-  
-  if (filters?.category) {
-    filteredPosts = filteredPosts.filter(post => 
-      post.category.toLowerCase() === filters.category?.toLowerCase()
-    )
-  }
-  
-  if (filters?.tag) {
-    filteredPosts = filteredPosts.filter(post => 
-      post.tags.includes(filters.tag!)
-    )
-  }
-  
-  if (filters?.search) {
-    const searchTerm = filters.search.toLowerCase()
-    filteredPosts = filteredPosts.filter(post => 
-      post.title.toLowerCase().includes(searchTerm) ||
-      post.excerpt.toLowerCase().includes(searchTerm) ||
-      post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
-    )
-  }
-  
-  // Pagination
-  const postsPerPage = 6
-  const page = filters?.page || 1
-  const startIndex = (page - 1) * postsPerPage
-  const endIndex = startIndex + postsPerPage
-  const paginatedPosts = filteredPosts.slice(startIndex, endIndex)
-  
-  return {
-    posts: paginatedPosts,
-    totalPages: Math.ceil(filteredPosts.length / postsPerPage),
-    totalPosts: filteredPosts.length
+  } catch (error) {
+    console.error('Error fetching blog posts:', error)
+
+    // Return empty result in case of error
+    return {
+      posts: [],
+      totalPages: 1,
+      totalPosts: 0
+    }
   }
 }
 
-// Get unique categories and tags
 async function getBlogMetadata() {
-  const categories = [
-    'Broker Reviews',
-    'Trading Strategies', 
-    'Education',
-    'Market Analysis',
-    'Risk Management',
-    'Technology'
-  ]
-  
-  const popularTags = [
-    'forex',
-    'brokers',
-    'trading',
-    'strategies',
-    'regulation',
-    'crypto',
-    'risk-management',
-    'beginners'
-  ]
-  
-  return { categories, popularTags }
+  try {
+    // Get categories from Supabase
+    const categoriesData = await CategoryService.getCategories()
+    const categories = categoriesData.map(cat => cat.name)
+
+    // For now, use static popular tags - in production, this could be dynamic
+    const popularTags = [
+      'forex',
+      'brokers',
+      'trading',
+      'strategies',
+      'regulation',
+      'crypto',
+      'risk-management',
+      'beginners'
+    ]
+
+    return { categories, popularTags }
+  } catch (error) {
+    console.error('Error fetching blog metadata:', error)
+
+    // Fallback to static data
+    const categories = [
+      'Broker Reviews',
+      'Trading Strategies',
+      'Education',
+      'Market Analysis',
+      'Risk Management',
+      'Technology'
+    ]
+
+    const popularTags = [
+      'forex',
+      'brokers',
+      'trading',
+      'strategies',
+      'regulation',
+      'crypto',
+      'risk-management',
+      'beginners'
+    ]
+
+    return { categories, popularTags }
+  }
 }
+
+// Enable static generation with revalidation for performance
+export const revalidate = 3600 // Revalidate every hour
 
 export const metadata: Metadata = {
   title: 'Trading Blog - Expert Insights & Market Analysis | Brokeranalysis',

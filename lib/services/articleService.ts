@@ -1,20 +1,40 @@
 import { supabase } from '../supabase';
 import type { Article, Author, Category } from '../supabase';
+import { cache, CACHE_KEYS, CACHE_TTL, generateCacheKey } from '../cache';
 
-// Service for handling article-related data operations
+// Service for handling article-related data operations with caching
 export class ArticleService {
   
   /**
    * Get published articles with author and category information
+   * Optimized with selective field fetching and caching for better performance
    */
   static async getArticles(limit: number = 10, offset: number = 0): Promise<Article[]> {
+    // Generate cache key with parameters
+    const cacheKey = generateCacheKey(CACHE_KEYS.ARTICLES, { limit, offset });
+
+    // Try to get from cache first
+    const cached = cache.get<Article[]>(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
     try {
       const { data, error } = await supabase
         .from('articles')
         .select(`
-          *,
-          authors:author_id(*),
-          categories:category_id(*)
+          id,
+          title,
+          slug,
+          excerpt,
+          meta_description,
+          published_at,
+          updated_at,
+          reading_time,
+          category,
+          tags,
+          featured_image_url,
+          authors:author_id(name, slug, avatar_url, bio)
         `)
         .eq('status', 'published')
         .order('published_at', { ascending: false })
@@ -25,10 +45,48 @@ export class ArticleService {
         return [];
       }
 
-      return data || [];
+      const articles = data || [];
+
+      // Cache the result for 1 hour
+      cache.set(cacheKey, articles, CACHE_TTL.MEDIUM);
+
+      return articles;
     } catch (error) {
       console.error('Error in getArticles:', error);
       return [];
+    }
+  }
+
+  /**
+   * Get total count of published articles for pagination with caching
+   */
+  static async getArticleCount(): Promise<number> {
+    // Try to get from cache first
+    const cached = cache.get<number>(CACHE_KEYS.ARTICLE_COUNT);
+    if (cached !== null) {
+      return cached;
+    }
+
+    try {
+      const { count, error } = await supabase
+        .from('articles')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'published');
+
+      if (error) {
+        console.error('Error fetching article count:', error);
+        return 0;
+      }
+
+      const articleCount = count || 0;
+
+      // Cache the result for 2 hours
+      cache.set(CACHE_KEYS.ARTICLE_COUNT, articleCount, CACHE_TTL.LONG);
+
+      return articleCount;
+    } catch (error) {
+      console.error('Error in getArticleCount:', error);
+      return 0;
     }
   }
 
@@ -37,15 +95,14 @@ export class ArticleService {
    */
   static async getFeaturedArticles(limit: number = 3): Promise<Article[]> {
     try {
+      // Since there's no is_featured column, get the latest published articles
       const { data, error } = await supabase
         .from('articles')
         .select(`
           *,
-          authors:author_id(*),
-          categories:category_id(*)
+          authors:author_id(*)
         `)
         .eq('status', 'published')
-        .eq('is_featured', true)
         .order('published_at', { ascending: false })
         .limit(limit);
 
@@ -62,25 +119,40 @@ export class ArticleService {
   }
 
   /**
-   * Get article by slug
+   * Get article by slug with full content and caching
+   * Optimized for individual article pages
    */
   static async getArticleBySlug(slug: string): Promise<Article | null> {
+    // Try to get from cache first
+    const cacheKey = CACHE_KEYS.ARTICLE_BY_SLUG(slug);
+    const cached = cache.get<Article | null>(cacheKey);
+    if (cached !== undefined) {
+      return cached;
+    }
+
     try {
       const { data, error } = await supabase
         .from('articles')
         .select(`
           *,
-          authors:author_id(*),
-          categories:category_id(*)
+          authors:author_id(name, slug, avatar_url, bio, expertise)
         `)
         .eq('slug', slug)
         .eq('status', 'published')
         .single();
 
       if (error) {
+        if (error.code === 'PGRST116') {
+          // No rows returned - cache null result to avoid repeated queries
+          cache.set(cacheKey, null, CACHE_TTL.MEDIUM);
+          return null;
+        }
         console.error('Error fetching article by slug:', error);
         return null;
       }
+
+      // Cache the result for 2 hours
+      cache.set(cacheKey, data, CACHE_TTL.LONG);
 
       return data;
     } catch (error) {
@@ -94,26 +166,13 @@ export class ArticleService {
    */
   static async getArticlesByCategory(categorySlug: string, limit: number = 10): Promise<Article[]> {
     try {
-      // First get the category ID
-      const { data: category, error: categoryError } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('slug', categorySlug)
-        .single();
-
-      if (categoryError || !category) {
-        console.error('Error fetching category:', categoryError);
-        return [];
-      }
-
       const { data, error } = await supabase
         .from('articles')
         .select(`
           *,
-          authors:author_id(*),
-          categories:category_id(*)
+          authors:author_id(*)
         `)
-        .eq('category_id', category.id)
+        .eq('category', categorySlug)
         .eq('status', 'published')
         .order('published_at', { ascending: false })
         .limit(limit);
@@ -139,8 +198,7 @@ export class ArticleService {
         .from('articles')
         .select(`
           *,
-          authors:author_id(*),
-          categories:category_id(*)
+          authors:author_id(*)
         `)
         .eq('status', 'published')
         .or(`title.ilike.%${searchTerm}%,excerpt.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%`)
@@ -167,7 +225,7 @@ export class ArticleService {
       // First get the current article's category
       const { data: currentArticle, error: currentError } = await supabase
         .from('articles')
-        .select('category_id, tags')
+        .select('category, tags')
         .eq('id', articleId)
         .single();
 
@@ -180,10 +238,9 @@ export class ArticleService {
         .from('articles')
         .select(`
           *,
-          authors:author_id(*),
-          categories:category_id(*)
+          authors:author_id(*)
         `)
-        .eq('category_id', currentArticle.category_id)
+        .eq('category', currentArticle.category)
         .eq('status', 'published')
         .neq('id', articleId)
         .order('published_at', { ascending: false })
@@ -210,8 +267,7 @@ export class ArticleService {
         .from('articles')
         .select(`
           *,
-          authors:author_id(*),
-          categories:category_id(*)
+          authors:author_id(*)
         `)
         .eq('status', 'published')
         .order('published_at', { ascending: false })

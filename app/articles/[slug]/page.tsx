@@ -5,8 +5,13 @@ import Link from 'next/link'
 import MegaMenuHeader from '@/components/MegaMenuHeader'
 import Footer from '@/components/Footer'
 import ChatBubble from '@/components/ChatBubble'
+import { ArticleService } from '@/lib/services/articleService'
+import type { Article as SupabaseArticle } from '@/lib/supabase'
 
-// Mock article data - replace with actual data fetching
+// Enable static generation with revalidation for performance
+export const revalidate = 7200 // Revalidate every 2 hours
+
+// Article interface matching Supabase Article type
 interface Article {
   id: string
   slug: string
@@ -34,9 +39,9 @@ interface Article {
 }
 
 interface ArticlePageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 // Mock function to get article by slug
@@ -198,7 +203,7 @@ async function getArticleBySlug(slug: string): Promise<Article | null> {
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
   const resolvedParams = await params
   const article = await getArticleBySlug(resolvedParams.slug)
-  
+
   if (!article) {
     return {
       title: 'Article Not Found - Brokeranalysis',
@@ -245,7 +250,7 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const resolvedParams = await params
   const article = await getArticleBySlug(resolvedParams.slug)
-  
+
   if (!article) {
     notFound()
   }

@@ -1,6 +1,6 @@
 'use client'
 
-import { BrokerMonitoringDashboard } from '@/components/admin/broker-monitoring-dashboard'
+import BrokerMonitoringDashboard from '@/components/admin/broker-monitoring-dashboard'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Shield, Activity, BarChart3 } from 'lucide-react'
 

@@ -123,38 +123,6 @@ export default function BrokerMonitoringDashboard() {
     return new Date(timestamp).toLocaleString()
   }
 
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'critical':
-        return 'destructive'
-      case 'high':
-        return 'destructive'
-      case 'medium':
-        return 'default'
-      case 'low':
-        return 'secondary'
-      default:
-        return 'outline'
-    }
-  }
-
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'status_change':
-        return <Activity className="h-4 w-4 text-blue-500" />
-      case 'regulatory_update':
-        return <Shield className="h-4 w-4 text-green-500" />
-      case 'performance_issue':
-        return <Zap className="h-4 w-4 text-yellow-500" />
-      case 'spread_change':
-        return <BarChart3 className="h-4 w-4 text-purple-500" />
-      case 'system_error':
-        return <AlertTriangle className="h-4 w-4 text-red-500" />
-      default:
-        return <Bell className="h-4 w-4 text-gray-500" />
-    }
-  }
-
   const formatResponseTime = (ms: number) => {
     if (ms < 1000) return `${ms}ms`
     return `${(ms / 1000).toFixed(1)}s`
@@ -663,12 +631,12 @@ export default function BrokerMonitoringDashboard() {
                   )}
                 </div>
                 
-                {selectedAlert.metadata && Object.keys(selectedAlert.metadata).length > 0 && (
+                {selectedAlert.data && Object.keys(selectedAlert.data).length > 0 && (
                   <div>
                     <h4 className="font-medium mb-2">Additional Details</h4>
                     <div className="bg-muted rounded-lg p-3">
                       <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-                        {JSON.stringify(selectedAlert.metadata, null, 2)}
+                        {JSON.stringify(selectedAlert.data, null, 2)}
                       </pre>
                     </div>
                   </div>

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Mail, ExternalLink } from 'lucide-react';
-import { DataService } from '@/lib/services/DataService';
+import { DataService } from '@/lib/services/dataService';
 
 const footerSections = [
   {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DataService } from '@/lib/services/DataService';
+import { DataService } from '@/lib/services/dataService';
 
 interface Partner {
   name: string;

@@ -1,10 +1,117 @@
 import { supabase } from '../supabase';
 import type { Broker } from '../supabase';
 import { cleanBrokerData } from '../utils/brokerDataCleaner';
+import { safeBrokerDataFetch, logPerformanceMetric } from '../utils/errorHandling';
+
+// Fallback broker data for when database is unavailable
+const fallbackBrokers: Broker[] = [
+  {
+    id: 'squared-financial',
+    name: 'Squared Financial',
+    slug: 'squared-financial',
+    overall_rating: '9.0',
+    trust_score: null,
+    regulation_info: { regulation: 'CySEC' },
+    minimum_deposit: 'No minimum',
+    trading_platforms: null,
+    spreads_info: null,
+    logo_url: null,
+    website_url: null,
+    description: null,
+    full_review: null,
+    account_types: null,
+    maximum_leverage: null,
+    commissions: null,
+    deposit_methods: null,
+    withdrawal_methods: null,
+    customer_support: null,
+    pros: null,
+    cons: null,
+    user_reviews_count: null,
+    created_at: null,
+    updated_at: null
+  },
+  {
+    id: 'europefx',
+    name: 'Europefx',
+    slug: 'europefx',
+    overall_rating: '8.0',
+    trust_score: null,
+    regulation_info: { regulation: 'CySEC' },
+    minimum_deposit: 'No minimum',
+    trading_platforms: null,
+    spreads_info: null,
+    logo_url: null,
+    website_url: null,
+    description: null,
+    full_review: null,
+    account_types: null,
+    maximum_leverage: null,
+    commissions: null,
+    deposit_methods: null,
+    withdrawal_methods: null,
+    customer_support: null,
+    pros: null,
+    cons: null,
+    user_reviews_count: null,
+    created_at: null,
+    updated_at: null
+  }
+];
 
 // Service for handling broker-related data operations
 export class BrokerService {
   
+  /**
+   * Get all brokers with optional filtering and pagination
+   */
+  static async getBrokers(limit?: number, offset?: number): Promise<Broker[]> {
+    const startTime = Date.now();
+
+    const fetchOperation = async (): Promise<Broker[]> => {
+      let query = supabase
+        .from('brokers')
+        .select('*')
+        .order('overall_rating', { ascending: false });
+
+      if (limit) {
+        query = query.limit(limit);
+      }
+
+      if (offset) {
+        query = query.range(offset, offset + (limit || 50) - 1);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        throw new Error(`Database error: ${error.message}`);
+      }
+
+      if (!data || data.length === 0) {
+        throw new Error('No brokers found in database');
+      }
+
+      // Clean and format the broker data
+      return (data || []).map(broker => cleanBrokerData(broker));
+    };
+
+    const result = await safeBrokerDataFetch(
+      fetchOperation,
+      fallbackBrokers.slice(0, limit || 50),
+      'getBrokers',
+      {
+        showFallbackContent: true,
+        fallbackMessage: 'Unable to load broker data from database',
+        retryable: true,
+        logError: true
+      }
+    );
+
+    logPerformanceMetric('getBrokers', startTime, true, result.length);
+    return result;
+  }
+
   /**
    * Get top brokers with optional filtering
    */
@@ -18,7 +125,14 @@ export class BrokerService {
 
       if (error) {
         console.error('Error fetching top brokers:', error);
-        return [];
+        console.log('Using fallback broker data for top brokers');
+        return fallbackBrokers.slice(0, limit);
+      }
+
+      // If no data returned, use fallback
+      if (!data || data.length === 0) {
+        console.log('No top brokers found in database, using fallback data');
+        return fallbackBrokers.slice(0, limit);
       }
 
       // Clean and format the broker data
@@ -26,25 +140,28 @@ export class BrokerService {
       return cleanedData;
     } catch (error) {
       console.error('Error in getTopBrokers:', error);
-      return [];
+      console.log('Using fallback broker data due to network error');
+      return fallbackBrokers.slice(0, limit);
     }
   }
 
   /**
    * Get featured brokers for homepage
    */
-  static async getFeaturedBrokers(): Promise<Broker[]> {
+  static async getFeaturedBrokers(limit: number = 6): Promise<Broker[]> {
     try {
-      const { data, error } = await supabase
+      // First try to get featured brokers
+      let { data, error } = await supabase
         .from('brokers')
         .select('*')
         .eq('is_featured', true)
         .order('overall_rating', { ascending: false })
-        .limit(6);
+        .limit(limit);
 
-      if (error) {
-        console.error('Error fetching featured brokers:', error);
-        return [];
+      // If no featured brokers or error, fall back to top brokers
+      if (error || !data || data.length === 0) {
+        console.log('No featured brokers found, falling back to top brokers');
+        return this.getTopBrokers(limit);
       }
 
       // Clean and format the broker data
@@ -52,7 +169,8 @@ export class BrokerService {
       return cleanedData;
     } catch (error) {
       console.error('Error in getFeaturedBrokers:', error);
-      return [];
+      // Fall back to top brokers on error
+      return this.getTopBrokers(limit);
     }
   }
 
@@ -271,11 +389,23 @@ export class BrokerService {
 
 // Helper function to format broker data for frontend components
 export function formatBrokerForDisplay(broker: Broker) {
+  // Ensure logo URL is safe and fallback to local placeholder
+  let logoUrl = broker.logo_url || '/images/placeholders/broker-placeholder.svg';
+
+  // Replace problematic external placeholder URLs with local ones
+  if (logoUrl.includes('via.placeholder.com') ||
+      logoUrl.includes('placeholder.com') ||
+      logoUrl.includes('dummyimage.com') ||
+      logoUrl.includes('placehold.co') ||
+      logoUrl.includes('picsum.photos')) {
+    logoUrl = '/images/placeholders/broker-placeholder.svg';
+  }
+
   return {
     id: broker.id,
     name: broker.name,
     slug: broker.slug,
-    logo: broker.logo_url || '/images/broker-placeholder.png',
+    logo: logoUrl,
     rating: broker.overall_rating || 0,
     trustScore: broker.trust_score || 0,
     minDeposit: broker.minimum_deposit || 0,

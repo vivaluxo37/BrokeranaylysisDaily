@@ -453,9 +453,7 @@ export { BrokerService, ArticleService, CategoryService, AuthorService };
 // Export helper functions
 export {
   formatBrokerForDisplay,
-  calculateTrustScoreBreakdown,
-  getBrokerUrl,
-  getBrokerMetaTags
+  calculateTrustScoreBreakdown
 } from './brokerService';
 
 export {

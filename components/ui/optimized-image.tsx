@@ -75,6 +75,15 @@ export function OptimizedImage({
     if (!imageError && fallbackSrc) {
       setImageSrc(fallbackSrc)
       setImageError(true)
+    } else if (!imageError && !fallbackSrc) {
+      // Auto-fallback for common image types
+      if (src.includes('broker') || src.includes('logo')) {
+        setImageSrc('/images/placeholders/broker-placeholder.svg')
+      } else if (src.includes('article') || src.includes('blog')) {
+        setImageSrc('/images/default-article.jpg')
+      } else {
+        setImageError(true)
+      }
     } else {
       setImageError(true)
     }

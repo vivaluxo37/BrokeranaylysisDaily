@@ -26,13 +26,13 @@ interface Article {
 }
 
 interface ArticlesPageProps {
-  searchParams: {
+  searchParams: Promise<{
     category?: string
     tag?: string
     search?: string
     difficulty?: string
     page?: string
-  }
+  }>
 }
 
 // Mock function to get articles
@@ -442,12 +442,9 @@ function FeaturedArticle({ article }: { article: Article }) {
             alt={article.title}
             className="w-full h-64 lg:h-full object-cover rounded-lg shadow-lg"
           />
-        </div>)}}
+        </div>
       </div>
     </div>
-    <Footer />
-    <ChatBubble />
-    </>
   )
 }
 
@@ -510,7 +507,7 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
     <>
       <MegaMenuHeader />
       <div className="min-h-screen bg-gray-50 pt-20">
-      {/* Header */}
+        {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
@@ -650,7 +647,10 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
             </Link>
           </div>
         )}
+        </div>
       </div>
-    </div>
+      <Footer />
+      <ChatBubble />
+    </>
   )
 }

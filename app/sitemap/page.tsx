@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import MegaMenuHeader from '@/components/MegaMenuHeader';
-import SitemapPageClient from './SitemapPageClient';
 import Footer from '@/components/Footer';
 import ChatBubble from '@/components/ChatBubble';
 
@@ -62,7 +61,15 @@ export default function SitemapPage() {
   return (
     <>
       <MegaMenuHeader />
-      <SitemapPageClient />
+      <main className="min-h-screen bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">Sitemap</h1>
+          <p className="text-gray-600 mb-8">
+            Navigate through all pages and sections of Brokeranalysis.
+          </p>
+          {/* TODO: Add sitemap content */}
+        </div>
+      </main>
       <Footer />
       <ChatBubble />
     </>

@@ -7,7 +7,7 @@ import SearchFilters from '@/components/search/SearchFilters';
 import AdvancedSearchFilters from '@/components/search/AdvancedSearchFilters';
 import FacetedSearch from '@/components/search/FacetedSearch';
 import SmartRecommendations from '@/components/search/SmartRecommendations';
-import SearchResults from '@/components/search/SearchResults';
+import SearchResults, { SearchResult } from '@/components/search/SearchResults';
 import SearchStats from '@/components/search/SearchStats';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -16,10 +16,10 @@ import { Filter, Sparkles, BarChart3, Settings } from 'lucide-react';
 import { searchAllContent } from '@/lib/services/vectorService';
 
 // Mock search results data
-const mockSearchResults = [
+const mockSearchResults: SearchResult[] = [
   {
-    id: 1,
-    type: 'broker',
+    id: '1',
+    type: 'broker' as const,
     title: 'IC Markets',
     description: 'Leading ECN broker with tight spreads and fast execution',
     url: '/brokers/ic-markets',
@@ -30,8 +30,8 @@ const mockSearchResults = [
     highlights: ['ECN Trading', 'MetaTrader 4/5', 'cTrader']
   },
   {
-    id: 2,
-    type: 'broker',
+    id: '2',
+    type: 'broker' as const,
     title: 'Pepperstone',
     description: 'Award-winning forex and CFD broker with competitive pricing',
     url: '/brokers/pepperstone',
@@ -42,8 +42,8 @@ const mockSearchResults = [
     highlights: ['Razor Spreads', 'Social Trading', 'AutoChartist']
   },
   {
-    id: 3,
-    type: 'article',
+    id: '3',
+    type: 'article' as const,
     title: 'Best Forex Brokers for Beginners 2024',
     description: 'Complete guide to choosing your first forex broker with safety tips',
     url: '/articles/best-forex-brokers-beginners-2024',
@@ -52,8 +52,8 @@ const mockSearchResults = [
     publishDate: '2024-01-15'
   },
   {
-    id: 4,
-    type: 'blog',
+    id: '4',
+    type: 'blog' as const,
     title: 'Market Analysis: EUR/USD Weekly Outlook',
     description: 'Technical and fundamental analysis for the upcoming week',
     url: '/blog/eurusd-weekly-outlook-jan-2024',
@@ -62,8 +62,8 @@ const mockSearchResults = [
     publishDate: '2024-01-20'
   },
   {
-    id: 5,
-    type: 'broker',
+    id: '5',
+    type: 'broker' as const,
     title: 'XM Group',
     description: 'Global multi-asset broker with extensive educational resources',
     url: '/brokers/xm-group',
@@ -85,28 +85,34 @@ interface SearchFilters {
   features: string[];
   sortBy: 'relevance' | 'trust_score' | 'rating' | 'name';
   // Advanced filters
-  brokerType?: string[];
-  tradingPlatforms?: string[];
-  instruments?: string[];
-  accountTypes?: string[];
-  paymentMethods?: string[];
-  countries?: string[];
-  languages?: string[];
-  spreadType?: string;
-  maxLeverage?: number;
-  minDeposit?: number;
-  contentType?: string[];
-  difficulty?: string[];
-  readingTimeMax?: number;
+  brokerType: string[];
+  tradingPlatforms: string[];
+  instruments: string[];
+  accountTypes: string[];
+  paymentMethods: string[];
+  countries: string[];
+  languages: string[];
+  spreadType: string;
+  maxLeverage: number;
+  minDeposit: number;
+  contentType: string[];
+  difficulty: string[];
+  readingTimeMax: number;
   dateFrom?: string;
   dateTo?: string;
+  // Additional properties for AdvancedSearchFilters compatibility
+  maxSpread: number;
+  minLeverage: number;
+  dateRange: string;
+  foundedAfter: number;
+  readingTime: number;
 }
 
 export default function SearchPageClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const initialQuery = searchParams.get('q') || '';
-  
+  const initialQuery = searchParams?.get('q') || '';
+
   const [query, setQuery] = useState(initialQuery);
   const [filters, setFilters] = useState<SearchFilters>({
     category: 'all',
@@ -116,7 +122,29 @@ export default function SearchPageClient() {
     ratingMin: 0,
     maxDeposit: 10000,
     regulation: [],
-    features: []
+    features: [],
+    // Advanced filters with default values
+    brokerType: [],
+    tradingPlatforms: [],
+    instruments: [],
+    accountTypes: [],
+    paymentMethods: [],
+    countries: [],
+    languages: [],
+    spreadType: 'variable',
+    maxLeverage: 500,
+    minDeposit: 0,
+    contentType: [],
+    difficulty: [],
+    readingTimeMax: 60,
+    dateFrom: undefined,
+    dateTo: undefined,
+    // Additional properties for AdvancedSearchFilters compatibility
+    maxSpread: 5,
+    minLeverage: 1,
+    dateRange: 'all',
+    foundedAfter: 2000,
+    readingTime: 30
   });
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [searchMode, setSearchMode] = useState<'simple' | 'advanced' | 'faceted'>('simple');
@@ -145,8 +173,18 @@ export default function SearchPageClient() {
         }
         
         // Category filter
-        if (searchFilters.category !== 'all' && result.type !== searchFilters.category) {
-          return false;
+        if (searchFilters.category !== 'all') {
+          const categoryMap: Record<string, string> = {
+            'brokers': 'broker',
+            'articles': 'article',
+            'news': 'blog',
+            'guides': 'article',
+            'tools': 'comparison'
+          };
+          const mappedCategory = categoryMap[searchFilters.category] || searchFilters.category;
+          if (result.type !== mappedCategory) {
+            return false;
+          }
         }
         
         // Broker-specific filters
@@ -162,8 +200,9 @@ export default function SearchPageClient() {
             return false;
           }
           
-          if (searchFilters.features.length > 0 && result.features && 
-              !searchFilters.features.some(feature => result.features?.includes(feature))) {
+          if (searchFilters.features.length > 0 && 'features' in result &&
+              Array.isArray(result.features) &&
+              !searchFilters.features.some(feature => (result.features as string[])?.includes(feature))) {
             return false;
           }
           
@@ -232,7 +271,7 @@ export default function SearchPageClient() {
     }
   }, [query, filters]);
   
-  const handleFiltersChange = (newFilters: Partial<SearchFilters>) => {
+  const handleFiltersChange = (newFilters: any) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
   };
   
@@ -286,7 +325,28 @@ export default function SearchPageClient() {
       maxDeposit: 10000,
       minDeposit: 0,
       regulation: [],
-      features: []
+      features: [],
+      // Advanced filters with default values
+      brokerType: [],
+      tradingPlatforms: [],
+      instruments: [],
+      accountTypes: [],
+      paymentMethods: [],
+      countries: [],
+      languages: [],
+      spreadType: 'variable',
+      maxLeverage: 500,
+      contentType: [],
+      difficulty: [],
+      readingTimeMax: 60,
+      dateFrom: undefined,
+      dateTo: undefined,
+      // Additional properties for AdvancedSearchFilters compatibility
+      maxSpread: 5,
+      minLeverage: 1,
+      dateRange: 'all',
+      foundedAfter: 2000,
+      readingTime: 30
     });
   };
 
@@ -330,7 +390,7 @@ export default function SearchPageClient() {
             searchTime={searchTime}
             activeFilters={{
               category: filters.category !== 'all' ? filters.category : undefined,
-              trustScore: filters.trustScoreMin > 0 ? filters.trustScoreMin : undefined,
+              trustScore: filters.trustScoreMin > 0 ? [filters.trustScoreMin, 100] as [number, number] : undefined,
               rating: filters.ratingMin > 0 ? filters.ratingMin : undefined,
               regulation: filters.regulation.length > 0 ? filters.regulation : undefined,
               features: filters.features.length > 0 ? filters.features : undefined,
@@ -349,6 +409,7 @@ export default function SearchPageClient() {
               onSearchRecommendation={handleSearchRecommendation}
               searchHistory={searchHistory}
               currentFilters={filters}
+              currentQuery={query}
             />
           </div>
         )}
@@ -406,7 +467,6 @@ export default function SearchPageClient() {
                   <AdvancedSearchFilters
                     onFiltersChange={handleFiltersChange}
                     initialFilters={filters}
-                    onClearAllFilters={handleClearAllFilters}
                   />
                 </div>
               </div>
@@ -433,9 +493,10 @@ export default function SearchPageClient() {
               <div className="lg:col-span-1">
                 <div className="lg:sticky lg:top-4">
                   <FacetedSearch
+                    filters={filters}
                     onFiltersChange={handleFiltersChange}
-                    currentFilters={filters}
-                    searchResults={searchResults}
+                    resultCount={totalResults}
+                    isLoading={isLoading}
                   />
                 </div>
               </div>

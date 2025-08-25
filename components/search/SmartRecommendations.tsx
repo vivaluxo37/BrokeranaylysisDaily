@@ -36,7 +36,7 @@ interface SmartRecommendation {
 }
 
 interface SmartRecommendationsProps {
-  currentQuery: string;
+  currentQuery: string | undefined;
   currentFilters: AdvancedSearchFilters;
   searchHistory: string[];
   onApplyRecommendation: (recommendation: SmartRecommendation) => void;
@@ -45,11 +45,16 @@ interface SmartRecommendationsProps {
 
 // Mock data for recommendations
 const generateRecommendations = (
-  query: string, 
-  filters: AdvancedSearchFilters, 
+  query: string | undefined,
+  filters: AdvancedSearchFilters,
   history: string[]
 ): SmartRecommendation[] => {
   const recommendations: SmartRecommendation[] = [];
+
+  // Early return if query is undefined or null
+  if (!query) {
+    return recommendations;
+  }
 
   // Query-based recommendations
   if (query.toLowerCase().includes('scalping')) {

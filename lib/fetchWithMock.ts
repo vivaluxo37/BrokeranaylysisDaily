@@ -17,7 +17,7 @@ export const fetchWithMock = async (url: string, options?: RequestInit): Promise
           min_deposit: 100,
           platforms: [BrokerPlatform.MT4, BrokerPlatform.MT5],
           sample_spread: "EUR/USD 0.15 pips",
-          logo_url: "https://i.pravatar.cc/64?img=1"
+          logo_url: "/images/placeholders/broker-placeholder.svg"
         },
         {
           broker_slug: "globalfx",
@@ -27,7 +27,7 @@ export const fetchWithMock = async (url: string, options?: RequestInit): Promise
           min_deposit: 250,
           platforms: [BrokerPlatform.CTRADER, BrokerPlatform.MT4],
           sample_spread: "GBP/USD 1.2 pips",
-          logo_url: "https://i.pravatar.cc/64?img=2"
+          logo_url: "/images/placeholders/broker-placeholder.svg"
         },
         {
           broker_slug: "alphatrade",
@@ -37,7 +37,7 @@ export const fetchWithMock = async (url: string, options?: RequestInit): Promise
           min_deposit: 500,
           platforms: [BrokerPlatform.MT5, BrokerPlatform.PROPRIETARY],
           sample_spread: "USD/JPY 0.8 pips",
-          logo_url: "https://i.pravatar.cc/64?img=3"
+          logo_url: "/images/placeholders/broker-placeholder.svg"
         },
         {
           broker_slug: "oceanfx",
@@ -47,7 +47,7 @@ export const fetchWithMock = async (url: string, options?: RequestInit): Promise
           min_deposit: 200,
           platforms: [BrokerPlatform.MT4, BrokerPlatform.WEBTRADER],
           sample_spread: "AUD/USD 1.5 pips",
-          logo_url: "https://i.pravatar.cc/64?img=4"
+          logo_url: "/images/placeholders/broker-placeholder.svg"
         }
       ]
     },

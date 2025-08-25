@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { analyticsService } from '@/lib/analytics'
+import getAnalytics from '@/lib/analytics'
 import { supabase } from '@/lib/supabase'
 import type { AnalyticsEvent, UserBehavior, ConversionEvent, PerformanceMetric } from '@/lib/analytics'
 
@@ -163,7 +163,8 @@ interface UseAnalyticsReturn {
 
 export function useAnalytics(): UseAnalyticsReturn {
   const [isTracking, setIsTracking] = useState(true)
-  const [sessionId] = useState(() => analyticsService.getSessionId())
+  const analytics = getAnalytics()
+  const [sessionId] = useState(() => analytics.getSessionId())
   const [userId, setUserIdState] = useState<string | null>(null)
   const [sessionEvents, setSessionEvents] = useState<AnalyticsEvent[]>([])
 
@@ -215,7 +216,7 @@ export function useAnalytics(): UseAnalyticsReturn {
         user_id: userId
       }
 
-      await analyticsService.trackEvent(fullEvent)
+      await analytics.trackEvent(fullEvent)
       setSessionEvents(prev => [...prev, fullEvent])
     } catch (error) {
       console.error('Failed to track event:', error)
@@ -234,7 +235,7 @@ export function useAnalytics(): UseAnalyticsReturn {
         user_id: userId
       }
 
-      await analyticsService.trackUserBehavior(fullBehavior)
+      await analytics.trackUserBehavior(fullBehavior)
     } catch (error) {
       console.error('Failed to track user behavior:', error)
     }
@@ -252,7 +253,7 @@ export function useAnalytics(): UseAnalyticsReturn {
         user_id: userId
       }
 
-      await analyticsService.trackConversion(fullConversion)
+      await analytics.trackConversion(fullConversion)
     } catch (error) {
       console.error('Failed to track conversion:', error)
     }
@@ -262,7 +263,7 @@ export function useAnalytics(): UseAnalyticsReturn {
     if (!isTracking) return
 
     try {
-      await analyticsService.trackPageView({
+      await analytics.trackPageView({
         page,
         title: title || document.title,
         referrer: document.referrer,
@@ -298,7 +299,7 @@ export function useAnalytics(): UseAnalyticsReturn {
         user_id: userId
       }
 
-      await analyticsService.trackPerformance(fullMetric)
+      await analytics.trackPerformance(fullMetric)
     } catch (error) {
       console.error('Failed to track performance metric:', error)
     }
@@ -313,7 +314,7 @@ export function useAnalytics(): UseAnalyticsReturn {
     setIsTracking(false)
     localStorage.setItem('analytics_enabled', 'false')
     // Clear any pending analytics data
-    analyticsService.flush()
+    analytics.destroy()
   }, [])
 
   const setUserId = useCallback((newUserId: string | null) => {

@@ -1,0 +1,14 @@
+<!-- SVG placeholder for broker logos -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 40" width="80" height="40">
+  <defs>
+    <linearGradient id="brokerPlaceholderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f1f5f9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="80" height="40" rx="4" fill="url(#brokerPlaceholderGrad)" stroke="#cbd5e1" stroke-width="1"/>
+  <circle cx="20" cy="20" r="8" fill="#667eea" opacity="0.7"/>
+  <rect x="32" y="14" width="35" height="3" rx="1.5" fill="#94a3b8"/>
+  <rect x="32" y="19" width="25" height="2" rx="1" fill="#cbd5e1"/>
+  <rect x="32" y="24" width="30" height="2" rx="1" fill="#cbd5e1"/>
+</svg>

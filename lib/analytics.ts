@@ -1,7 +1,5 @@
 'use client'
 
-import { supabase } from './supabase'
-
 // Analytics event types
 export interface AnalyticsEvent {
   event_name: string
@@ -50,10 +48,11 @@ export interface PerformanceMetric {
 }
 
 class AnalyticsService {
-  private supabase = createClient()
+  private supabaseClient: any = null
   private sessionId: string
   private userId?: string
   private isInitialized = false
+  private isEnabled = true
   private eventQueue: AnalyticsEvent[] = []
   private behaviorQueue: UserBehavior[] = []
   private conversionQueue: ConversionEvent[] = []
@@ -62,20 +61,74 @@ class AnalyticsService {
 
   constructor() {
     this.sessionId = this.generateSessionId()
+
+    // Disable analytics in development mode
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Analytics disabled in development mode')
+      this.isEnabled = false
+      this.isInitialized = true // Mark as initialized to prevent any further setup
+      return
+    }
+
+    // Initialize supabase client only in production
+    this.initSupabaseClient()
     this.init()
+  }
+
+  private initSupabaseClient() {
+    if (this.isEnabled && !this.supabaseClient) {
+      try {
+        const { supabase } = require('./supabase')
+        this.supabaseClient = supabase
+      } catch (error) {
+        console.warn('Failed to initialize supabase client:', error)
+        this.isEnabled = false
+      }
+    }
+  }
+
+  private getSupabaseClient() {
+    if (!this.supabaseClient && this.isEnabled) {
+      this.initSupabaseClient()
+    }
+    return this.supabaseClient
   }
 
   private async init() {
     if (typeof window === 'undefined') return
 
+    const client = this.getSupabaseClient()
+    if (!client) return
+
     // Get user ID if authenticated
-    const { data: { user } } = await this.supabase.auth.getUser()
+    const { data: { user } } = await client.auth.getUser()
     this.userId = user?.id
 
     // Listen for auth changes
-    this.supabase.auth.onAuthStateChange((event, session) => {
+    client.auth.onAuthStateChange((event, session) => {
       this.userId = session?.user?.id
     })
+
+    // Test analytics connection
+    try {
+      console.log('Testing analytics service connection...')
+      const { error: testError } = await client
+        .from('analytics_events')
+        .select('count', { count: 'exact', head: true })
+
+      if (testError) {
+        console.warn('Analytics connection test failed, disabling analytics:', testError)
+        this.isEnabled = false
+        return // Exit early if connection fails
+      } else {
+        console.log('Analytics connection test successful')
+        this.isEnabled = true
+      }
+    } catch (error) {
+      console.warn('Analytics connection test error, disabling analytics:', error)
+      this.isEnabled = false
+      return // Exit early if connection fails
+    }
 
     // Set up periodic flushing
     this.flushInterval = setInterval(() => {
@@ -102,7 +155,7 @@ class AnalyticsService {
 
   // Track custom events
   async trackEvent(eventName: string, properties?: Record<string, any>) {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !this.isEnabled) return
 
     const event: AnalyticsEvent = {
       event_name: eventName,
@@ -283,7 +336,7 @@ class AnalyticsService {
   }
 
   private trackPerformanceMetric(metricName: PerformanceMetric['metric_name'], value: number) {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !this.isEnabled) return
 
     const metric: PerformanceMetric = {
       session_id: this.sessionId,
@@ -344,28 +397,41 @@ class AnalyticsService {
 
   // Flush queued events to database
   private async flush() {
-    if (!this.isInitialized) return
+    if (!this.isInitialized || !this.isEnabled) return
+
+    const client = this.getSupabaseClient()
+    if (!client) return
 
     try {
       // Flush events
       if (this.eventQueue.length > 0) {
-        const { error: eventsError } = await this.supabase
+        console.log(`Attempting to flush ${this.eventQueue.length} analytics events...`)
+
+        const { error: eventsError } = await client
           .from('analytics_events')
           .insert(this.eventQueue)
-        
+
         if (eventsError) {
-          console.error('Failed to flush analytics events:', eventsError)
+          console.error('Failed to flush analytics events:', {
+            error: eventsError,
+            message: eventsError.message,
+            details: eventsError.details,
+            hint: eventsError.hint,
+            code: eventsError.code,
+            eventCount: this.eventQueue.length
+          })
         } else {
+          console.log(`Successfully flushed ${this.eventQueue.length} analytics events`)
           this.eventQueue = []
         }
       }
 
       // Flush behaviors
       if (this.behaviorQueue.length > 0) {
-        const { error: behaviorsError } = await this.supabase
+        const { error: behaviorsError } = await client
           .from('user_behaviors')
           .insert(this.behaviorQueue)
-        
+
         if (behaviorsError) {
           console.error('Failed to flush user behaviors:', behaviorsError)
         } else {
@@ -375,10 +441,10 @@ class AnalyticsService {
 
       // Flush conversions
       if (this.conversionQueue.length > 0) {
-        const { error: conversionsError } = await this.supabase
+        const { error: conversionsError } = await client
           .from('conversion_events')
           .insert(this.conversionQueue)
-        
+
         if (conversionsError) {
           console.error('Failed to flush conversion events:', conversionsError)
         } else {
@@ -388,36 +454,53 @@ class AnalyticsService {
 
       // Flush performance metrics
       if (this.performanceQueue.length > 0) {
-        const { error: performanceError } = await this.supabase
+        console.log(`Attempting to flush ${this.performanceQueue.length} performance metrics...`)
+
+        const { error: performanceError } = await client
           .from('performance_metrics')
           .insert(this.performanceQueue)
-        
+
         if (performanceError) {
-          console.error('Failed to flush performance metrics:', performanceError)
+          console.error('Failed to flush performance metrics:', {
+            error: performanceError,
+            message: performanceError.message,
+            details: performanceError.details,
+            hint: performanceError.hint,
+            code: performanceError.code,
+            metricCount: this.performanceQueue.length
+          })
         } else {
+          console.log(`Successfully flushed ${this.performanceQueue.length} performance metrics`)
           this.performanceQueue = []
         }
       }
     } catch (error) {
-      console.error('Failed to flush analytics data:', error)
+      console.error('Failed to flush analytics data:', {
+        error,
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      })
     }
   }
 
   // Get analytics data (for admin dashboard)
   async getAnalyticsData(startDate: string, endDate: string) {
-    const { data: events } = await this.supabase
+    const client = this.getSupabaseClient()
+    if (!client) return { events: [], conversions: [], performance: [] }
+
+    const { data: events } = await client
       .from('analytics_events')
       .select('*')
       .gte('timestamp', startDate)
       .lte('timestamp', endDate)
 
-    const { data: conversions } = await this.supabase
+    const { data: conversions } = await client
       .from('conversion_events')
       .select('*')
       .gte('timestamp', startDate)
       .lte('timestamp', endDate)
 
-    const { data: performance } = await this.supabase
+    const { data: performance } = await client
       .from('performance_metrics')
       .select('*')
       .gte('timestamp', startDate)
@@ -439,22 +522,116 @@ class AnalyticsService {
   }
 }
 
-// Create singleton instance
-const analytics = new AnalyticsService()
+// Lazy singleton instance
+let analyticsInstance: AnalyticsService | null = null
 
-export default analytics
+const getAnalytics = (): AnalyticsService => {
+  // Always return mock analytics in development mode
+  if (process.env.NODE_ENV === 'development') {
+    if (!analyticsInstance) {
+      console.log('Analytics disabled in development mode - using mock service')
+      analyticsInstance = {
+        trackEvent: () => {},
+        trackPageView: () => {},
+        trackClick: () => {},
+        trackConversion: () => {},
+        trackUserBehavior: () => {},
+        trackPerformance: () => {},
+        setUserId: () => {},
+        getSessionId: () => 'dev-mock-session-id',
+        trackBrokerInteraction: () => {},
+        trackSearchQuery: () => {},
+        trackFormSubmission: () => {},
+        trackDownload: () => {},
+        trackVideoPlay: () => {},
+        trackSocialShare: () => {},
+        trackNewsletterSignup: () => {},
+        trackContactForm: () => {},
+        trackBrokerComparison: () => {},
+        trackAIRecommendation: () => {},
+        trackSearch: () => {},
+        trackError: () => {},
+        destroy: () => {}
+      } as any
+    }
+    return analyticsInstance
+  }
 
-// Convenience functions
+  if (!analyticsInstance) {
+    try {
+      analyticsInstance = new AnalyticsService()
+    } catch (error) {
+      console.warn('Analytics service initialization failed:', error)
+      // Return a mock analytics service that does nothing
+      analyticsInstance = {
+        trackEvent: () => {},
+        trackPageView: () => {},
+        trackClick: () => {},
+        trackConversion: () => {},
+        trackUserBehavior: () => {},
+        trackPerformance: () => {},
+        setUserId: () => {},
+        getSessionId: () => 'mock-session-id',
+        trackBrokerInteraction: () => {},
+        trackSearchQuery: () => {},
+        trackFormSubmission: () => {},
+        trackDownload: () => {},
+        trackVideoPlay: () => {},
+        trackSocialShare: () => {},
+        trackNewsletterSignup: () => {},
+        trackContactForm: () => {},
+        trackBrokerComparison: () => {},
+        trackAIRecommendation: () => {},
+        trackSearch: () => {},
+        trackError: () => {},
+        destroy: () => {}
+      } as any
+    }
+  }
+  return analyticsInstance
+}
+
+export default getAnalytics
+
+// Convenience functions with error handling
 export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
-  analytics.trackEvent(eventName, properties)
+  // Disable analytics in development mode
+  if (process.env.NODE_ENV === 'development') {
+    return
+  }
+
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackEvent(eventName, properties)
+    }
+  } catch (error) {
+    console.warn('Failed to track event:', error)
+  }
 }
 
 export const trackPageView = (url?: string, title?: string) => {
-  analytics.trackPageView(url, title)
+  // Disable analytics in development mode
+  if (process.env.NODE_ENV === 'development') {
+    return
+  }
+
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackPageView(url, title)
+    }
+  } catch (error) {
+    console.warn('Failed to track page view:', error)
+  }
 }
 
 export const trackClick = (element: string, properties?: Record<string, any>) => {
-  analytics.trackClick(element, properties)
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackClick(element, properties)
+    }
+  } catch (error) {
+    console.warn('Failed to track click:', error)
+  }
 }
 
 export const trackConversion = (
@@ -463,17 +640,83 @@ export const trackConversion = (
   brokerId?: string,
   metadata?: Record<string, any>
 ) => {
-  analytics.trackConversion(type, value, brokerId, metadata)
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackConversion(type, value, brokerId, metadata)
+    }
+  } catch (error) {
+    console.warn('Failed to track conversion:', error)
+  }
 }
 
 export const trackBrokerInteraction = (brokerId: string, action: string, properties?: Record<string, any>) => {
-  analytics.trackBrokerInteraction(brokerId, action, properties)
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackBrokerInteraction(brokerId, action, properties)
+    }
+  } catch (error) {
+    console.warn('Failed to track broker interaction:', error)
+  }
 }
 
 export const trackSearch = (query: string, results: number, filters?: Record<string, any>) => {
-  analytics.trackSearch(query, results, filters)
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackSearch(query, results, filters)
+    }
+  } catch (error) {
+    console.warn('Failed to track search:', error)
+  }
 }
 
 export const trackError = (error: Error, context?: Record<string, any>) => {
-  analytics.trackError(error, context)
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackError(error, context)
+    }
+  } catch (error) {
+    console.warn('Failed to track error:', error)
+  }
+}
+
+export const trackUserBehavior = (behavior: UserBehavior) => {
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackUserBehavior(behavior)
+    }
+  } catch (error) {
+    console.warn('Failed to track user behavior:', error)
+  }
+}
+
+export const trackPerformance = (metric: PerformanceMetric) => {
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().trackPerformance(metric)
+    }
+  } catch (error) {
+    console.warn('Failed to track performance:', error)
+  }
+}
+
+export const setUserId = (userId: string) => {
+  try {
+    if (typeof window !== 'undefined') {
+      getAnalytics().setUserId(userId)
+    }
+  } catch (error) {
+    console.warn('Failed to set user ID:', error)
+  }
+}
+
+export const getSessionId = () => {
+  try {
+    if (typeof window !== 'undefined') {
+      return getAnalytics().getSessionId()
+    }
+    return 'ssr-session-id'
+  } catch (error) {
+    console.warn('Failed to get session ID:', error)
+    return 'error-session-id'
+  }
 }

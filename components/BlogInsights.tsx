@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User, ExternalLink } from 'lucide-react';
 import { ArticleService } from '@/lib/services/articleService';
-import { Article } from '@/lib/types';
+import { Article } from '@/lib/supabase';
 
 interface BlogCardProps {
   id: string;

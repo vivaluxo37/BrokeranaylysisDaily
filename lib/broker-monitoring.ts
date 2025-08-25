@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/client'
-import { Database } from '@/types/supabase'
 
 type BrokerStatus = 'active' | 'inactive' | 'warning' | 'suspended' | 'under_review'
 type AlertType = 'status_change' | 'regulatory_update' | 'performance_issue' | 'license_expiry' | 'spread_change'

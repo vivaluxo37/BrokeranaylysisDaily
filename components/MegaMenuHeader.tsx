@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, AlignLeft, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NavigationSection } from '@/lib/enums';
-import { DataService } from '@/lib/services/DataService';
+import { DataService } from '@/lib/services/dataService';
 import MegaMenuDropdown from './navigation/MegaMenuDropdown';
 import MobileNavigation from './navigation/MobileNavigation';
 import HeaderSearch from './navigation/HeaderSearch';
@@ -178,7 +178,7 @@ export const MegaMenuHeader: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/10">
+      <header className="fixed top-0 left-0 right-0 z-50 header-glassmorphism">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}

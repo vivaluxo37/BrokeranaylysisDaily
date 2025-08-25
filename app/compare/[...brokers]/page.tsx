@@ -10,9 +10,9 @@ import BrokerComparisonSummary from '@/components/comparison/BrokerComparisonSum
 import BrokerComparisonCTA from '@/components/comparison/BrokerComparisonCTA'
 
 interface ComparisonPageProps {
-  params: {
+  params: Promise<{
     brokers: string[]
-  }
+  }>
 }
 
 // Generate metadata for comparison pages

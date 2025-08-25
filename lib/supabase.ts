@@ -132,10 +132,13 @@ export interface Article {
   content?: string
   excerpt?: string
   category?: string
+  category_id?: string
   subcategory?: string
   author_id?: string
   published_at?: string
   updated_at?: string
+  created_at?: string
+  meta_title?: string
   meta_description?: string
   meta_keywords?: string
   featured_image_url?: string
@@ -165,6 +168,10 @@ export interface Category {
   description?: string
   parent_id?: string
   sort_order?: number
+  meta_title?: string
+  meta_description?: string
+  created_at?: string
+  updated_at?: string
 }
 
 // Database helper functions

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Linkedin, Twitter, Youtube, Send } from 'lucide-react';
 import OrbitalElement from './OrbitalElement';
-import { DataService } from '@/lib/services/DataService';
+import { DataService } from '@/lib/services/dataService';
 
 const socialIconMap = {
   linkedin: Linkedin,

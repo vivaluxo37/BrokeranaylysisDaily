@@ -211,6 +211,22 @@ export default function ScalpingBrokersClient({}: ScalpingBrokersClientProps) {
     return broker.minDeposit || broker.minimum_deposit || 0
   }
 
+  const getBrokerExecutionSpeed = (broker: any) => {
+    return broker.executionSpeed ?? broker.execution_speed_ms ?? broker.execution ?? null
+  }
+
+  const getBrokerCommission = (broker: any) => {
+    return broker.commission ?? broker.commissions?.per_lot ?? broker.commissions?.perLot ?? broker.commissions?.standard ?? null
+  }
+
+  const getBrokerReviewsCount = (broker: any) => {
+    return broker.user_reviews_count ?? broker.reviews ?? null
+  }
+
+  const getBrokerRegulationList = (broker: any): string[] => {
+    return broker.regulation ?? broker.regulatory_bodies ?? broker.regulation_info ?? []
+  }
+
   const sortedBrokers = [...brokers].sort((a, b) => {
     switch (sortBy) {
       case 'trustScore':
@@ -410,7 +426,7 @@ export default function ScalpingBrokersClient({}: ScalpingBrokersClientProps) {
                     <td className="p-3 font-medium text-gray-900">Execution Speed</td>
                     {getSelectedBrokers().map(broker => (
                       <td key={broker.id} className="text-center p-3 text-gray-900">
-                        {broker.executionSpeed || 'N/A'}ms
+                        {getBrokerExecutionSpeed(broker) ?? 'N/A'}ms
                       </td>
                     ))}
                   </tr>
@@ -418,7 +434,7 @@ export default function ScalpingBrokersClient({}: ScalpingBrokersClientProps) {
                     <td className="p-3 font-medium text-gray-900">Commission</td>
                     {getSelectedBrokers().map(broker => (
                       <td key={broker.id} className="text-center p-3 text-gray-900">
-                        ${broker.commission || 'N/A'}/lot
+                        ${getBrokerCommission(broker) ?? 'N/A'}/lot
                       </td>
                     ))}
                   </tr>
@@ -456,7 +472,7 @@ export default function ScalpingBrokersClient({}: ScalpingBrokersClientProps) {
                       <div className="flex items-center gap-1">
                         <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                         <span className="text-sm font-medium">{getBrokerRating(broker)}</span>
-                        <span className="text-sm text-gray-500">({broker.reviews || 'N/A'})</span>
+                        <span className="text-sm text-gray-500">({getBrokerReviewsCount(broker) || 'N/A'})</span>
                       </div>
                     </div>
                   </div>
@@ -480,11 +496,11 @@ export default function ScalpingBrokersClient({}: ScalpingBrokersClientProps) {
                 </div>
                 <div className="text-center">
                   <div className="text-sm text-gray-500">Execution</div>
-                  <div className="font-bold text-blue-600">{broker.executionSpeed || 'N/A'}ms</div>
+                  <div className="font-bold text-blue-600">{getBrokerExecutionSpeed(broker) ?? 'N/A'}ms</div>
                 </div>
                 <div className="text-center">
                   <div className="text-sm text-gray-500">Commission</div>
-                  <div className="font-bold text-purple-600">${broker.commission || 'N/A'}/lot</div>
+                  <div className="font-bold text-purple-600">${getBrokerCommission(broker) ?? 'N/A'}/lot</div>
                 </div>
                 <div className="text-center">
                   <div className="text-sm text-gray-500">Min Deposit</div>
@@ -496,7 +512,7 @@ export default function ScalpingBrokersClient({}: ScalpingBrokersClientProps) {
               <div>
                 <div className="text-sm font-medium text-gray-900 mb-2">Regulation:</div>
                 <div className="flex flex-wrap gap-1">
-                  {(broker.regulation || broker.regulatory_bodies || broker.regulation_info || []).map((reg, index) => (
+                  {getBrokerRegulationList(broker).map((reg, index) => (
                     <Badge key={index} variant="outline" className="text-xs text-gray-700">
                       {reg}
                     </Badge>
